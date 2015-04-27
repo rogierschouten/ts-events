@@ -24,10 +24,10 @@ For class documentation, see ./doc/index.html
 ts-event supports three event types: Synchronous, A-synchronous and Queued. Here is a comparison:
 
 |Event Type|Handler Invocation|Condensable?|Comment|
-| ------------- | ------------- | ------------- | ------------- |
-|Synchronous|directly, within the call to post()| no | Similar to EventEmitter.emit()|
-|A-synchronous|in the next Node.JS cycle| yes | Similar to setImmediate(function() { EventEmitter.emit() })|
-|Queued|when you flush the queue manually| yes | |
+| ------------- | ------------- | ------------- |
+|Synchronous|directly, within the call to post()| no |
+|A-synchronous|in the next Node.JS cycle| yes |
+|Queued|when you flush the queue manually| yes |
 
 In the table above, "condensable" means that you can choose to condense multiple sent events into one: e.g. for an a-synchronous event, you can opt that if it is sent more than once in a Node.JS cycle, the event handlers are invoked only once.
 
