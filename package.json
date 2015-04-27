@@ -1,0 +1,32 @@
+{
+  "name": "ts-events",
+  "version": "0.0.1",
+  "description": "Various EventEmitter event replacements with synchronous, a-synchronous, and queued events. Made in TypeScript so usable with JavaScript and TypeScript.",
+  "main": "index.js",
+  "typescript": {
+    "definition": "ts-events.d.ts"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- -R spec"
+  },
+  "keywords": [
+    "Event",
+    "EventEmitter",
+    "event loop",
+    "event queue",
+    "synchronous",
+    "a-synchronous",
+    "asynchronous",
+    "TypeScript",
+    "Callback"
+  ],
+  "author": "Rogier Schouten <github@workingcode.ninja>",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "dts-bundle": "^0.2.0",
+    "mocha": "^2.2.4",
+    "source-map-support": "^0.2.10",
+    "typedoc": "^0.3.3"
+  }
+}
