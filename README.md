@@ -1,11 +1,10 @@
 # ts-events
 
-A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter.
+A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter, and instead makes each event into a member which is its own little emitter.
 
 # Features
 
-* Events are members, so you have a place for comments to document them
-* No more string event names
+* Each event is a member, and its own little event emitter. Because of this, you have a place for comments to document them. And adding handlers is no longer on string basis.
 * For TypeScript users: made in TypeScript and type-safe. Typings are in ts-events.d.ts
 * Synchronous, a-synchronous and queued events
 * For a-synchronous events, you decide whether to use setImmediate(), setTimeout(, 0) or process.nextTick()
@@ -24,7 +23,8 @@ For class documentation, see ./doc/index.html
 
 ts-event supports three event types: Synchronous, A-synchronous and Queued. Here is a comparison:
 
-|_.type|_.handler invocation|_.condensable|_.comment|
+|Event Type|Handler Invocation|Condensable?|Comment|
+| ------------- | ------------- | ------------- | ------------- |
 |Synchronous|directly, within the call to post()| no | Similar to EventEmitter.emit()|
 |A-synchronous|in the next Node.JS cycle| yes | Similar to setImmediate(function() { EventEmitter.emit() })|
 |Queued|when you flush the queue manually| yes | |
