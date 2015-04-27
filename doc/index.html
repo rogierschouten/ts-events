@@ -66,11 +66,10 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<h1 id="ts-events">ts-events</h1>
-				<p>A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter.</p>
+				<p>A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter, and instead makes each event into a member which is its own little emitter.</p>
 				<h1 id="features">Features</h1>
 				<ul>
-					<li>Events are members, so you have a place for comments to document them</li>
-					<li>No more string event names</li>
+					<li>Each event is a member, and its own little event emitter. Because of this, you have a place for comments to document them. And adding handlers is no longer on string basis.</li>
 					<li>For TypeScript users: made in TypeScript and type-safe. Typings are in ts-events.d.ts</li>
 					<li>Synchronous, a-synchronous and queued events</li>
 					<li>For a-synchronous events, you decide whether to use setImmediate(), setTimeout(, 0) or process.nextTick()</li>
@@ -84,10 +83,33 @@
 				<h1 id="usage">Usage</h1>
 				<h2 id="event-types">Event types</h2>
 				<p>ts-event supports three event types: Synchronous, A-synchronous and Queued. Here is a comparison:</p>
-				<p>|<em>.type|</em>.handler invocation|<em>.condensable|</em>.comment|
-					|Synchronous|directly, within the call to post()| no | Similar to EventEmitter.emit()|
-					|A-synchronous|in the next Node.JS cycle| yes | Similar to setImmediate(function() { EventEmitter.emit() })|
-				|Queued|when you flush the queue manually| yes | |</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Event Type</th>
+							<th>Handler Invocation</th>
+							<th>Condensable?</th>
+							<th>Comment</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Synchronous</td>
+							<td>directly, within the call to post()</td>
+							<td>no</td>
+						</tr>
+						<tr>
+							<td>A-synchronous</td>
+							<td>in the next Node.JS cycle</td>
+							<td>yes</td>
+						</tr>
+						<tr>
+							<td>Queued</td>
+							<td>when you flush the queue manually</td>
+							<td>yes</td>
+						</tr>
+					</tbody>
+				</table>
 				<p>In the table above, &quot;condensable&quot; means that you can choose to condense multiple sent events into one: e.g. for an a-synchronous event, you can opt that if it is sent more than once in a Node.JS cycle, the event handlers are invoked only once.</p>
 				<h2 id="replacing-eventemitter">Replacing EventEmitter</h2>
 				<p>If you want EventEmitter-style events, then use SyncEvent. The handlers of SyncEvents are called directly when you emit the event.</p>
@@ -306,7 +328,7 @@ myEvent.post(<span class="hljs-literal">undefined</span>)
 myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 </code></pre>
 				<h1 id="license">License</h1>
-				<p>Copyright (c) 2015 Rogier Schouten <a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#103;&#105;&#x74;&#x68;&#117;&#x62;&#x40;&#x77;&#x6f;&#114;&#x6b;&#x69;&#110;&#103;&#99;&#x6f;&#100;&#x65;&#x2e;&#x6e;&#x69;&#110;&#x6a;&#x61;">&#103;&#105;&#x74;&#x68;&#117;&#x62;&#x40;&#x77;&#x6f;&#114;&#x6b;&#x69;&#110;&#103;&#99;&#x6f;&#100;&#x65;&#x2e;&#x6e;&#x69;&#110;&#x6a;&#x61;</a>
+				<p>Copyright (c) 2015 Rogier Schouten <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x67;&#x69;&#x74;&#104;&#117;&#98;&#64;&#x77;&#x6f;&#x72;&#107;&#105;&#x6e;&#x67;&#x63;&#111;&#100;&#101;&#46;&#110;&#105;&#110;&#106;&#x61;">&#x67;&#x69;&#x74;&#104;&#117;&#98;&#64;&#x77;&#x6f;&#x72;&#107;&#105;&#x6e;&#x67;&#x63;&#111;&#100;&#101;&#46;&#110;&#105;&#110;&#106;&#x61;</a>
 				ISC (see LICENSE file in repository root).</p>
 			</div>
 		</div>
