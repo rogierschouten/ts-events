@@ -8,6 +8,7 @@
 # ts-events
 
 A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter, and instead makes each event into a member which is its own little emitter.
+Implemented in TypeScript (typings file included) and usable with JavaScript as well.
 
 ## TL;DR
 
@@ -104,7 +105,7 @@ ts-event supports three event types: Synchronous, A-synchronous and Queued. Here
 
 In the table above, "condensable" means that you can choose to condense multiple sent events into one: e.g. for an a-synchronous event, you can opt that if it is sent more than once in a Node.JS cycle, the event handlers are invoked only once.
 
-### Syncronous Events
+### Synchronous Events
 
 If you want EventEmitter-style events, then use SyncEvent. The handlers of SyncEvents are called directly when you emit the event.
 
