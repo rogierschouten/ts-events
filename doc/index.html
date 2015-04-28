@@ -147,7 +147,7 @@ tsevents.flushEmpty();
 					</tbody>
 				</table>
 				<p>In the table above, &quot;condensable&quot; means that you can choose to condense multiple sent events into one: e.g. for an a-synchronous event, you can opt that if it is sent more than once in a Node.JS cycle, the event handlers are invoked only once.</p>
-				<h2 id="replacing-eventemitter">Replacing EventEmitter</h2>
+				<h2 id="syncronous-events">Syncronous Events</h2>
 				<p>If you want EventEmitter-style events, then use SyncEvent. The handlers of SyncEvents are called directly when you emit the event.</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
 <span class="hljs-keyword">var</span> SyncEvent = tsevents.SyncEvent;
@@ -225,6 +225,8 @@ ctr.evtChanged.attach((n: number): <span class="hljs-keyword">void</span> =&gt; 
 ctr.inc();
 <span class="hljs-comment">// Here, the event handler is already called and you see a log line on the console</span>
 </code></pre>
+				<h3 id="recursion-protection">Recursion protection</h3>
+				<p>Suppose that the handler for an event - directly or indirectly - causes the same event to be sent. For synchronous events, this would mean an infinite loop. SyncEvents have protection built-in: if a handler causes the same event to get posted 10 times recursively, an error is thrown. You can change or disable this behaviour with the static variable SyncEvent.MAX_RECURSION_DEPTH. Set it to null to disable or to a number greater than 0 to trigger the error sooner or later.</p>
 				<h2 id="a-synchronous-events">A-synchronous events</h2>
 				<p>Synchronous events (like Node.JS EventEmitter events) have the nasty habit of invoking handlers when they don&#39;t expect it.
 				Therefore we also have a-synchronous events: when you post an a-synchronous event, the handlers are called in the next Node.JS cycle. To use, simply use AsyncEvent instead of SyncEvent in the example above.</p>
@@ -371,7 +373,7 @@ myEvent.post(<span class="hljs-literal">undefined</span>)
 myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 </code></pre>
 				<h1 id="license">License</h1>
-				<p>Copyright (c) 2015 Rogier Schouten <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#x67;&#x69;&#116;&#x68;&#117;&#98;&#x40;&#x77;&#x6f;&#x72;&#107;&#105;&#110;&#x67;&#x63;&#x6f;&#100;&#x65;&#x2e;&#x6e;&#x69;&#x6e;&#106;&#x61;">&#x67;&#x69;&#116;&#x68;&#117;&#98;&#x40;&#x77;&#x6f;&#x72;&#107;&#105;&#110;&#x67;&#x63;&#x6f;&#100;&#x65;&#x2e;&#x6e;&#x69;&#x6e;&#106;&#x61;</a>
+				<p>Copyright (c) 2015 Rogier Schouten <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x67;&#105;&#x74;&#104;&#117;&#x62;&#x40;&#119;&#111;&#114;&#107;&#x69;&#x6e;&#x67;&#x63;&#x6f;&#100;&#101;&#46;&#x6e;&#x69;&#x6e;&#x6a;&#97;">&#x67;&#105;&#x74;&#104;&#117;&#x62;&#x40;&#119;&#111;&#114;&#107;&#x69;&#x6e;&#x67;&#x63;&#x6f;&#100;&#101;&#46;&#x6e;&#x69;&#x6e;&#x6a;&#97;</a>
 				ISC (see LICENSE file in repository root).</p>
 			</div>
 		</div>

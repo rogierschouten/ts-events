@@ -192,7 +192,7 @@ declare module '__ts-events/lib/EventQueue' {
         */
     class EventQueue {
             /**
-                * The default event queue
+                * The module-global event queue
                 */
             static global(): EventQueue;
             /**

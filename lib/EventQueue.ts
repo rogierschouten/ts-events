@@ -10,22 +10,30 @@
 class EventQueue {
 
     /**
-     * The default event queue
+     * The module-global event queue
+     */
+    private static _instance: EventQueue;
+
+    /**
+     * The module-global event queue
      */
     public static global(): EventQueue {
-        if (!global.tAsyncEventEventQueue) {
-            global.tAsyncEventEventQueue = new EventQueue();
+        if (!EventQueue._instance) {
+            EventQueue.resetGlobal();
         }
-        return global.tAsyncEventEventQueue;
+        return EventQueue._instance;
     }
 
     /**
      * Testing purposes
      */
     public static resetGlobal(): void {
-        global.tAsyncEventEventQueue = new EventQueue();
+        EventQueue._instance = new EventQueue();
     }
 
+    /**
+     * Queued elements
+     */
     private _queue: (() => void)[] = [];
 
     /**
