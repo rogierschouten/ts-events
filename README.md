@@ -2,7 +2,7 @@
 ![license](http://img.shields.io/npm/l/ts-events.svg)
 
 [![NPM](https://nodei.co/npm/ts-events.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ts-events/)
-[![NPM](https://nodei.co/npm-dl/ts-events.png?months=6&height=3)](https://nodei.co/npm/ts-events/)
+[![NPM](https://nodei.co/npm-dl/ts-events.png?months=9&height=3)](https://nodei.co/npm/ts-events/)
 
 
 # ts-events
