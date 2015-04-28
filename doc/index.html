@@ -104,6 +104,16 @@ evtChange.post(<span class="hljs-string">"hi!"</span>);
 tsevents.flush();
 <span class="hljs-comment">// now, "hi!" has been written to the console</span>
 </code></pre>
+				<p>Different ways of attaching:</p>
+				<pre><code class="lang-javascript">
+<span class="hljs-comment">// attach a function</span>
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(s);
+});
+
+<span class="hljs-comment">// attach a function bound to an object</span>
+evtChange.attach(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">this</span>.onChange);
+</code></pre>
 				<h1 id="features">Features</h1>
 				<ul>
 					<li>Each event is a member, and its own little event emitter. Because of this, you have a place for comments to document them. And adding handlers is no longer on string basis.</li>
@@ -373,7 +383,7 @@ myEvent.post(<span class="hljs-literal">undefined</span>)
 myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 </code></pre>
 				<h1 id="license">License</h1>
-				<p>Copyright (c) 2015 Rogier Schouten <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#x67;&#x69;&#116;&#x68;&#117;&#x62;&#64;&#x77;&#x6f;&#x72;&#x6b;&#x69;&#x6e;&#103;&#99;&#x6f;&#100;&#101;&#46;&#x6e;&#x69;&#x6e;&#106;&#97;">&#x67;&#x69;&#116;&#x68;&#117;&#x62;&#64;&#x77;&#x6f;&#x72;&#x6b;&#x69;&#x6e;&#103;&#99;&#x6f;&#100;&#101;&#46;&#x6e;&#x69;&#x6e;&#106;&#97;</a>
+				<p>Copyright (c) 2015 Rogier Schouten <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#103;&#x69;&#116;&#x68;&#117;&#x62;&#64;&#x77;&#x6f;&#x72;&#x6b;&#105;&#x6e;&#103;&#99;&#111;&#x64;&#x65;&#x2e;&#110;&#105;&#x6e;&#x6a;&#x61;">&#103;&#x69;&#116;&#x68;&#117;&#x62;&#64;&#x77;&#x6f;&#x72;&#x6b;&#105;&#x6e;&#103;&#99;&#111;&#x64;&#x65;&#x2e;&#110;&#105;&#x6e;&#x6a;&#x61;</a>
 				ISC (see LICENSE file in repository root).</p>
 			</div>
 		</div>
@@ -393,7 +403,7 @@ myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 						<a href="modules/_lib_async_event_.html">"lib/async-<wbr>event"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_lib_listenable_.html">"lib/listenable"</a>
+						<a href="modules/_lib_base_event_.html">"lib/base-<wbr>event"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_lib_queued_event_.html">"lib/queued-<wbr>event"</a>

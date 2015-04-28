@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Listenable | ts-events</title>
+	<title>BaseEvent | ts-events</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,13 +57,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_lib_listenable_.html">&quot;lib/listenable&quot;</a>
+					<a href="../modules/_lib_base_event_.html">&quot;lib/base-event&quot;</a>
 				</li>
 				<li>
-					<a href="_lib_listenable_.listenable.html">Listenable</a>
+					<a href="_lib_base_event_.baseevent.html">BaseEvent</a>
 				</li>
 			</ul>
-			<h1>Class Listenable&lt;T&gt;</h1>
+			<h1>Class BaseEvent&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -82,7 +82,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Listenable</span>
+						<span class="target">BaseEvent</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<a href="_lib_sync_event_.syncevent.html" class="tsd-signature-type">SyncEvent</a>
@@ -104,16 +104,16 @@
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_lib_listenable_.listenable.html#_listeners" class="tsd-kind-icon">_listeners</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_lib_base_event_.baseevent.html#_listeners" class="tsd-kind-icon">_listeners</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_lib_listenable_.listenable.html#_copylisteners" class="tsd-kind-icon">_copy<wbr>Listeners</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_listenable_.listenable.html#attach" class="tsd-kind-icon">attach</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_listenable_.listenable.html#detach" class="tsd-kind-icon">detach</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_listenable_.listenable.html#listenercount" class="tsd-kind-icon">listener<wbr>Count</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_lib_base_event_.baseevent.html#_copylisteners" class="tsd-kind-icon">_copy<wbr>Listeners</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_base_event_.baseevent.html#attach" class="tsd-kind-icon">attach</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_base_event_.baseevent.html#detach" class="tsd-kind-icon">detach</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_base_event_.baseevent.html#listenercount" class="tsd-kind-icon">listener<wbr>Count</a></li>
 							</ul>
 						</section>
 					</div>
@@ -124,10 +124,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_listeners" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _listeners</h3>
-					<div class="tsd-signature tsd-kind-icon">_listeners<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_lib_listenable_.listener.html" class="tsd-signature-type">Listener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">_listeners<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_lib_base_event_.listener.html" class="tsd-signature-type">Listener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in lib/listenable.ts:17</li>
+							<li>Defined in lib/base-event.ts:17</li>
 						</ul>
 					</aside>
 				</section>
@@ -138,16 +138,16 @@
 					<a name="_copylisteners" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _copy<wbr>Listeners</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">_copy<wbr>Listeners<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_lib_listenable_.listener.html" class="tsd-signature-type">Listener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">_copy<wbr>Listeners<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_lib_base_event_.listener.html" class="tsd-signature-type">Listener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/listenable.ts:111</li>
+									<li>Defined in lib/base-event.ts:111</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_lib_listenable_.listener.html" class="tsd-signature-type">Listener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_lib_base_event_.listener.html" class="tsd-signature-type">Listener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -162,7 +162,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/listenable.ts:23</li>
+									<li>Defined in lib/base-event.ts:23</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -204,7 +204,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/listenable.ts:29</li>
+									<li>Defined in lib/base-event.ts:29</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -266,7 +266,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/listenable.ts:59</li>
+									<li>Defined in lib/base-event.ts:59</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -303,7 +303,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/listenable.ts:63</li>
+									<li>Defined in lib/base-event.ts:63</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -343,7 +343,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/listenable.ts:67</li>
+									<li>Defined in lib/base-event.ts:67</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -362,7 +362,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/listenable.ts:71</li>
+									<li>Defined in lib/base-event.ts:71</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -384,7 +384,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/listenable.ts:107</li>
+									<li>Defined in lib/base-event.ts:107</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -409,7 +409,7 @@
 						<a href="../modules/_lib_async_event_.html">"lib/async-<wbr>event"</a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_lib_listenable_.html">"lib/listenable"</a>
+						<a href="../modules/_lib_base_event_.html">"lib/base-<wbr>event"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_lib_queued_event_.html">"lib/queued-<wbr>event"</a>
@@ -424,29 +424,29 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="_lib_listenable_.listenable.html" class="tsd-kind-icon">Listenable</a>
+						<a href="_lib_base_event_.baseevent.html" class="tsd-kind-icon">Base<wbr>Event</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_lib_listenable_.listenable.html#_listeners" class="tsd-kind-icon">_listeners</a>
+								<a href="_lib_base_event_.baseevent.html#_listeners" class="tsd-kind-icon">_listeners</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="_lib_listenable_.listenable.html#_copylisteners" class="tsd-kind-icon">_copy<wbr>Listeners</a>
+								<a href="_lib_base_event_.baseevent.html#_copylisteners" class="tsd-kind-icon">_copy<wbr>Listeners</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_lib_listenable_.listenable.html#attach" class="tsd-kind-icon">attach</a>
+								<a href="_lib_base_event_.baseevent.html#attach" class="tsd-kind-icon">attach</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_lib_listenable_.listenable.html#detach" class="tsd-kind-icon">detach</a>
+								<a href="_lib_base_event_.baseevent.html#detach" class="tsd-kind-icon">detach</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_lib_listenable_.listenable.html#listenercount" class="tsd-kind-icon">listener<wbr>Count</a>
+								<a href="_lib_base_event_.baseevent.html#listenercount" class="tsd-kind-icon">listener<wbr>Count</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../interfaces/_lib_listenable_.listener.html" class="tsd-kind-icon">Listener</a>
+						<a href="../interfaces/_lib_base_event_.listener.html" class="tsd-kind-icon">Listener</a>
 					</li>
 				</ul>
 			</nav>

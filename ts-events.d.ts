@@ -31,8 +31,8 @@ declare module 'ts-events' {
 }
 
 declare module '__ts-events/lib/sync-event' {
-    import listenable = require("__ts-events/lib/listenable");
-    import Listenable = listenable.Listenable;
+    import baseEvent = require("__ts-events/lib/base-event");
+    import BaseEvent = baseEvent.BaseEvent;
     /**
         * This is a true EventEmitter replacement: the handlers are called synchronously when
         * you post the event.
@@ -41,7 +41,7 @@ declare module '__ts-events/lib/sync-event' {
         * - Handlers are called only for events posted after they were attached.
         * - Handlers are not called anymore when they are detached, even if a post() is in progress
         */
-    export class SyncEvent<T> extends Listenable<T> {
+    export class SyncEvent<T> extends BaseEvent<T> {
             /**
                 * Maximum number of times that an event handler may cause the same event
                 * recursively.
@@ -73,8 +73,8 @@ declare module '__ts-events/lib/sync-event' {
 
 declare module '__ts-events/lib/queued-event' {
     import EventQueue = require("__ts-events/lib/EventQueue");
-    import listenable = require("__ts-events/lib/listenable");
-    import Listenable = listenable.Listenable;
+    import baseEvent = require("__ts-events/lib/base-event");
+    import BaseEvent = baseEvent.BaseEvent;
     /**
         * Options for the QueuedEvent constructor
         */
@@ -95,7 +95,7 @@ declare module '__ts-events/lib/queued-event' {
         * - Handlers are called only for events posted after they were attached.
         * - Handlers are not called anymore when they are detached, even if a post() is in progress
         */
-    export class QueuedEvent<T> extends Listenable<T> {
+    export class QueuedEvent<T> extends BaseEvent<T> {
             /**
                 * Constructor
                 * @param opts Optional, an object with the following members:
@@ -129,8 +129,8 @@ declare module '__ts-events/lib/queued-event' {
 }
 
 declare module '__ts-events/lib/async-event' {
-    import listenable = require("__ts-events/lib/listenable");
-    import Listenable = listenable.Listenable;
+    import baseEvent = require("__ts-events/lib/base-event");
+    import BaseEvent = baseEvent.BaseEvent;
     /**
         * Options for the AsyncEvent constructor
         */
@@ -147,7 +147,7 @@ declare module '__ts-events/lib/async-event' {
         * - Handlers are called only for events posted after they were attached.
         * - Handlers are not called anymore when they are detached, even if a post() is in progress
         */
-    export class AsyncEvent<T> extends Listenable<T> {
+    export class AsyncEvent<T> extends BaseEvent<T> {
             /**
                 * The default scheduler uses setImmediate() or setTimeout(..., 0) if setImmediate is not available.
                 */
@@ -220,13 +220,13 @@ declare module '__ts-events/lib/EventQueue' {
     export = EventQueue;
 }
 
-declare module '__ts-events/lib/listenable' {
+declare module '__ts-events/lib/base-event' {
     export interface Listener<T> {
             deleted: boolean;
             handler: (data: T) => void;
             boundTo: Object;
     }
-    export class Listenable<T> {
+    export class BaseEvent<T> {
             /**
                 * Attach an event handler
                 * @param handler The function to call. The this argument of the function will be this object.

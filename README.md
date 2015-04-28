@@ -49,6 +49,23 @@ tsevents.flush();
 // now, "hi!" has been written to the console
 ```
 
+Different ways of attaching:
+
+```javascript
+
+// attach a function
+evtChange.attach(function(s) {
+    console.log(s);
+});
+
+// attach a function bound to an object
+evtChange.attach(this, this.onChange);
+
+
+```
+
+
+
 # Features
 
 * Each event is a member, and its own little event emitter. Because of this, you have a place for comments to document them. And adding handlers is no longer on string basis.

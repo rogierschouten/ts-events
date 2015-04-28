@@ -6,9 +6,9 @@
 
 import util = require("util");
 
-import listenable = require("./listenable");
-import Listenable = listenable.Listenable;
-import Listener = listenable.Listener;
+import baseEvent = require("./base-event");
+import BaseEvent = baseEvent.BaseEvent;
+import Listener = baseEvent.Listener;
 
 /**
  * Options for the AsyncEvent constructor
@@ -27,7 +27,7 @@ export interface AsyncEventOpts {
  * - Handlers are called only for events posted after they were attached.
  * - Handlers are not called anymore when they are detached, even if a post() is in progress
  */
-export class AsyncEvent<T> extends Listenable<T> {
+export class AsyncEvent<T> extends BaseEvent<T> {
 
     private _condensed: boolean;
 

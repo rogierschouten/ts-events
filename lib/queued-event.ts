@@ -8,9 +8,9 @@ import util = require("util");
 
 import EventQueue = require("./EventQueue");
 
-import listenable = require("./listenable");
-import Listenable = listenable.Listenable;
-import Listener = listenable.Listener;
+import baseEvent = require("./base-event");
+import BaseEvent = baseEvent.BaseEvent;
+import Listener = baseEvent.Listener;
 
 /**
  * Options for the QueuedEvent constructor
@@ -33,7 +33,7 @@ export interface QueuedEventOpts {
  * - Handlers are called only for events posted after they were attached.
  * - Handlers are not called anymore when they are detached, even if a post() is in progress
  */
-export class QueuedEvent<T> extends Listenable<T> {
+export class QueuedEvent<T> extends BaseEvent<T> {
 
     private _condensed: boolean;
     private _queue: EventQueue;

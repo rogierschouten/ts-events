@@ -6,19 +6,19 @@ import assert = require("assert");
 import chai = require("chai");
 import expect = chai.expect;
 
-import listenable = require("../lib/listenable");
-import Listener = listenable.Listener;
-import Listenable = listenable.Listenable;
+import baseEvent = require("../lib/base-event");
+import Listener = baseEvent.Listener;
+import BaseEvent = baseEvent.BaseEvent;
 
 
-class ListenerSub extends Listenable<string> {
+class ListenerSub extends BaseEvent<string> {
 
     public content(): Listener<string>[] {
         return this._copyListeners();
     }
 }
 
-describe("Listenable", (): void => {
+describe("BaseEvent", (): void => {
 
     var l: ListenerSub;
 

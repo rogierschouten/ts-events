@@ -6,8 +6,8 @@
 
 import util = require("util");
 
-import listenable = require("./listenable");
-import Listenable = listenable.Listenable;
+import baseEvent = require("./base-event");
+import BaseEvent = baseEvent.BaseEvent;
 
 
 /**
@@ -18,7 +18,7 @@ import Listenable = listenable.Listenable;
  * - Handlers are called only for events posted after they were attached.
  * - Handlers are not called anymore when they are detached, even if a post() is in progress
  */
-export class SyncEvent<T> extends Listenable<T> {
+export class SyncEvent<T> extends BaseEvent<T> {
 
     /**
      * Maximum number of times that an event handler may cause the same event

@@ -1,4 +1,11 @@
 
+echo cleaning...
+
+rm -Rf lib/**/*.d.ts
+rm -Rf lib/**/*.js
+rm -Rf lib/**/*.map
+rm -Rf doc/
+
 echo building...
 tsc
 echo making d.ts...

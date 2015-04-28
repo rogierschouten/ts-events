@@ -9,8 +9,8 @@ var __extends = this.__extends || function (d, b) {
 var assert = require("assert");
 var chai = require("chai");
 var expect = chai.expect;
-var listenable = require("../lib/listenable");
-var Listenable = listenable.Listenable;
+var baseEvent = require("../lib/base-event");
+var BaseEvent = baseEvent.BaseEvent;
 var ListenerSub = (function (_super) {
     __extends(ListenerSub, _super);
     function ListenerSub() {
@@ -20,8 +20,8 @@ var ListenerSub = (function (_super) {
         return this._copyListeners();
     };
     return ListenerSub;
-})(Listenable);
-describe("Listenable", function () {
+})(BaseEvent);
+describe("BaseEvent", function () {
     var l;
     beforeEach(function () {
         l = new ListenerSub();
@@ -92,4 +92,4 @@ describe("Listenable", function () {
         });
     });
 });
-//# sourceMappingURL=test-listenable.js.map
+//# sourceMappingURL=test-base-event.js.map
