@@ -31,12 +31,12 @@ export function flushOnce() {
 }
 
 /**
- * Convenience function, same as EventQueue.global().flushEmpty().
+ * Convenience function, same as EventQueue.global().flush().
  * Flushes the QueuedEvents, calling all handlers currently in the queue and those
  * put into the queue as a result of the flush.
  * @param maxRounds Optional, default 10. Number of iterations after which to throw an error because
  *                  the queue keeps filling up. Set to undefined or null to disable this.
  */
-export function flushEmpty(maxRounds: number = 10) {
-    EventQueue.global().flushEmpty(maxRounds);
+export function flush(maxRounds: number = 10) {
+    EventQueue.global().flush(maxRounds);
 }

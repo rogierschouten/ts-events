@@ -61,13 +61,13 @@ describe("EventQueue", function () {
             expect(callCount).to.equal(1);
         });
     });
-    describe("flushEmpty()", function () {
+    describe("flush()", function () {
         it("should call a handler", function () {
             var callCount = 0;
             eq.add(function () {
                 callCount++;
             });
-            eq.flushEmpty();
+            eq.flush();
             expect(callCount).to.equal(1);
         });
         it("should not call a handler twice", function () {
@@ -75,8 +75,8 @@ describe("EventQueue", function () {
             eq.add(function () {
                 callCount++;
             });
-            eq.flushEmpty();
-            eq.flushEmpty();
+            eq.flush();
+            eq.flush();
             expect(callCount).to.equal(1);
         });
         it("should call a recursively inserted handler", function () {
@@ -86,7 +86,7 @@ describe("EventQueue", function () {
                     callCount++;
                 });
             });
-            eq.flushEmpty();
+            eq.flush();
             expect(callCount).to.equal(1);
         });
         it("should throw for endless loop after 10 times by default", function () {
@@ -97,7 +97,7 @@ describe("EventQueue", function () {
             };
             eq.add(f);
             assert.throws(function () {
-                eq.flushEmpty();
+                eq.flush();
             });
             expect(callCount).to.equal(10);
         });
@@ -109,7 +109,7 @@ describe("EventQueue", function () {
             };
             eq.add(f);
             assert.throws(function () {
-                eq.flushEmpty(5);
+                eq.flush(5);
             });
             expect(callCount).to.equal(5);
         });
@@ -121,13 +121,13 @@ describe("EventQueue", function () {
             };
             eq.add(f);
             assert.throws(function () {
-                eq.flushEmpty(5);
+                eq.flush(5);
             });
             callCount = 0;
             eq.add(function () {
                 callCount++;
             });
-            eq.flushEmpty();
+            eq.flush();
             expect(callCount).to.equal(1);
         });
         it("should not throw for endless loop when set to undefined", function () {
@@ -140,7 +140,7 @@ describe("EventQueue", function () {
             };
             eq.add(f);
             assert.doesNotThrow(function () {
-                eq.flushEmpty(null);
+                eq.flush(null);
             });
             expect(callCount).to.equal(100);
         });

@@ -45,7 +45,7 @@ evtChange.attach(function(s) {
 evtChange.post("hi!");
 // the event is still in a global queue
 
-tsevents.flushEmpty();
+tsevents.flush();
 // now, "hi!" has been written to the console
 ```
 
@@ -232,7 +232,7 @@ ctr.inc();
 // Here, the event handler is not called yet
 
 // Flush the event queue
-tsevent.flushEmpty();
+tsevent.flush();
 // Here, the handler is called
 
 ```
@@ -253,16 +253,16 @@ var myEvent = new QueuedEvent({ queue: myQueue });
 myEvent.post("hi!");
 
 // flush only my own queue
-myQueue.flushEmpty();
+myQueue.flush();
 ```
 
-### flushOnce() vs flushEmpty()
+### flushOnce() vs flush()
 
 Event queues have two flush functions:
-* flushOne() calls all the events that are in the queue at the time of the call.
-* flushEmpty() keeps clearing the queue until it remains empty, i.e. events added by event handlers are also called.
+* flushOnce() calls all the events that are in the queue at the time of the call.
+* flush() keeps clearing the queue until it remains empty, i.e. events added by event handlers are also called.
 
-The flushEmpty() function has a safeguard: by default, if it needs more than 10 iterations to clear the queue, it throws an error saying there is an endless recursion going on. You can give it a different limit if you like. Simply call e.g. flushEmpty(100) to set the limit to 100.
+The flush() function has a safeguard: by default, if it needs more than 10 iterations to clear the queue, it throws an error saying there is an endless recursion going on. You can give it a different limit if you like. Simply call e.g. flush(100) to set the limit to 100.
 
 ## Condensing events
 

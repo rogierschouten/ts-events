@@ -71,13 +71,13 @@ describe("EventQueue", (): void => {
         });
     });
 
-    describe("flushEmpty()", (): void => {
+    describe("flush()", (): void => {
         it("should call a handler", (): void => {
             var callCount = 0;
             eq.add((): void => {
                 callCount++;
             });
-            eq.flushEmpty();
+            eq.flush();
             expect(callCount).to.equal(1);
         });
         it("should not call a handler twice", (): void => {
@@ -85,8 +85,8 @@ describe("EventQueue", (): void => {
             eq.add((): void => {
                 callCount++;
             });
-            eq.flushEmpty();
-            eq.flushEmpty();
+            eq.flush();
+            eq.flush();
             expect(callCount).to.equal(1);
         });
         it("should call a recursively inserted handler", (): void => {
@@ -96,7 +96,7 @@ describe("EventQueue", (): void => {
                     callCount++;
                 });
             });
-            eq.flushEmpty();
+            eq.flush();
             expect(callCount).to.equal(1);
         });
         it("should throw for endless loop after 10 times by default", (): void => {
@@ -107,7 +107,7 @@ describe("EventQueue", (): void => {
             };
             eq.add(f);
             assert.throws((): void => {
-                eq.flushEmpty();
+                eq.flush();
             });
             expect(callCount).to.equal(10);
         });
@@ -119,7 +119,7 @@ describe("EventQueue", (): void => {
             };
             eq.add(f);
             assert.throws((): void => {
-                eq.flushEmpty(5);
+                eq.flush(5);
             });
             expect(callCount).to.equal(5);
         });
@@ -131,14 +131,14 @@ describe("EventQueue", (): void => {
             };
             eq.add(f);
             assert.throws((): void => {
-                eq.flushEmpty(5);
+                eq.flush(5);
             });
 
             callCount = 0;
             eq.add((): void => {
                 callCount++;
             });
-            eq.flushEmpty();
+            eq.flush();
             expect(callCount).to.equal(1);
         });
         it("should not throw for endless loop when set to undefined", (): void => {
@@ -151,7 +151,7 @@ describe("EventQueue", (): void => {
             };
             eq.add(f);
             assert.doesNotThrow((): void => {
-                eq.flushEmpty(null);
+                eq.flush(null);
             });
             expect(callCount).to.equal(100);
         });

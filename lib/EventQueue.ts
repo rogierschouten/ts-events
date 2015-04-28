@@ -62,7 +62,7 @@ class EventQueue {
      * @param maxRounds Optional, default 10. Number of iterations after which to throw an error because
      *                  the queue keeps filling up. Set to null to disable this.
      */
-    public flushEmpty(maxRounds: number = 10): void {
+    public flush(maxRounds: number = 10): void {
         var i = 0;
         while (this._queue.length > 0) {
             if (typeof maxRounds === "number" && i >= maxRounds) {

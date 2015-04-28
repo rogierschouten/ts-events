@@ -101,7 +101,7 @@ evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function
 evtChange.post(<span class="hljs-string">"hi!"</span>);
 <span class="hljs-comment">// the event is still in a global queue</span>
 
-tsevents.flushEmpty();
+tsevents.flush();
 <span class="hljs-comment">// now, "hi!" has been written to the console</span>
 </code></pre>
 				<h1 id="features">Features</h1>
@@ -275,7 +275,7 @@ ctr.inc();
 <span class="hljs-comment">// Here, the event handler is not called yet</span>
 
 <span class="hljs-comment">// Flush the event queue</span>
-tsevent.flushEmpty();
+tsevent.flush();
 <span class="hljs-comment">// Here, the handler is called</span>
 </code></pre>
 				<h3 id="creating-your-own-event-queues">Creating your own event queues</h3>
@@ -291,15 +291,15 @@ tsevent.flushEmpty();
 myEvent.post(<span class="hljs-string">"hi!"</span>);
 
 <span class="hljs-comment">// flush only my own queue</span>
-myQueue.flushEmpty();
+myQueue.flush();
 </code></pre>
-				<h3 id="flushonce-vs-flushempty-">flushOnce() vs flushEmpty()</h3>
+				<h3 id="flushonce-vs-flush-">flushOnce() vs flush()</h3>
 				<p>Event queues have two flush functions:</p>
 				<ul>
-					<li>flushOne() calls all the events that are in the queue at the time of the call.</li>
-					<li>flushEmpty() keeps clearing the queue until it remains empty, i.e. events added by event handlers are also called.</li>
+					<li>flushOnce() calls all the events that are in the queue at the time of the call.</li>
+					<li>flush() keeps clearing the queue until it remains empty, i.e. events added by event handlers are also called.</li>
 				</ul>
-				<p>The flushEmpty() function has a safeguard: by default, if it needs more than 10 iterations to clear the queue, it throws an error saying there is an endless recursion going on. You can give it a different limit if you like. Simply call e.g. flushEmpty(100) to set the limit to 100.</p>
+				<p>The flush() function has a safeguard: by default, if it needs more than 10 iterations to clear the queue, it throws an error saying there is an endless recursion going on. You can give it a different limit if you like. Simply call e.g. flush(100) to set the limit to 100.</p>
 				<h2 id="condensing-events">Condensing events</h2>
 				<p>For a-synchronous events and for queued events, you can opt to condense multiple post() calls into one. If multiple post() calls happen before the handlers are called, the handlers are invoked only once, with the argument from the last post() call.</p>
 				<pre><code class="lang-javascript">
@@ -373,7 +373,7 @@ myEvent.post(<span class="hljs-literal">undefined</span>)
 myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 </code></pre>
 				<h1 id="license">License</h1>
-				<p>Copyright (c) 2015 Rogier Schouten <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x67;&#105;&#x74;&#104;&#117;&#x62;&#x40;&#119;&#111;&#114;&#107;&#x69;&#x6e;&#x67;&#x63;&#x6f;&#100;&#101;&#46;&#x6e;&#x69;&#x6e;&#x6a;&#97;">&#x67;&#105;&#x74;&#104;&#117;&#x62;&#x40;&#119;&#111;&#114;&#107;&#x69;&#x6e;&#x67;&#x63;&#x6f;&#100;&#101;&#46;&#x6e;&#x69;&#x6e;&#x6a;&#97;</a>
+				<p>Copyright (c) 2015 Rogier Schouten <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#x67;&#x69;&#116;&#x68;&#117;&#x62;&#64;&#x77;&#x6f;&#x72;&#x6b;&#x69;&#x6e;&#103;&#99;&#x6f;&#100;&#101;&#46;&#x6e;&#x69;&#x6e;&#106;&#97;">&#x67;&#x69;&#116;&#x68;&#117;&#x62;&#64;&#x77;&#x6f;&#x72;&#x6b;&#x69;&#x6e;&#103;&#99;&#x6f;&#100;&#101;&#46;&#x6e;&#x69;&#x6e;&#106;&#97;</a>
 				ISC (see LICENSE file in repository root).</p>
 			</div>
 		</div>

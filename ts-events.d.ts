@@ -21,13 +21,13 @@ declare module 'ts-events' {
         */
     export function flushOnce(): void;
     /**
-        * Convenience function, same as EventQueue.global().flushEmpty().
+        * Convenience function, same as EventQueue.global().flush().
         * Flushes the QueuedEvents, calling all handlers currently in the queue and those
         * put into the queue as a result of the flush.
         * @param maxRounds Optional, default 10. Number of iterations after which to throw an error because
         *                  the queue keeps filling up. Set to undefined or null to disable this.
         */
-    export function flushEmpty(maxRounds?: number): void;
+    export function flush(maxRounds?: number): void;
 }
 
 declare module '__ts-events/lib/sync-event' {
@@ -215,7 +215,7 @@ declare module '__ts-events/lib/EventQueue' {
                 * @param maxRounds Optional, default 10. Number of iterations after which to throw an error because
                 *                  the queue keeps filling up. Set to null to disable this.
                 */
-            flushEmpty(maxRounds?: number): void;
+            flush(maxRounds?: number): void;
     }
     export = EventQueue;
 }

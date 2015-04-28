@@ -50,13 +50,13 @@ describe("index", (): void => {
         });
     });
 
-    describe("flushEmpty()", (): void => {
+    describe("flush()", (): void => {
         it("should call a handler", (): void => {
             var callCount = 0;
             eq.add((): void => {
                 callCount++;
             });
-            tsevents.flushEmpty();
+            tsevents.flush();
             expect(callCount).to.equal(1);
         });
         it("should not call a handler twice", (): void => {
@@ -64,8 +64,8 @@ describe("index", (): void => {
             eq.add((): void => {
                 callCount++;
             });
-            tsevents.flushEmpty();
-            tsevents.flushEmpty();
+            tsevents.flush();
+            tsevents.flush();
             expect(callCount).to.equal(1);
         });
         it("should call a recursively inserted handler", (): void => {
@@ -75,7 +75,7 @@ describe("index", (): void => {
                     callCount++;
                 });
             });
-            tsevents.flushEmpty();
+            tsevents.flush();
             expect(callCount).to.equal(1);
         });
         it("should throw for endless loop after 10 times by default", (): void => {
@@ -86,7 +86,7 @@ describe("index", (): void => {
             };
             eq.add(f);
             assert.throws((): void => {
-                tsevents.flushEmpty();
+                tsevents.flush();
             });
             expect(callCount).to.equal(10);
         });
@@ -98,7 +98,7 @@ describe("index", (): void => {
             };
             eq.add(f);
             assert.throws((): void => {
-                tsevents.flushEmpty(5);
+                tsevents.flush(5);
             });
             expect(callCount).to.equal(5);
         });
@@ -110,14 +110,14 @@ describe("index", (): void => {
             };
             eq.add(f);
             assert.throws((): void => {
-                tsevents.flushEmpty(5);
+                tsevents.flush(5);
             });
 
             callCount = 0;
             eq.add((): void => {
                 callCount++;
             });
-            eq.flushEmpty();
+            eq.flush();
             expect(callCount).to.equal(1);
         });
         it("should not throw for endless loop when set to null", (): void => {
@@ -130,7 +130,7 @@ describe("index", (): void => {
             };
             eq.add(f);
             assert.doesNotThrow((): void => {
-                tsevents.flushEmpty(null);
+                tsevents.flush(null);
             });
             expect(callCount).to.equal(100);
         });
