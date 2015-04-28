@@ -2,6 +2,53 @@
 
 A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter, and instead makes each event into a member which is its own little emitter.
 
+# TL;DR
+
+Synchronous events:
+
+```javascript
+var tsevents = require("../index");
+var SyncEvent = tsevents.SyncEvent;
+
+var evtChange = new SyncEvent();
+evtChange.attach(function(s) {
+    console.log(s);
+});
+evtChange.post("hi!");
+// at this point, "hi!" was already printed on the console
+```
+
+A-synchronous events:
+
+```javascript
+var tsevents = require("../index");
+var AsyncEvent = tsevents.AsyncEvent;
+
+var evtChange = new AsyncEvent();
+evtChange.attach(function(s) {
+    console.log(s);
+});
+evtChange.post("hi!");
+// "hi!" will be printed to the console in the next Node.JS cycle
+```
+
+Queued events for fine-grained control:
+
+```javascript
+var tsevents = require("../index");
+var QueuedEvent = tsevents.QueuedEvent;
+
+var evtChange = new QueuedEvent();
+evtChange.attach(function(s) {
+    console.log(s);
+});
+evtChange.post("hi!");
+// the event is still in a global queue
+
+tsevents.flushEmpty();
+// now, "hi!" has been written to the console
+```
+
 # Features
 
 * Each event is a member, and its own little event emitter. Because of this, you have a place for comments to document them. And adding handlers is no longer on string basis.
@@ -23,7 +70,7 @@ For class documentation, see ./doc/index.html
 
 ts-event supports three event types: Synchronous, A-synchronous and Queued. Here is a comparison:
 
-|Event Type|Handler Invocation|Condensable?|Comment|
+|Event Type|Handler Invocation|Condensable?|
 | ------------- | ------------- | ------------- |
 |Synchronous|directly, within the call to post()| no |
 |A-synchronous|in the next Node.JS cycle| yes |
@@ -132,7 +179,7 @@ By default, AsyncEvent uses setImmediate() to defer a call to the next Node.JS c
 
 ```javascript
 var tsevents = require("../index");
-var ASyncEvent = tsevents.ASyncEvent;
+var AsyncEvent = tsevents.AsyncEvent;
 
 // Replace the default setImmediate() call by a setTimeout(, 0) call
 AsyncEvent.setScheduler(function(callback) {
@@ -149,27 +196,24 @@ For  fine-grained control, use a QueuedEvent instead of an AsyncEvent. All queue
 var tsevents = require("../index");
 var QueuedEvent = tsevents.QueuedEvent;
 
-var Counter = (function () {
-    function Counter() {
-        /**
-         * This event is called whenever the counter changes
-         * @param n The counter value
-         */
-        this.evtChanged = new QueuedEvent();
-        /**
-         * The counter value
-         */
-        this.n = 0;
-    }
+function Counter() {
     /**
-     * Increment counter by 1
+     * This event is called whenever the counter changes
+     * @param n The counter value
      */
-    Counter.prototype.inc = function () {
-        this.n++;
-        this.evtChanged.post(this.n);
-    };
-    return Counter;
-})();
+    this.evtChanged = new QueuedEvent();
+    /**
+     * The counter value
+     */
+    this.n = 0;
+}
+/**
+ * Increment counter by 1
+ */
+Counter.prototype.inc = function () {
+    this.n++;
+    this.evtChanged.post(this.n);
+};
 
 var ctr = new Counter();
 

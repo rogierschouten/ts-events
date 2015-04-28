@@ -67,6 +67,43 @@
 			<div class="tsd-panel tsd-typography">
 				<h1 id="ts-events">ts-events</h1>
 				<p>A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter, and instead makes each event into a member which is its own little emitter.</p>
+				<h1 id="tl-dr">TL;DR</h1>
+				<p>Synchronous events:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> SyncEvent = tsevents.SyncEvent;
+
+<span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> SyncEvent();
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(s);
+});
+evtChange.post(<span class="hljs-string">"hi!"</span>);
+<span class="hljs-comment">// at this point, "hi!" was already printed on the console</span>
+</code></pre>
+				<p>A-synchronous events:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> AsyncEvent = tsevents.AsyncEvent;
+
+<span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> AsyncEvent();
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(s);
+});
+evtChange.post(<span class="hljs-string">"hi!"</span>);
+<span class="hljs-comment">// "hi!" will be printed to the console in the next Node.JS cycle</span>
+</code></pre>
+				<p>Queued events for fine-grained control:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> QueuedEvent = tsevents.QueuedEvent;
+
+<span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> QueuedEvent();
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(s);
+});
+evtChange.post(<span class="hljs-string">"hi!"</span>);
+<span class="hljs-comment">// the event is still in a global queue</span>
+
+tsevents.flushEmpty();
+<span class="hljs-comment">// now, "hi!" has been written to the console</span>
+</code></pre>
 				<h1 id="features">Features</h1>
 				<ul>
 					<li>Each event is a member, and its own little event emitter. Because of this, you have a place for comments to document them. And adding handlers is no longer on string basis.</li>
@@ -89,7 +126,6 @@
 							<th>Event Type</th>
 							<th>Handler Invocation</th>
 							<th>Condensable?</th>
-							<th>Comment</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -113,31 +149,40 @@
 				<p>In the table above, &quot;condensable&quot; means that you can choose to condense multiple sent events into one: e.g. for an a-synchronous event, you can opt that if it is sent more than once in a Node.JS cycle, the event handlers are invoked only once.</p>
 				<h2 id="replacing-eventemitter">Replacing EventEmitter</h2>
 				<p>If you want EventEmitter-style events, then use SyncEvent. The handlers of SyncEvents are called directly when you emit the event.</p>
-				<p>JavaScript:</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
 <span class="hljs-keyword">var</span> SyncEvent = tsevents.SyncEvent;
 
-<span class="hljs-keyword">var</span> Counter = (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-comment">/**
-         * This event is called whenever the counter changes
-         * @param n The counter value
-         */</span>
-        <span class="hljs-keyword">this</span>.evtChanged = <span class="hljs-keyword">new</span> SyncEvent();
-        <span class="hljs-comment">/**
-         * The counter value
-         */</span>
-        <span class="hljs-keyword">this</span>.n = <span class="hljs-number">0</span>;
-    }
+<span class="hljs-keyword">var</span> myEvent = <span class="hljs-keyword">new</span> SyncEvent();
+
+myEvent.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(s);
+});
+
+myEvent.post(<span class="hljs-string">"hi!"</span>);
+<span class="hljs-comment">// at this point, "hi!" was already printed on the console</span>
+</code></pre>
+				<p>Typically you use events as members in a class, instead of extending EventEmitter:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> SyncEvent = tsevents.SyncEvent;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-comment">/**
-     * Increment counter by 1
+     * This event is called whenever the counter changes
+     * @param n The counter value
      */</span>
-    Counter.prototype.inc = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">this</span>.n++;
-        <span class="hljs-keyword">this</span>.evtChanged.post(<span class="hljs-keyword">this</span>.n);
-    };
-    <span class="hljs-keyword">return</span> Counter;
-})();
+    <span class="hljs-keyword">this</span>.evtChanged = <span class="hljs-keyword">new</span> SyncEvent();
+    <span class="hljs-comment">/**
+     * The counter value
+     */</span>
+    <span class="hljs-keyword">this</span>.n = <span class="hljs-number">0</span>;
+}
+<span class="hljs-comment">/**
+ * Increment counter by 1
+ */</span>
+Counter.prototype.inc = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">this</span>.n++;
+    <span class="hljs-keyword">this</span>.evtChanged.post(<span class="hljs-keyword">this</span>.n);
+};
 
 <span class="hljs-keyword">var</span> ctr = <span class="hljs-keyword">new</span> Counter();
 
@@ -150,7 +195,8 @@ ctr.evtChanged.attach(<span class="hljs-function"><span class="hljs-keyword">fun
 ctr.inc();
 <span class="hljs-comment">// Here, the event handler is already called and you see a log line on the console</span>
 </code></pre>
-				<p>TypeScript:</p>
+				<p>As you can see, each event is its own little emitter.</p>
+				<p>For TypeScript users:</p>
 				<pre><code class="lang-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Counter</span> </span>{
     <span class="hljs-comment">/**
      * This event is called whenever the counter changes
@@ -184,7 +230,7 @@ ctr.inc();
 				Therefore we also have a-synchronous events: when you post an a-synchronous event, the handlers are called in the next Node.JS cycle. To use, simply use AsyncEvent instead of SyncEvent in the example above.</p>
 				<p>By default, AsyncEvent uses setImmediate() to defer a call to the next Node.JS cycle. You can change that by calling the static function AsyncEvent.setScheduler().</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
-<span class="hljs-keyword">var</span> ASyncEvent = tsevents.ASyncEvent;
+<span class="hljs-keyword">var</span> AsyncEvent = tsevents.AsyncEvent;
 
 <span class="hljs-comment">// Replace the default setImmediate() call by a setTimeout(, 0) call</span>
 AsyncEvent.setScheduler(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> </span>{
@@ -196,27 +242,24 @@ AsyncEvent.setScheduler(<span class="hljs-function"><span class="hljs-keyword">f
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
 <span class="hljs-keyword">var</span> QueuedEvent = tsevents.QueuedEvent;
 
-<span class="hljs-keyword">var</span> Counter = (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-comment">/**
-         * This event is called whenever the counter changes
-         * @param n The counter value
-         */</span>
-        <span class="hljs-keyword">this</span>.evtChanged = <span class="hljs-keyword">new</span> QueuedEvent();
-        <span class="hljs-comment">/**
-         * The counter value
-         */</span>
-        <span class="hljs-keyword">this</span>.n = <span class="hljs-number">0</span>;
-    }
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-comment">/**
-     * Increment counter by 1
+     * This event is called whenever the counter changes
+     * @param n The counter value
      */</span>
-    Counter.prototype.inc = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">this</span>.n++;
-        <span class="hljs-keyword">this</span>.evtChanged.post(<span class="hljs-keyword">this</span>.n);
-    };
-    <span class="hljs-keyword">return</span> Counter;
-})();
+    <span class="hljs-keyword">this</span>.evtChanged = <span class="hljs-keyword">new</span> QueuedEvent();
+    <span class="hljs-comment">/**
+     * The counter value
+     */</span>
+    <span class="hljs-keyword">this</span>.n = <span class="hljs-number">0</span>;
+}
+<span class="hljs-comment">/**
+ * Increment counter by 1
+ */</span>
+Counter.prototype.inc = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">this</span>.n++;
+    <span class="hljs-keyword">this</span>.evtChanged.post(<span class="hljs-keyword">this</span>.n);
+};
 
 <span class="hljs-keyword">var</span> ctr = <span class="hljs-keyword">new</span> Counter();
 
@@ -328,7 +371,7 @@ myEvent.post(<span class="hljs-literal">undefined</span>)
 myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 </code></pre>
 				<h1 id="license">License</h1>
-				<p>Copyright (c) 2015 Rogier Schouten <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x67;&#x69;&#x74;&#104;&#117;&#98;&#64;&#x77;&#x6f;&#x72;&#107;&#105;&#x6e;&#x67;&#x63;&#111;&#100;&#101;&#46;&#110;&#105;&#110;&#106;&#x61;">&#x67;&#x69;&#x74;&#104;&#117;&#98;&#64;&#x77;&#x6f;&#x72;&#107;&#105;&#x6e;&#x67;&#x63;&#111;&#100;&#101;&#46;&#110;&#105;&#110;&#106;&#x61;</a>
+				<p>Copyright (c) 2015 Rogier Schouten <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#x67;&#x69;&#116;&#x68;&#117;&#98;&#x40;&#x77;&#x6f;&#x72;&#107;&#105;&#110;&#x67;&#x63;&#x6f;&#100;&#x65;&#x2e;&#x6e;&#x69;&#x6e;&#106;&#x61;">&#x67;&#x69;&#116;&#x68;&#117;&#98;&#x40;&#x77;&#x6f;&#x72;&#107;&#105;&#110;&#x67;&#x63;&#x6f;&#100;&#x65;&#x2e;&#x6e;&#x69;&#x6e;&#106;&#x61;</a>
 				ISC (see LICENSE file in repository root).</p>
 			</div>
 		</div>
