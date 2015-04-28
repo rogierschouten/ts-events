@@ -35,33 +35,46 @@ In the table above, "condensable" means that you can choose to condense multiple
 
 If you want EventEmitter-style events, then use SyncEvent. The handlers of SyncEvents are called directly when you emit the event.
 
-JavaScript:
 
 ```javascript
 var tsevents = require("../index");
 var SyncEvent = tsevents.SyncEvent;
 
-var Counter = (function () {
-    function Counter() {
-        /**
-         * This event is called whenever the counter changes
-         * @param n The counter value
-         */
-        this.evtChanged = new SyncEvent();
-        /**
-         * The counter value
-         */
-        this.n = 0;
-    }
+var myEvent = new SyncEvent();
+
+myEvent.attach(function(s) {
+    console.log(s);
+});
+
+myEvent.post("hi!");
+// at this point, "hi!" was already printed on the console
+
+```
+
+Typically you use events as members in a class, instead of extending EventEmitter:
+
+```javascript
+var tsevents = require("../index");
+var SyncEvent = tsevents.SyncEvent;
+
+function Counter() {
     /**
-     * Increment counter by 1
+     * This event is called whenever the counter changes
+     * @param n The counter value
      */
-    Counter.prototype.inc = function () {
-        this.n++;
-        this.evtChanged.post(this.n);
-    };
-    return Counter;
-})();
+    this.evtChanged = new SyncEvent();
+    /**
+     * The counter value
+     */
+    this.n = 0;
+}
+/**
+ * Increment counter by 1
+ */
+Counter.prototype.inc = function () {
+    this.n++;
+    this.evtChanged.post(this.n);
+};
 
 var ctr = new Counter();
 
@@ -75,7 +88,11 @@ ctr.inc();
 // Here, the event handler is already called and you see a log line on the console
 ```
 
-TypeScript:
+As you can see, each event is its own little emitter.
+
+
+For TypeScript users:
+
 ```javascript
 class Counter {
     /**
