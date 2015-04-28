@@ -394,11 +394,17 @@ myEvent.post(); // no need to pass 'undefined'
 # Changelog
 
 v0.0.3 (2015-04-28):
-- Allow to attach events to events
-- Allow to disable recursion protection mechanism for SyncEvents
-- Renamed flushEmpty() to flush()
-v0.0.2 (2015-04-27): Documentation update
-v0.0.1 (2015-04-27): Initial version
+- Feature: allow to attach any event to any other event directly
+- Feature: allow to disable recursion protection mechanism for SyncEvents
+- BREAKING CHANGE: renamed flushEmpty() to flush()
+- Documentation updates
+- Various build system improvements
+
+v0.0.2 (2015-04-27):
+- Documentation update
+
+v0.0.1 (2015-04-27):
+- Initial version
 
 # License
 

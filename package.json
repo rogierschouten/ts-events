@@ -1,6 +1,6 @@
 {
   "name": "ts-events",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Various EventEmitter event replacements with synchronous, a-synchronous, and queued events. Made in TypeScript so usable with JavaScript and TypeScript.",
   "main": "index.js",
   "typescript": {
@@ -11,8 +11,12 @@
   },
   "keywords": [
     "Event",
+    "Events",
+    "Signal",
+    "Signals",
     "EventEmitter",
     "event loop",
+    "eventloop",
     "event queue",
     "synchronous",
     "a-synchronous",
