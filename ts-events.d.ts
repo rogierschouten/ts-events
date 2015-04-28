@@ -221,11 +221,31 @@ declare module '__ts-events/lib/EventQueue' {
 }
 
 declare module '__ts-events/lib/base-event' {
+    /**
+        * Internal interface between BaseEvent and its subclasses
+        */
     export interface Listener<T> {
+            /**
+                * Indicates that the listener was detached
+                */
             deleted: boolean;
-            handler: (data: T) => void;
-            boundTo: Object;
+            /**
+                * The handler
+                */
+            handler?: (data: T) => void;
+            /**
+                * The this pointer for the handler
+                */
+            boundTo?: Object;
+            /**
+                * Instead of a handler, an attached event
+                */
+            event?: BaseEvent<T>;
     }
+    /**
+        * Base class for events.
+        * Handles attaching and detaching listeners
+        */
     export class BaseEvent<T> {
             /**
                 * Attach an event handler
@@ -239,6 +259,11 @@ declare module '__ts-events/lib/base-event' {
                 */
             attach(boundTo: Object, handler: (data: T) => void): void;
             /**
+                * Attach an event directly
+                * @param event The event to be posted
+                */
+            attach(event: BaseEvent<T>): void;
+            /**
                 * Detach all listeners with the given handler function
                 */
             detach(handler: (data: T) => void): void;
@@ -251,11 +276,32 @@ declare module '__ts-events/lib/base-event' {
                 */
             detach(boundTo: Object): void;
             /**
+                * Detach the given event.
+                */
+            detach(event: BaseEvent<T>): void;
+            /**
                 * Detach all listeners
                 */
             detach(): void;
+            /**
+                * Abstract post() method to be able to connect any type of event to any other directly
+                * @abstract
+                */
+            post(data: T): void;
+            /**
+                * The number of attached listeners
+                */
             listenerCount(): number;
+            /**
+                * @returns a shallow copy of the currently attached listeners
+                */
             protected _copyListeners(): Listener<T>[];
+            /**
+                * Call the given listener, if it is not marked as 'deleted'
+                * @param listener The listener to call
+                * @param args The arguments to the handler
+                */
+            protected _call(listener: Listener<T>, args: any[]): void;
     }
 }
 

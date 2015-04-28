@@ -61,6 +61,8 @@ evtChange.attach(function(s) {
 // attach a function bound to an object
 evtChange.attach(this, this.onChange);
 
+// directly attach another event
+evtChange.attach(this.evtChange);
 
 ```
 
@@ -313,25 +315,31 @@ There are clear semantics for the effect of attach() and detach(). These semanti
 * Attaching a handler to an event guarantees that the handler is called only for events posted after the call to attach(). Events that are already underway will not invoke the handler.
 * Detaching a handler from an event guarantees that it is not called anymore, even if there are events still queued.
 
-Attaching has two forms:
+Attaching has the following forms:
 
 ```javascript
 var obj = {};
 var handler = function() {
 };
+var myOtherEvent = new AsyncEvent();
+
 myEvent.attach(handler); // will call handler with this === myEvent
 myEvent.attach(obj, handler); // will call handler with this === obj
+myEvent.attach(myOtherEvent); // will post myOtherEvent
 ```
 
-Detaching has three forms:
+Detaching has the following forms:
 
 ```javascript
 var obj = {};
 var handler = function() {
 };
+var myOtherEvent = new AsyncEvent();
+
 myEvent.detach(handler); // detaches all instances of the given handler
 myEvent.detach(obj); // detaches all handlers bound to the given object
 myEvent.detach(obj, handler); // detaches only the given handler bound to the given object
+myEvent.detach(myOtherEvent); // detaches only myOtherEvent
 myEvent.detach(); // detaches all handlers
 ```
 

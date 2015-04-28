@@ -116,6 +116,19 @@ describe("SyncEvent", (): void => {
         });
         expect(callCount).to.equal(100);
     });
+    it("should allow attaching another event", (): void => {
+        var e = new SyncEvent<string>();
+        var f = new SyncEvent<string>();
+        var calledWith: string[] = [];
+        var g = (s: string): void => {
+            calledWith.push(s);
+        };
+        e.attach(f);
+        f.attach(g);
+        e.post("A");
+        e.post("B");
+        expect(calledWith).to.deep.equal(["A", "B"]);
+    });
 });
 
 describe("VoidSyncEvent", (): void => {

@@ -25,40 +25,22 @@
     },
     "filesGlob": [
         "./**/*.ts",
-        "!./node_modules/**/*.ts"
+        "!./node_modules/**/*.ts",
+        "!./**/*.d.ts"
     ],
     "files": [
-        "./examples/sync.d.ts",
         "./examples/sync.ts",
-        "./index.d.ts",
         "./index.ts",
-        "./lib/EventQueue.d.ts",
         "./lib/EventQueue.ts",
-        "./lib/async-event.d.ts",
         "./lib/async-event.ts",
-        "./lib/base-event.d.ts",
         "./lib/base-event.ts",
-        "./lib/queued-event.d.ts",
         "./lib/queued-event.ts",
-        "./lib/sync-event.d.ts",
         "./lib/sync-event.ts",
-        "./test/test-async-event.d.ts",
         "./test/test-async-event.ts",
         "./test/test-base-event.ts",
-        "./test/test-event-queue.d.ts",
         "./test/test-event-queue.ts",
-        "./test/test-index.d.ts",
         "./test/test-index.ts",
-        "./test/test-queued-event.d.ts",
         "./test/test-queued-event.ts",
-        "./test/test-sync-event.d.ts",
-        "./test/test-sync-event.ts",
-        "./ts-events.d.ts",
-        "./typings/chai/chai.d.ts",
-        "./typings/index.d.ts",
-        "./typings/mocha/mocha.d.ts",
-        "./typings/node/node.d.ts",
-        "./typings/source-map-support/source-map-support.d.ts",
-        "./typings/test.d.ts"
+        "./test/test-sync-event.ts"
     ]
 }

@@ -155,6 +155,23 @@ describe("AsyncEvent", function () {
             done();
         }, 0);
     });
+    it("should allow attaching another event", function () {
+        var e = new AsyncEvent();
+        var f = new AsyncEvent();
+        var calledWith = [];
+        var g = function (s) {
+            calledWith.push(s);
+        };
+        e.attach(f);
+        f.attach(g);
+        e.post("A");
+        e.post("B");
+        setImmediate(function () {
+            setImmediate(function () {
+                expect(calledWith).to.deep.equal(["A", "B"]);
+            });
+        });
+    });
 });
 describe("VoidAsyncEvent", function () {
     it("should allow sending event without parameters", function (done) {

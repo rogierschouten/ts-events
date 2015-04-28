@@ -133,6 +133,20 @@ describe("QueuedEvent", function () {
         tsevents.flushOnce();
         expect(calledWith).to.deep.equal(["A"]);
     });
+    it("should allow attaching another event", function () {
+        var e = new QueuedEvent();
+        var f = new QueuedEvent();
+        var calledWith = [];
+        var g = function (s) {
+            calledWith.push(s);
+        };
+        e.attach(f);
+        f.attach(g);
+        e.post("A");
+        e.post("B");
+        tsevents.flush();
+        expect(calledWith).to.deep.equal(["A", "B"]);
+    });
 });
 describe("VoidQueuedEvent", function () {
     it("should allow sending event without parameters", function () {

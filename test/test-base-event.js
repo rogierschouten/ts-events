@@ -11,6 +11,10 @@ var chai = require("chai");
 var expect = chai.expect;
 var baseEvent = require("../lib/base-event");
 var BaseEvent = baseEvent.BaseEvent;
+var tsevent = require("../index");
+var SyncEvent = tsevent.SyncEvent;
+var AsyncEvent = tsevent.AsyncEvent;
+var QueuedEvent = tsevent.QueuedEvent;
 var ListenerSub = (function (_super) {
     __extends(ListenerSub, _super);
     function ListenerSub() {
@@ -32,7 +36,7 @@ describe("BaseEvent", function () {
                 // nothing
             };
             l.attach(f);
-            expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: f, deleted: false }]);
+            expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: f, deleted: false, event: undefined }]);
         });
         it("should take a boundTo and a handler", function () {
             var t = {};
@@ -40,7 +44,22 @@ describe("BaseEvent", function () {
                 // nothing
             };
             l.attach(t, f);
-            expect(l.content()).to.deep.equal([{ boundTo: t, handler: f, deleted: false }]);
+            expect(l.content()).to.deep.equal([{ boundTo: t, handler: f, deleted: false, event: undefined }]);
+        });
+        it("should take a SyncEvent", function () {
+            var e = new SyncEvent();
+            l.attach(e);
+            expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
+        });
+        it("should take an AsyncEvent", function () {
+            var e = new AsyncEvent();
+            l.attach(e);
+            expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
+        });
+        it("should take a QueuedEvent", function () {
+            var e = new QueuedEvent();
+            l.attach(e);
+            expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
         });
     });
     describe("detach()", function () {
@@ -51,32 +70,46 @@ describe("BaseEvent", function () {
         var g = function (s) {
             // nothing
         };
+        var e = new SyncEvent();
         beforeEach(function () {
             l.attach(f);
             l.attach(t, f);
             l.attach(g);
             l.attach(t, g);
+            l.attach(e);
         });
         it("should delete by handler", function () {
             l.detach(f);
             expect(l.content()).to.deep.equal([
-                { boundTo: undefined, handler: g, deleted: false },
-                { boundTo: t, handler: g, deleted: false }
+                { boundTo: undefined, handler: g, deleted: false, event: undefined },
+                { boundTo: t, handler: g, deleted: false, event: undefined },
+                { boundTo: undefined, handler: undefined, deleted: false, event: e }
             ]);
         });
         it("should delete by boundTo", function () {
             l.detach(t);
             expect(l.content()).to.deep.equal([
-                { boundTo: undefined, handler: f, deleted: false },
-                { boundTo: undefined, handler: g, deleted: false }
+                { boundTo: undefined, handler: f, deleted: false, event: undefined },
+                { boundTo: undefined, handler: g, deleted: false, event: undefined },
+                { boundTo: undefined, handler: undefined, deleted: false, event: e }
             ]);
         });
         it("should delete by boundTo and handler", function () {
             l.detach(t, f);
             expect(l.content()).to.deep.equal([
-                { boundTo: undefined, handler: f, deleted: false },
-                { boundTo: undefined, handler: g, deleted: false },
-                { boundTo: t, handler: g, deleted: false }
+                { boundTo: undefined, handler: f, deleted: false, event: undefined },
+                { boundTo: undefined, handler: g, deleted: false, event: undefined },
+                { boundTo: t, handler: g, deleted: false, event: undefined },
+                { boundTo: undefined, handler: undefined, deleted: false, event: e }
+            ]);
+        });
+        it("should delete by event", function () {
+            l.detach(e);
+            expect(l.content()).to.deep.equal([
+                { boundTo: undefined, handler: f, deleted: false, event: undefined },
+                { boundTo: t, handler: f, deleted: false, event: undefined },
+                { boundTo: undefined, handler: g, deleted: false, event: undefined },
+                { boundTo: t, handler: g, deleted: false, event: undefined }
             ]);
         });
         it("should delete all", function () {

@@ -46,9 +46,7 @@ export class SyncEvent<T> extends BaseEvent<T> {
         var listeners = this._copyListeners();
         for (var i = 0; i < listeners.length; ++i) {
             var listener = listeners[i];
-            if (!listener.deleted) {
-                listener.handler.apply((typeof listener.boundTo === "object" ? listener.boundTo : this), args);
-            }
+            this._call(listener, args);
         }
         this._recursion--;
     }

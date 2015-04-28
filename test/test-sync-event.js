@@ -108,6 +108,19 @@ describe("SyncEvent", function () {
         });
         expect(callCount).to.equal(100);
     });
+    it("should allow attaching another event", function () {
+        var e = new SyncEvent();
+        var f = new SyncEvent();
+        var calledWith = [];
+        var g = function (s) {
+            calledWith.push(s);
+        };
+        e.attach(f);
+        f.attach(g);
+        e.post("A");
+        e.post("B");
+        expect(calledWith).to.deep.equal(["A", "B"]);
+    });
 });
 describe("VoidSyncEvent", function () {
     it("should allow sending event without parameters", function () {

@@ -97,9 +97,7 @@ export class AsyncEvent<T> extends BaseEvent<T> {
                     var data = this._queuedData;
                     for (var i = 0; i < listeners.length; ++i) {
                         var listener = listeners[i];
-                        if (!listener.deleted) {
-                            listener.handler.apply((typeof listener.boundTo === "object" ? listener.boundTo : this), data);
-                        }
+                        this._call(listener, data);
                     }
                 });
             }
@@ -108,9 +106,7 @@ export class AsyncEvent<T> extends BaseEvent<T> {
             AsyncEvent._scheduler((): void => {
                 for (var i = 0; i < listeners.length; ++i) {
                     var listener = listeners[i];
-                    if (!listener.deleted) {
-                        listener.handler.apply((typeof listener.boundTo === "object" ? listener.boundTo : this), args);
-                    }
+                    this._call(listener, args);
                 }
             });
         }

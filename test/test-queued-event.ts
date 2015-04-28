@@ -137,7 +137,20 @@ describe("QueuedEvent", (): void => {
         tsevents.flushOnce();
         expect(calledWith).to.deep.equal(["A"]);
     });
-
+    it("should allow attaching another event", (): void => {
+        var e = new QueuedEvent<string>();
+        var f = new QueuedEvent<string>();
+        var calledWith: string[] = [];
+        var g = (s: string): void => {
+            calledWith.push(s);
+        };
+        e.attach(f);
+        f.attach(g);
+        e.post("A");
+        e.post("B");
+        tsevents.flush();
+        expect(calledWith).to.deep.equal(["A", "B"]);
+    });
 });
 
 describe("VoidQueuedEvent", (): void => {
