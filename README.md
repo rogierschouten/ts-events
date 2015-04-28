@@ -2,7 +2,7 @@
 
 A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter, and instead makes each event into a member which is its own little emitter.
 
-# TL;DR
+## TL;DR
 
 Synchronous events:
 
@@ -68,7 +68,7 @@ evtChange.attach(this.evtChange);
 
 
 
-# Features
+## Features
 
 * Each event is a member, and its own little event emitter. Because of this, you have a place for comments to document them. And adding handlers is no longer on string basis.
 * For TypeScript users: made in TypeScript and type-safe. Typings are in ts-events.d.ts
@@ -79,13 +79,13 @@ evtChange.attach(this.evtChange);
 * Attach handlers bound to a certain object, i.e. no need for .bind(this)
 * Detach one handler, all handlers, or all handlers bound to a certain object
 
-# Documentation
+## Documentation
 
 For class documentation, see ./doc/index.html
 
-# Usage
+## Usage
 
-## Event types
+### Event types
 
 ts-event supports three event types: Synchronous, A-synchronous and Queued. Here is a comparison:
 
@@ -97,7 +97,7 @@ ts-event supports three event types: Synchronous, A-synchronous and Queued. Here
 
 In the table above, "condensable" means that you can choose to condense multiple sent events into one: e.g. for an a-synchronous event, you can opt that if it is sent more than once in a Node.JS cycle, the event handlers are invoked only once.
 
-## Syncronous Events
+### Syncronous Events
 
 If you want EventEmitter-style events, then use SyncEvent. The handlers of SyncEvents are called directly when you emit the event.
 
@@ -189,12 +189,12 @@ ctr.inc();
 // Here, the event handler is already called and you see a log line on the console
 ```
 
-### Recursion protection
+#### Recursion protection
 
 Suppose that the handler for an event - directly or indirectly - causes the same event to be sent. For synchronous events, this would mean an infinite loop. SyncEvents have protection built-in: if a handler causes the same event to get posted 10 times recursively, an error is thrown. You can change or disable this behaviour with the static variable SyncEvent.MAX_RECURSION_DEPTH. Set it to null to disable or to a number greater than 0 to trigger the error sooner or later.
 
 
-## A-synchronous events
+### A-synchronous events
 
 Synchronous events (like Node.JS EventEmitter events) have the nasty habit of invoking handlers when they don't expect it.
 Therefore we also have a-synchronous events: when you post an a-synchronous event, the handlers are called in the next Node.JS cycle. To use, simply use AsyncEvent instead of SyncEvent in the example above.
@@ -211,7 +211,7 @@ AsyncEvent.setScheduler(function(callback) {
 })
 ```
 
-## Queued events
+### Queued events
 
 For  fine-grained control, use a QueuedEvent instead of an AsyncEvent. All queued events remain in one queue until you flush it.
 
@@ -256,7 +256,7 @@ tsevent.flush();
 
 ```
 
-### Creating your own event queues
+#### Creating your own event queues
 
 You can put different events in different queues. By default, all events go into one global queue. To assign a specific queue to an event, do this:
 
@@ -275,7 +275,7 @@ myEvent.post("hi!");
 myQueue.flush();
 ```
 
-### flushOnce() vs flush()
+#### flushOnce() vs flush()
 
 Event queues have two flush functions:
 * flushOnce() calls all the events that are in the queue at the time of the call.
@@ -283,7 +283,7 @@ Event queues have two flush functions:
 
 The flush() function has a safeguard: by default, if it needs more than 10 iterations to clear the queue, it throws an error saying there is an endless recursion going on. You can give it a different limit if you like. Simply call e.g. flush(100) to set the limit to 100.
 
-## Condensing events
+### Condensing events
 
 For a-synchronous events and for queued events, you can opt to condense multiple post() calls into one. If multiple post() calls happen before the handlers are called, the handlers are invoked only once, with the argument from the last post() call.
 
@@ -304,11 +304,11 @@ myEvent.post("bye!");
 
 ```
 
-## Binding to objects
+### Binding to objects
 
 There is no need to use .bind(this) when attaching a handler. Simply call myEvent.attach(this, myFunc);
 
-## Attaching and Detaching
+### Attaching and Detaching
 
 There are clear semantics for the effect of attach() and detach(). These semantics were chosen to prevent surprises, however there is no reason why we should not support different semantics in the future. Please submit an issue if you need a different implementation.
 
@@ -343,7 +343,7 @@ myEvent.detach(myOtherEvent); // detaches only myOtherEvent
 myEvent.detach(); // detaches all handlers
 ```
 
-## Error events
+### Error events
 
 EventEmitter treats "error" events differently. If you emit them at a time when there are no listeners attached, then an error is thrown. You can get the same behaviour by using an ErrorSyncEvent, ErrorAsyncEvent or ErrorQueuedEvent.
 
@@ -360,11 +360,11 @@ myEvent.attach(function(e){});
 myEvent.post(new Error("foo"));
 ```
 
-## For TypeScript users
+### For TypeScript users
 
 This section is for using this module with TypeScript.
 
-### Typings
+#### Typings
 
 A typings file is delivered with the module, so no need for DefinitelyTyped. Simply use:
 
@@ -372,11 +372,11 @@ A typings file is delivered with the module, so no need for DefinitelyTyped. Sim
 /// <reference path="node_modules/ts-event/ts-event.d.ts">
 ```
 
-### Single argument
+#### Single argument
 
 We chose to make this module type-safe. Due to the limitations of template parameters in TypeScript, this causes you to be limited to one argument in your event handlers. In practice, this is not much of a problem because you can always make the argument an interface with multiple members.
 
-## No arguments
+#### No arguments
 
 Another TypeScript annoyance: when you create an event with a void argument, TypeScript forces you to pass 'undefined' to post(). To overcome this, we added VoidSyncEvent,  VoidAsyncEvent and VoidQueuedEvent classes.
 
@@ -391,7 +391,7 @@ var myEvent = new VoidSyncEvent();
 myEvent.post(); // no need to pass 'undefined'
 ```
 
-# Changelog
+## Changelog
 
 v0.0.3 (2015-04-28):
 - Feature: allow to attach any event to any other event directly
@@ -406,7 +406,7 @@ v0.0.2 (2015-04-27):
 v0.0.1 (2015-04-27):
 - Initial version
 
-# License
+## License
 
 Copyright (c) 2015 Rogier Schouten <github@workingcode.ninja>
 ISC (see LICENSE file in repository root).
