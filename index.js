@@ -1,6 +1,7 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 /// <reference path="./typings/index.d.ts"/>
 "use strict";
+/* tslint:disable:no-unused-expression */
 var syncEvent = require("./lib/sync-event");
 syncEvent;
 exports.SyncEvent = syncEvent.SyncEvent;
@@ -12,7 +13,7 @@ exports.QueuedEvent = queuedEvent.QueuedEvent;
 exports.VoidQueuedEvent = queuedEvent.VoidQueuedEvent;
 exports.ErrorQueuedEvent = queuedEvent.ErrorQueuedEvent;
 var asyncEvent = require("./lib/async-event");
-exports.AsyncEvent;
+asyncEvent;
 exports.AsyncEvent = asyncEvent.AsyncEvent;
 exports.VoidAsyncEvent = asyncEvent.VoidAsyncEvent;
 exports.ErrorAsyncEvent = asyncEvent.ErrorAsyncEvent;

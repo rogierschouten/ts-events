@@ -4,6 +4,8 @@
 
 "use strict";
 
+/* tslint:disable:no-unused-expression */
+
 import syncEvent = require("./lib/sync-event"); syncEvent;
 export import SyncEvent = syncEvent.SyncEvent;
 export import VoidSyncEvent = syncEvent.VoidSyncEvent;
@@ -14,7 +16,7 @@ export import QueuedEvent = queuedEvent.QueuedEvent;
 export import VoidQueuedEvent = queuedEvent.VoidQueuedEvent;
 export import ErrorQueuedEvent = queuedEvent.ErrorQueuedEvent;
 
-import asyncEvent = require("./lib/async-event"); AsyncEvent;
+import asyncEvent = require("./lib/async-event"); asyncEvent;
 export import AsyncEvent = asyncEvent.AsyncEvent;
 export import VoidAsyncEvent = asyncEvent.VoidAsyncEvent;
 export import ErrorAsyncEvent = asyncEvent.ErrorAsyncEvent;

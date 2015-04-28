@@ -391,6 +391,15 @@ var myEvent = new VoidSyncEvent();
 myEvent.post(); // no need to pass 'undefined'
 ```
 
+# Changelog
+
+v0.0.3 (2015-04-28):
+- Allow to attach events to events
+- Allow to disable recursion protection mechanism for SyncEvents
+- Renamed flushEmpty() to flush()
+v0.0.2 (2015-04-27): Documentation update
+v0.0.1 (2015-04-27): Initial version
+
 # License
 
 Copyright (c) 2015 Rogier Schouten <github@workingcode.ninja>
