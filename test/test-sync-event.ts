@@ -12,6 +12,13 @@ import tsevents = require("../index");
 import SyncEvent = tsevents.SyncEvent;
 
 describe("SyncEvent", (): void => {
+
+    var defaultRecursionDepth = SyncEvent.MAX_RECURSION_DEPTH;
+
+    afterEach((): void => {
+        SyncEvent.MAX_RECURSION_DEPTH = defaultRecursionDepth;
+    });
+
     it("should send events", (): void => {
         var e = new SyncEvent<string>();
         var calledWith: string[] = [];
@@ -92,6 +99,22 @@ describe("SyncEvent", (): void => {
             e.post("A");
         });
         expect(callCount).to.equal(SyncEvent.MAX_RECURSION_DEPTH);
+    });
+    it("should allow disabling recursion protection", (): void => {
+        SyncEvent.MAX_RECURSION_DEPTH = null;
+        var e = new SyncEvent<string>();
+        var callCount: number = 0;
+        var f = (s: string): void => {
+            callCount++;
+            if (callCount < 100) {
+                e.post("A");
+            }
+        };
+        e.attach(f);
+        assert.doesNotThrow((): void => {
+            e.post("A");
+        });
+        expect(callCount).to.equal(100);
     });
 });
 

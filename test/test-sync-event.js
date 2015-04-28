@@ -7,6 +7,10 @@ var expect = chai.expect;
 var tsevents = require("../index");
 var SyncEvent = tsevents.SyncEvent;
 describe("SyncEvent", function () {
+    var defaultRecursionDepth = SyncEvent.MAX_RECURSION_DEPTH;
+    afterEach(function () {
+        SyncEvent.MAX_RECURSION_DEPTH = defaultRecursionDepth;
+    });
     it("should send events", function () {
         var e = new SyncEvent();
         var calledWith = [];
@@ -87,6 +91,22 @@ describe("SyncEvent", function () {
             e.post("A");
         });
         expect(callCount).to.equal(SyncEvent.MAX_RECURSION_DEPTH);
+    });
+    it("should allow disabling recursion protection", function () {
+        SyncEvent.MAX_RECURSION_DEPTH = null;
+        var e = new SyncEvent();
+        var callCount = 0;
+        var f = function (s) {
+            callCount++;
+            if (callCount < 100) {
+                e.post("A");
+            }
+        };
+        e.attach(f);
+        assert.doesNotThrow(function () {
+            e.post("A");
+        });
+        expect(callCount).to.equal(100);
     });
 });
 describe("VoidSyncEvent", function () {

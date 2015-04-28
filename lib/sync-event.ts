@@ -39,7 +39,8 @@ export class SyncEvent<T> extends Listenable<T> {
     public post(data: T): void;
     public post(...args: any[]): void {
         this._recursion++;
-        if (this._recursion > SyncEvent.MAX_RECURSION_DEPTH) {
+        if (SyncEvent.MAX_RECURSION_DEPTH > 0 &&
+            this._recursion > SyncEvent.MAX_RECURSION_DEPTH) {
             throw new Error("event fired recursively");
         }
         var listeners = this._copyListeners();

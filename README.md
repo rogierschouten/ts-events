@@ -78,7 +78,7 @@ ts-event supports three event types: Synchronous, A-synchronous and Queued. Here
 
 In the table above, "condensable" means that you can choose to condense multiple sent events into one: e.g. for an a-synchronous event, you can opt that if it is sent more than once in a Node.JS cycle, the event handlers are invoked only once.
 
-## Replacing EventEmitter
+## Syncronous Events
 
 If you want EventEmitter-style events, then use SyncEvent. The handlers of SyncEvents are called directly when you emit the event.
 
@@ -169,6 +169,11 @@ ctr.evtChanged.attach((n: number): void => {
 ctr.inc();
 // Here, the event handler is already called and you see a log line on the console
 ```
+
+### Recursion protection
+
+Suppose that the handler for an event - directly or indirectly - causes the same event to be sent. For synchronous events, this would mean an infinite loop. SyncEvents have protection built-in: if a handler causes the same event to get posted 10 times recursively, an error is thrown. You can change or disable this behaviour with the static variable SyncEvent.MAX_RECURSION_DEPTH. Set it to null to disable or to a number greater than 0 to trigger the error sooner or later.
+
 
 ## A-synchronous events
 
