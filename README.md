@@ -1,3 +1,10 @@
+[![NPM version](https://badge.fury.io/js/ts-events.svg)](http://badge.fury.io/js/ts-events)
+![license](http://img.shields.io/npm/l/ts-events.svg)
+
+[![NPM](https://nodei.co/npm/ts-events.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ts-events/)
+[![NPM](https://nodei.co/npm-dl/ts-events.png?months=6&height=3)](https://nodei.co/npm/ts-events/)
+
+
 # ts-events
 
 A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter, and instead makes each event into a member which is its own little emitter.
