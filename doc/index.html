@@ -364,6 +364,7 @@ myEvent.detach(obj, handler); <span class="hljs-comment">// detaches only the gi
 myEvent.detach(myOtherEvent); <span class="hljs-comment">// detaches only myOtherEvent</span>
 myEvent.detach(); <span class="hljs-comment">// detaches all handlers</span>
 </code></pre>
+				<p>Note that when you attach an AsyncEvent to another AsyncEvent, the handlers of both events are called in the very next cycle, i.e. it does not take 2 cycles to call all handlers. This is &#39;decoupled enough&#39; for most purposes and reduces latency.</p>
 				<h3 id="error-events">Error events</h3>
 				<p>EventEmitter treats &quot;error&quot; events differently. If you emit them at a time when there are no listeners attached, then an error is thrown. You can get the same behaviour by using an ErrorSyncEvent, ErrorAsyncEvent or ErrorQueuedEvent.</p>
 				<pre><code class="lang-javascript">
@@ -397,6 +398,10 @@ myEvent.post(<span class="hljs-literal">undefined</span>)
 myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 </code></pre>
 				<h2 id="changelog">Changelog</h2>
+				<p>v0.0.6 (2015-04-29):</p>
+				<ul>
+					<li>Performance improvements</li>
+				</ul>
 				<p>v0.0.5 (2015-04-29):</p>
 				<ul>
 					<li>Fix NPM warning about package.json repository field</li>
@@ -422,7 +427,7 @@ myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 					<li>Initial version</li>
 				</ul>
 				<h2 id="license">License</h2>
-				<p>Copyright (c) 2015 Rogier Schouten <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#x3a;&#103;&#105;&#116;&#x68;&#x75;&#x62;&#64;&#x77;&#x6f;&#x72;&#107;&#x69;&#110;&#103;&#x63;&#x6f;&#100;&#x65;&#46;&#x6e;&#x69;&#110;&#x6a;&#97;">&#103;&#105;&#116;&#x68;&#x75;&#x62;&#64;&#x77;&#x6f;&#x72;&#107;&#x69;&#110;&#103;&#x63;&#x6f;&#100;&#x65;&#46;&#x6e;&#x69;&#110;&#x6a;&#97;</a>
+				<p>Copyright (c) 2015 Rogier Schouten <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#103;&#x69;&#116;&#104;&#x75;&#98;&#x40;&#119;&#x6f;&#x72;&#x6b;&#105;&#110;&#x67;&#99;&#x6f;&#x64;&#x65;&#46;&#110;&#x69;&#110;&#106;&#x61;">&#103;&#x69;&#116;&#104;&#x75;&#98;&#x40;&#119;&#x6f;&#x72;&#x6b;&#105;&#110;&#x67;&#99;&#x6f;&#x64;&#x65;&#46;&#110;&#x69;&#110;&#106;&#x61;</a>
 				ISC (see LICENSE file in repository root).</p>
 			</div>
 		</div>

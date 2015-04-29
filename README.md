@@ -351,6 +351,8 @@ myEvent.detach(myOtherEvent); // detaches only myOtherEvent
 myEvent.detach(); // detaches all handlers
 ```
 
+Note that when you attach an AsyncEvent to another AsyncEvent, the handlers of both events are called in the very next cycle, i.e. it does not take 2 cycles to call all handlers. This is 'decoupled enough' for most purposes and reduces latency.
+
 ### Error events
 
 EventEmitter treats "error" events differently. If you emit them at a time when there are no listeners attached, then an error is thrown. You can get the same behaviour by using an ErrorSyncEvent, ErrorAsyncEvent or ErrorQueuedEvent.
@@ -400,6 +402,9 @@ myEvent.post(); // no need to pass 'undefined'
 ```
 
 ## Changelog
+
+v0.0.6 (2015-04-29):
+- Performance improvements
 
 v0.0.5 (2015-04-29):
 - Fix NPM warning about package.json repository field
