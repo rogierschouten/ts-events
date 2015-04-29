@@ -166,10 +166,26 @@ describe("AsyncEvent", function () {
         f.attach(g);
         e.post("A");
         e.post("B");
+        expect(calledWith).to.deep.equal([]);
         setImmediate(function () {
             setImmediate(function () {
                 expect(calledWith).to.deep.equal(["A", "B"]);
             });
+        });
+    });
+    it("should condense attached async events into the same cycle", function () {
+        var e = new AsyncEvent();
+        var f = new AsyncEvent();
+        var calledWith = [];
+        var g = function (s) {
+            calledWith.push(s);
+        };
+        e.attach(f);
+        f.attach(g);
+        e.post("A");
+        e.post("B");
+        setImmediate(function () {
+            expect(calledWith).to.deep.equal(["A", "B"]);
         });
     });
 });

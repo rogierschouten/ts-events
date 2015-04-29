@@ -173,10 +173,26 @@ describe("AsyncEvent", (): void => {
         f.attach(g);
         e.post("A");
         e.post("B");
+        expect(calledWith).to.deep.equal([]);
         setImmediate((): void => {
             setImmediate((): void => {
                 expect(calledWith).to.deep.equal(["A", "B"]);
             });
+        });
+    });
+    it("should condense attached async events into the same cycle", (): void => {
+        var e = new AsyncEvent<string>();
+        var f = new AsyncEvent<string>();
+        var calledWith: string[] = [];
+        var g = (s: string): void => {
+            calledWith.push(s);
+        };
+        e.attach(f);
+        f.attach(g);
+        e.post("A");
+        e.post("B");
+        setImmediate((): void => {
+            expect(calledWith).to.deep.equal(["A", "B"]);
         });
     });
 

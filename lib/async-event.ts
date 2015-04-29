@@ -112,6 +112,29 @@ export class AsyncEvent<T> extends BaseEvent<T> {
         }
     }
 
+    // inherited
+    protected _call(listener: Listener<T>, args: any[]): void {
+        // performance optimization: don't use consecutive nodejs cycles
+        // for asyncevents attached to asyncevents
+        if (listener.event && listener.event instanceof AsyncEvent) {
+            (<AsyncEvent<T>>listener.event)._postDirect(args);
+        } else {
+            super._call(listener, args);
+        }
+    }
+
+    /**
+     * Performance optimization: if this async signal is attached to another
+     * async signal, we're already a the next cycle and we can call listeners
+     * directly
+     */
+    protected _postDirect(args: any[]): void {
+        var listeners = this._copyListeners();
+        for (var i = 0; i < listeners.length; ++i) {
+            var listener = listeners[i];
+            this._call(listener, args);
+        }
+    }
 }
 
 /**

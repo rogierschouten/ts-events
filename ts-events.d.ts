@@ -131,6 +131,7 @@ declare module '__ts-events/lib/queued-event' {
 declare module '__ts-events/lib/async-event' {
     import baseEvent = require("__ts-events/lib/base-event");
     import BaseEvent = baseEvent.BaseEvent;
+    import Listener = baseEvent.Listener;
     /**
         * Options for the AsyncEvent constructor
         */
@@ -168,6 +169,13 @@ declare module '__ts-events/lib/async-event' {
                 * Send the AsyncEvent. Handlers are called in the next Node.JS cycle.
                 */
             post(data: T): void;
+            protected _call(listener: Listener<T>, args: any[]): void;
+            /**
+                * Performance optimization: if this async signal is attached to another
+                * async signal, we're already a the next cycle and we can call listeners
+                * directly
+                */
+            protected _postDirect(args: any[]): void;
     }
     /**
         * Convenience class for AsyncEvents without data
