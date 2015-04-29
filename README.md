@@ -401,6 +401,9 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v0.0.5 (2015-04-29):
+- Fix NPM warning about package.json repository field
+
 v0.0.4 (2015-04-29):
 - Fix missing ts-events.d.ts in published module
 
