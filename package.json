@@ -1,8 +1,13 @@
 {
   "name": "ts-events",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Various EventEmitter event replacements with synchronous, a-synchronous, and queued events. Made in TypeScript so usable with JavaScript and TypeScript.",
   "main": "index.js",
+  "homepage": "https://github.com/rogierschouten/ts-events",
+  "bugs": {
+    "url": "https://github.com/rogierschouten/ts-events/issues",
+	"email" : "github@workingcode.ninja"
+  },
   "typescript": {
     "definition": "ts-events.d.ts"
   },
@@ -24,7 +29,10 @@
     "TypeScript",
     "Callback"
   ],
-  "author": "Rogier Schouten <github@workingcode.ninja>",
+  "author": {
+	"name": "Rogier Schouten",
+	"email": "github@workingcode.ninja"
+  },
   "license": "ISC",
   "devDependencies": {
     "chai": "^2.3.0",

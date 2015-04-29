@@ -401,6 +401,9 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v0.0.4 (2015-04-29):
+- Fix missing ts-events.d.ts in published module
+
 v0.0.3 (2015-04-28):
 - Feature: allow to attach any event to any other event directly
 - Feature: allow to disable recursion protection mechanism for SyncEvents
