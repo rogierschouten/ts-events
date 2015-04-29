@@ -45,6 +45,6 @@ Temporary Items
 # node modules and temp output
 /coverage
 /node_modules
-*.d.ts
-!ts-events.d.ts
-
+index.d.ts
+lib/*.d.ts
+test/*.d.ts

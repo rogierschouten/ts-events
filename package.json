@@ -6,7 +6,7 @@
   "homepage": "https://github.com/rogierschouten/ts-events",
   "bugs": {
     "url": "https://github.com/rogierschouten/ts-events/issues",
-	"email" : "github@workingcode.ninja"
+    "email": "github@workingcode.ninja"
   },
   "typescript": {
     "definition": "ts-events.d.ts"
@@ -30,8 +30,8 @@
     "Callback"
   ],
   "author": {
-	"name": "Rogier Schouten",
-	"email": "github@workingcode.ninja"
+    "name": "Rogier Schouten",
+    "email": "github@workingcode.ninja"
   },
   "license": "ISC",
   "devDependencies": {

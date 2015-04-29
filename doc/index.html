@@ -65,9 +65,14 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
+				<p><a href="http://badge.fury.io/js/ts-events"><img src="https://badge.fury.io/js/ts-events.svg" alt="NPM version"></a>
+				<img src="http://img.shields.io/npm/l/ts-events.svg" alt="license"></p>
+				<p><a href="https://nodei.co/npm/ts-events/"><img src="https://nodei.co/npm/ts-events.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM"></a>
+				<a href="https://nodei.co/npm/ts-events/"><img src="https://nodei.co/npm-dl/ts-events.png?months=9&amp;height=3" alt="NPM"></a></p>
 				<h1 id="ts-events">ts-events</h1>
-				<p>A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter, and instead makes each event into a member which is its own little emitter.</p>
-				<h1 id="tl-dr">TL;DR</h1>
+				<p>A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter, and instead makes each event into a member which is its own little emitter.
+				Implemented in TypeScript (typings file included) and usable with JavaScript as well.</p>
+				<h2 id="tl-dr">TL;DR</h2>
 				<p>Synchronous events:</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
 <span class="hljs-keyword">var</span> SyncEvent = tsevents.SyncEvent;
@@ -117,7 +122,7 @@ evtChange.attach(<span class="hljs-keyword">this</span>, <span class="hljs-keywo
 <span class="hljs-comment">// directly attach another event</span>
 evtChange.attach(<span class="hljs-keyword">this</span>.evtChange);
 </code></pre>
-				<h1 id="features">Features</h1>
+				<h2 id="features">Features</h2>
 				<ul>
 					<li>Each event is a member, and its own little event emitter. Because of this, you have a place for comments to document them. And adding handlers is no longer on string basis.</li>
 					<li>For TypeScript users: made in TypeScript and type-safe. Typings are in ts-events.d.ts</li>
@@ -128,10 +133,10 @@ evtChange.attach(<span class="hljs-keyword">this</span>.evtChange);
 					<li>Attach handlers bound to a certain object, i.e. no need for .bind(this)</li>
 					<li>Detach one handler, all handlers, or all handlers bound to a certain object</li>
 				</ul>
-				<h1 id="documentation">Documentation</h1>
+				<h2 id="documentation">Documentation</h2>
 				<p>For class documentation, see ./doc/index.html</p>
-				<h1 id="usage">Usage</h1>
-				<h2 id="event-types">Event types</h2>
+				<h2 id="usage">Usage</h2>
+				<h3 id="event-types">Event types</h3>
 				<p>ts-event supports three event types: Synchronous, A-synchronous and Queued. Here is a comparison:</p>
 				<table>
 					<thead>
@@ -160,7 +165,7 @@ evtChange.attach(<span class="hljs-keyword">this</span>.evtChange);
 					</tbody>
 				</table>
 				<p>In the table above, &quot;condensable&quot; means that you can choose to condense multiple sent events into one: e.g. for an a-synchronous event, you can opt that if it is sent more than once in a Node.JS cycle, the event handlers are invoked only once.</p>
-				<h2 id="syncronous-events">Syncronous Events</h2>
+				<h3 id="synchronous-events">Synchronous Events</h3>
 				<p>If you want EventEmitter-style events, then use SyncEvent. The handlers of SyncEvents are called directly when you emit the event.</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
 <span class="hljs-keyword">var</span> SyncEvent = tsevents.SyncEvent;
@@ -238,9 +243,9 @@ ctr.evtChanged.attach((n: number): <span class="hljs-keyword">void</span> =&gt; 
 ctr.inc();
 <span class="hljs-comment">// Here, the event handler is already called and you see a log line on the console</span>
 </code></pre>
-				<h3 id="recursion-protection">Recursion protection</h3>
+				<h4 id="recursion-protection">Recursion protection</h4>
 				<p>Suppose that the handler for an event - directly or indirectly - causes the same event to be sent. For synchronous events, this would mean an infinite loop. SyncEvents have protection built-in: if a handler causes the same event to get posted 10 times recursively, an error is thrown. You can change or disable this behaviour with the static variable SyncEvent.MAX_RECURSION_DEPTH. Set it to null to disable or to a number greater than 0 to trigger the error sooner or later.</p>
-				<h2 id="a-synchronous-events">A-synchronous events</h2>
+				<h3 id="a-synchronous-events">A-synchronous events</h3>
 				<p>Synchronous events (like Node.JS EventEmitter events) have the nasty habit of invoking handlers when they don&#39;t expect it.
 				Therefore we also have a-synchronous events: when you post an a-synchronous event, the handlers are called in the next Node.JS cycle. To use, simply use AsyncEvent instead of SyncEvent in the example above.</p>
 				<p>By default, AsyncEvent uses setImmediate() to defer a call to the next Node.JS cycle. You can change that by calling the static function AsyncEvent.setScheduler().</p>
@@ -252,7 +257,7 @@ AsyncEvent.setScheduler(<span class="hljs-function"><span class="hljs-keyword">f
     setTimeout(callback, <span class="hljs-number">0</span>);
 })
 </code></pre>
-				<h2 id="queued-events">Queued events</h2>
+				<h3 id="queued-events">Queued events</h3>
 				<p>For  fine-grained control, use a QueuedEvent instead of an AsyncEvent. All queued events remain in one queue until you flush it.</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
 <span class="hljs-keyword">var</span> QueuedEvent = tsevents.QueuedEvent;
@@ -291,7 +296,7 @@ ctr.inc();
 tsevent.flush();
 <span class="hljs-comment">// Here, the handler is called</span>
 </code></pre>
-				<h3 id="creating-your-own-event-queues">Creating your own event queues</h3>
+				<h4 id="creating-your-own-event-queues">Creating your own event queues</h4>
 				<p>You can put different events in different queues. By default, all events go into one global queue. To assign a specific queue to an event, do this:</p>
 				<pre><code class="lang-javascript">
 <span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
@@ -306,14 +311,14 @@ myEvent.post(<span class="hljs-string">"hi!"</span>);
 <span class="hljs-comment">// flush only my own queue</span>
 myQueue.flush();
 </code></pre>
-				<h3 id="flushonce-vs-flush-">flushOnce() vs flush()</h3>
+				<h4 id="flushonce-vs-flush-">flushOnce() vs flush()</h4>
 				<p>Event queues have two flush functions:</p>
 				<ul>
 					<li>flushOnce() calls all the events that are in the queue at the time of the call.</li>
 					<li>flush() keeps clearing the queue until it remains empty, i.e. events added by event handlers are also called.</li>
 				</ul>
 				<p>The flush() function has a safeguard: by default, if it needs more than 10 iterations to clear the queue, it throws an error saying there is an endless recursion going on. You can give it a different limit if you like. Simply call e.g. flush(100) to set the limit to 100.</p>
-				<h2 id="condensing-events">Condensing events</h2>
+				<h3 id="condensing-events">Condensing events</h3>
 				<p>For a-synchronous events and for queued events, you can opt to condense multiple post() calls into one. If multiple post() calls happen before the handlers are called, the handlers are invoked only once, with the argument from the last post() call.</p>
 				<pre><code class="lang-javascript">
 <span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
@@ -329,9 +334,9 @@ myEvent.post(<span class="hljs-string">"bye!"</span>);
 
 <span class="hljs-comment">// after a cycle, only 'bye!' is logged to the console</span>
 </code></pre>
-				<h2 id="binding-to-objects">Binding to objects</h2>
+				<h3 id="binding-to-objects">Binding to objects</h3>
 				<p>There is no need to use .bind(this) when attaching a handler. Simply call myEvent.attach(this, myFunc);</p>
-				<h2 id="attaching-and-detaching">Attaching and Detaching</h2>
+				<h3 id="attaching-and-detaching">Attaching and Detaching</h3>
 				<p>There are clear semantics for the effect of attach() and detach(). These semantics were chosen to prevent surprises, however there is no reason why we should not support different semantics in the future. Please submit an issue if you need a different implementation.</p>
 				<ul>
 					<li>Attaching a handler to an event guarantees that the handler is called only for events posted after the call to attach(). Events that are already underway will not invoke the handler.</li>
@@ -359,7 +364,7 @@ myEvent.detach(obj, handler); <span class="hljs-comment">// detaches only the gi
 myEvent.detach(myOtherEvent); <span class="hljs-comment">// detaches only myOtherEvent</span>
 myEvent.detach(); <span class="hljs-comment">// detaches all handlers</span>
 </code></pre>
-				<h2 id="error-events">Error events</h2>
+				<h3 id="error-events">Error events</h3>
 				<p>EventEmitter treats &quot;error&quot; events differently. If you emit them at a time when there are no listeners attached, then an error is thrown. You can get the same behaviour by using an ErrorSyncEvent, ErrorAsyncEvent or ErrorQueuedEvent.</p>
 				<pre><code class="lang-javascript">
 <span class="hljs-keyword">var</span> myEvent = <span class="hljs-keyword">new</span> ErrorSyncEvent();
@@ -372,15 +377,15 @@ myEvent.attach(<span class="hljs-function"><span class="hljs-keyword">function</
 <span class="hljs-comment">// this simply calls the event handler with the given error</span>
 myEvent.post(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"foo"</span>));
 </code></pre>
-				<h2 id="for-typescript-users">For TypeScript users</h2>
+				<h3 id="for-typescript-users">For TypeScript users</h3>
 				<p>This section is for using this module with TypeScript.</p>
-				<h3 id="typings">Typings</h3>
+				<h4 id="typings">Typings</h4>
 				<p>A typings file is delivered with the module, so no need for DefinitelyTyped. Simply use:</p>
 				<pre><code class="lang-javascript"><span class="hljs-comment">/// &lt;reference path="node_modules/ts-event/ts-event.d.ts"&gt;</span>
 </code></pre>
-				<h3 id="single-argument">Single argument</h3>
+				<h4 id="single-argument">Single argument</h4>
 				<p>We chose to make this module type-safe. Due to the limitations of template parameters in TypeScript, this causes you to be limited to one argument in your event handlers. In practice, this is not much of a problem because you can always make the argument an interface with multiple members.</p>
-				<h2 id="no-arguments">No arguments</h2>
+				<h4 id="no-arguments">No arguments</h4>
 				<p>Another TypeScript annoyance: when you create an event with a void argument, TypeScript forces you to pass &#39;undefined&#39; to post(). To overcome this, we added VoidSyncEvent,  VoidAsyncEvent and VoidQueuedEvent classes.</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> myEvent = <span class="hljs-keyword">new</span> SyncEvent&lt;<span class="hljs-keyword">void</span>&gt;();
 
@@ -391,7 +396,11 @@ myEvent.post(<span class="hljs-literal">undefined</span>)
 <span class="hljs-keyword">var</span> myEvent = <span class="hljs-keyword">new</span> VoidSyncEvent();
 myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 </code></pre>
-				<h1 id="changelog">Changelog</h1>
+				<h2 id="changelog">Changelog</h2>
+				<p>v0.0.4 (2015-04-29):</p>
+				<ul>
+					<li>Fix missing ts-events.d.ts in published module</li>
+				</ul>
 				<p>v0.0.3 (2015-04-28):</p>
 				<ul>
 					<li>Feature: allow to attach any event to any other event directly</li>
@@ -408,8 +417,8 @@ myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 				<ul>
 					<li>Initial version</li>
 				</ul>
-				<h1 id="license">License</h1>
-				<p>Copyright (c) 2015 Rogier Schouten <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#103;&#x69;&#116;&#x68;&#x75;&#98;&#64;&#119;&#111;&#114;&#107;&#105;&#x6e;&#x67;&#x63;&#111;&#x64;&#101;&#46;&#x6e;&#105;&#110;&#106;&#x61;">&#103;&#x69;&#116;&#x68;&#x75;&#98;&#64;&#119;&#111;&#114;&#107;&#105;&#x6e;&#x67;&#x63;&#111;&#x64;&#101;&#46;&#x6e;&#105;&#110;&#106;&#x61;</a>
+				<h2 id="license">License</h2>
+				<p>Copyright (c) 2015 Rogier Schouten <a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#58;&#103;&#x69;&#x74;&#104;&#117;&#98;&#x40;&#x77;&#x6f;&#114;&#107;&#x69;&#110;&#103;&#99;&#x6f;&#100;&#x65;&#x2e;&#110;&#x69;&#x6e;&#x6a;&#x61;">&#103;&#x69;&#x74;&#104;&#117;&#98;&#x40;&#x77;&#x6f;&#114;&#107;&#x69;&#110;&#103;&#99;&#x6f;&#100;&#x65;&#x2e;&#110;&#x69;&#x6e;&#x6a;&#x61;</a>
 				ISC (see LICENSE file in repository root).</p>
 			</div>
 		</div>
