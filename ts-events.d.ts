@@ -256,6 +256,12 @@ declare module '__ts-events/lib/base-event' {
         */
     export class BaseEvent<T> {
             /**
+                * Attached listeners. NOTE: do not modify.
+                * Instead, replace with a new array with possibly the same elements. This ensures
+                * that any references to the array by events that are underway remain the same.
+                */
+            protected _listeners: Listener<T>[];
+            /**
                 * Attach an event handler
                 * @param handler The function to call. The this argument of the function will be this object.
                 */
@@ -300,10 +306,6 @@ declare module '__ts-events/lib/base-event' {
                 * The number of attached listeners
                 */
             listenerCount(): number;
-            /**
-                * @returns a shallow copy of the currently attached listeners
-                */
-            protected _copyListeners(): Listener<T>[];
             /**
                 * Call the given listener, if it is not marked as 'deleted'
                 * @param listener The listener to call

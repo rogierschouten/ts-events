@@ -100,11 +100,16 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="_lib_async_event_.voidasyncevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
+						<section class="tsd-index-section tsd-is-inherited tsd-is-private-protected">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_lib_async_event_.voidasyncevent.html#_listeners" class="tsd-kind-icon">_listeners</a></li>
+							</ul>
+						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-protected"><a href="_lib_async_event_.voidasyncevent.html#_call" class="tsd-kind-icon">_call</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_lib_async_event_.voidasyncevent.html#_copylisteners" class="tsd-kind-icon">_copy<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_lib_async_event_.voidasyncevent.html#_postdirect" class="tsd-kind-icon">_post<wbr>Direct</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_async_event_.voidasyncevent.html#attach" class="tsd-kind-icon">attach</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_async_event_.voidasyncevent.html#detach" class="tsd-kind-icon">detach</a></li>
@@ -156,6 +161,27 @@
 					</ul>
 				</section>
 			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-private-protected">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_listeners" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _listeners</h3>
+					<div class="tsd-signature tsd-kind-icon">_listeners<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_lib_base_event_.listener.html" class="tsd-signature-type">Listener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#_listeners">_listeners</a></p>
+						<ul>
+							<li>Defined in lib/base-event.ts:42</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Attached listeners. NOTE: do not modify.
+								Instead, replace with a new array with possibly the same elements. This ensures
+							that any references to the array by events that are underway remain the same.</p>
+						</div>
+					</div>
+				</section>
+			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-protected">
@@ -170,7 +196,7 @@
 								<p>Inherited from <a href="_lib_async_event_.asyncevent.html">AsyncEvent</a>.<a href="_lib_async_event_.asyncevent.html#_call">_call</a></p>
 								<p>Overwrites <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#_call">_call</a></p>
 								<ul>
-									<li>Defined in lib/async-event.ts:116</li>
+									<li>Defined in lib/async-event.ts:119</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -187,27 +213,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-					<a name="_copylisteners" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _copy<wbr>Listeners</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">_copy<wbr>Listeners<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_lib_base_event_.listener.html" class="tsd-signature-type">Listener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#_copylisteners">_copyListeners</a></p>
-								<ul>
-									<li>Defined in lib/base-event.ts:162</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_lib_base_event_.listener.html" class="tsd-signature-type">Listener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a shallow copy of the currently attached listeners</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_postdirect" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _post<wbr>Direct</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
@@ -218,7 +223,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_async_event_.asyncevent.html">AsyncEvent</a>.<a href="_lib_async_event_.asyncevent.html#_postdirect">_postDirect</a></p>
 								<ul>
-									<li>Defined in lib/async-event.ts:131</li>
+									<li>Defined in lib/async-event.ts:134</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -251,7 +256,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#attach">attach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:43</li>
+									<li>Defined in lib/base-event.ts:48</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -294,7 +299,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#attach">attach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:49</li>
+									<li>Defined in lib/base-event.ts:54</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -345,7 +350,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#attach">attach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:54</li>
+									<li>Defined in lib/base-event.ts:59</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -381,7 +386,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#detach">detach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:88</li>
+									<li>Defined in lib/base-event.ts:99</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -419,7 +424,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#detach">detach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:92</li>
+									<li>Defined in lib/base-event.ts:103</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -460,7 +465,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#detach">detach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:96</li>
+									<li>Defined in lib/base-event.ts:107</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -480,7 +485,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#detach">detach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:100</li>
+									<li>Defined in lib/base-event.ts:111</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -500,7 +505,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#detach">detach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:104</li>
+									<li>Defined in lib/base-event.ts:115</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -523,7 +528,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#listenercount">listenerCount</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:155</li>
+									<li>Defined in lib/base-event.ts:166</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -546,7 +551,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_lib_async_event_.asyncevent.html">AsyncEvent</a>.<a href="_lib_async_event_.asyncevent.html#post">post</a></p>
 								<ul>
-									<li>Defined in lib/async-event.ts:148</li>
+									<li>Defined in lib/async-event.ts:156</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -706,11 +711,11 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
 								<a href="_lib_async_event_.voidasyncevent.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="_lib_async_event_.voidasyncevent.html#_listeners" class="tsd-kind-icon">_listeners</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-protected">
 								<a href="_lib_async_event_.voidasyncevent.html#_call" class="tsd-kind-icon">_call</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="_lib_async_event_.voidasyncevent.html#_copylisteners" class="tsd-kind-icon">_copy<wbr>Listeners</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="_lib_async_event_.voidasyncevent.html#_postdirect" class="tsd-kind-icon">_post<wbr>Direct</a>

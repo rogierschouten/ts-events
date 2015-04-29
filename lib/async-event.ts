@@ -81,9 +81,12 @@ export class AsyncEvent<T> extends BaseEvent<T> {
      */
     public post(data: T): void;
     public post(...args: any[]): void {
+        if (!this._listeners || this._listeners.length === 0) {
+            return;
+        }
         if (this._condensed) {
             this._queuedData = args;
-            this._queuedListeners = this._copyListeners();
+            this._queuedListeners = this._listeners;
             if (this._queued) {
                 return;
             } else {
@@ -93,8 +96,8 @@ export class AsyncEvent<T> extends BaseEvent<T> {
                     // of calling handlers
                     this._queued = false;
                     // cache listeners and data because they might change while calling event handlers
-                    var listeners = this._queuedListeners;
                     var data = this._queuedData;
+                    var listeners = this._queuedListeners;
                     for (var i = 0; i < listeners.length; ++i) {
                         var listener = listeners[i];
                         this._call(listener, data);
@@ -102,7 +105,7 @@ export class AsyncEvent<T> extends BaseEvent<T> {
                 });
             }
         } else { // not condensed
-            var listeners = this._copyListeners();
+            var listeners = this._listeners;
             AsyncEvent._scheduler((): void => {
                 for (var i = 0; i < listeners.length; ++i) {
                     var listener = listeners[i];
@@ -129,7 +132,12 @@ export class AsyncEvent<T> extends BaseEvent<T> {
      * directly
      */
     protected _postDirect(args: any[]): void {
-        var listeners = this._copyListeners();
+        if (!this._listeners || this._listeners.length === 0) {
+            return;
+        }
+        // copy a reference to the array because this._listeners might be replaced during
+        // the handler calls
+        var listeners = this._listeners;
         for (var i = 0; i < listeners.length; ++i) {
             var listener = listeners[i];
             this._call(listener, args);

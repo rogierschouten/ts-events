@@ -18,7 +18,7 @@ import QueuedEvent = tsevent.QueuedEvent;
 class ListenerSub extends BaseEvent<string> {
 
     public content(): Listener<string>[] {
-        return this._copyListeners();
+        return this._listeners ? this._listeners : [];
     }
 }
 

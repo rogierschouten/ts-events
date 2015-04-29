@@ -38,12 +38,17 @@ export class SyncEvent<T> extends BaseEvent<T> {
      */
     public post(data: T): void;
     public post(...args: any[]): void {
+        if (!this._listeners || this._listeners.length === 0) {
+            return;
+        }
         this._recursion++;
         if (SyncEvent.MAX_RECURSION_DEPTH > 0 &&
             this._recursion > SyncEvent.MAX_RECURSION_DEPTH) {
             throw new Error("event fired recursively");
         }
-        var listeners = this._copyListeners();
+        // copy a reference to the array because this._listeners might be replaced during
+        // the handler calls
+        var listeners = this._listeners;
         for (var i = 0; i < listeners.length; ++i) {
             var listener = listeners[i];
             this._call(listener, args);

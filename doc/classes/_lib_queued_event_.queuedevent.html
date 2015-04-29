@@ -122,10 +122,11 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_lib_queued_event_.queuedevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+						<section class="tsd-index-section tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_lib_queued_event_.queuedevent.html#_condensed" class="tsd-kind-icon">_condensed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_lib_queued_event_.queuedevent.html#_listeners" class="tsd-kind-icon">_listeners</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_lib_queued_event_.queuedevent.html#_queue" class="tsd-kind-icon">_queue</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_lib_queued_event_.queuedevent.html#_queued" class="tsd-kind-icon">_queued</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_lib_queued_event_.queuedevent.html#_queueddata" class="tsd-kind-icon">_queued<wbr>Data</a></li>
@@ -136,7 +137,6 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_lib_queued_event_.queuedevent.html#_call" class="tsd-kind-icon">_call</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_lib_queued_event_.queuedevent.html#_copylisteners" class="tsd-kind-icon">_copy<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_queued_event_.queuedevent.html#attach" class="tsd-kind-icon">attach</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_queued_event_.queuedevent.html#detach" class="tsd-kind-icon">detach</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_queued_event_.queuedevent.html#listenercount" class="tsd-kind-icon">listener<wbr>Count</a></li>
@@ -185,7 +185,7 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_condensed" class="tsd-anchor"></a>
@@ -196,6 +196,24 @@
 							<li>Defined in lib/queued-event.ts:38</li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_listeners" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _listeners</h3>
+					<div class="tsd-signature tsd-kind-icon">_listeners<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_lib_base_event_.listener.html" class="tsd-signature-type">Listener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#_listeners">_listeners</a></p>
+						<ul>
+							<li>Defined in lib/base-event.ts:42</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Attached listeners. NOTE: do not modify.
+								Instead, replace with a new array with possibly the same elements. This ensures
+							that any references to the array by events that are underway remain the same.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_queue" class="tsd-anchor"></a>
@@ -251,7 +269,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#_call">_call</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:177</li>
+									<li>Defined in lib/base-event.ts:175</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -278,27 +296,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-					<a name="_copylisteners" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _copy<wbr>Listeners</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">_copy<wbr>Listeners<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_lib_base_event_.listener.html" class="tsd-signature-type">Listener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#_copylisteners">_copyListeners</a></p>
-								<ul>
-									<li>Defined in lib/base-event.ts:162</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_lib_base_event_.listener.html" class="tsd-signature-type">Listener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a shallow copy of the currently attached listeners</p>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="attach" class="tsd-anchor"></a>
 					<h3>attach</h3>
@@ -312,7 +309,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#attach">attach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:43</li>
+									<li>Defined in lib/base-event.ts:48</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -355,7 +352,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#attach">attach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:49</li>
+									<li>Defined in lib/base-event.ts:54</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -406,7 +403,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#attach">attach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:54</li>
+									<li>Defined in lib/base-event.ts:59</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -442,7 +439,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#detach">detach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:88</li>
+									<li>Defined in lib/base-event.ts:99</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -480,7 +477,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#detach">detach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:92</li>
+									<li>Defined in lib/base-event.ts:103</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -521,7 +518,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#detach">detach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:96</li>
+									<li>Defined in lib/base-event.ts:107</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -541,7 +538,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#detach">detach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:100</li>
+									<li>Defined in lib/base-event.ts:111</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -561,7 +558,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#detach">detach</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:104</li>
+									<li>Defined in lib/base-event.ts:115</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -584,7 +581,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#listenercount">listenerCount</a></p>
 								<ul>
-									<li>Defined in lib/base-event.ts:155</li>
+									<li>Defined in lib/base-event.ts:166</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -672,6 +669,9 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_lib_queued_event_.queuedevent.html#_condensed" class="tsd-kind-icon">_condensed</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="_lib_queued_event_.queuedevent.html#_listeners" class="tsd-kind-icon">_listeners</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_lib_queued_event_.queuedevent.html#_queue" class="tsd-kind-icon">_queue</a>
 							</li>
@@ -686,9 +686,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="_lib_queued_event_.queuedevent.html#_call" class="tsd-kind-icon">_call</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="_lib_queued_event_.queuedevent.html#_copylisteners" class="tsd-kind-icon">_copy<wbr>Listeners</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_lib_queued_event_.queuedevent.html#attach" class="tsd-kind-icon">attach</a>

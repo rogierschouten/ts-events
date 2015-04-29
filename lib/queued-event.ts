@@ -68,10 +68,13 @@ export class QueuedEvent<T> extends BaseEvent<T> {
     */
     public post(data: T): void;
     public post(...args: any[]): void {
+        if (!this._listeners || this._listeners.length === 0) {
+            return;
+        }
         var queue = (this._queue ? this._queue : EventQueue.global());
         if (this._condensed) {
             this._queuedData = args;
-            this._queuedListeners = this._copyListeners();
+            this._queuedListeners = this._listeners;
             if (this._queued) {
                 return;
             } else {
@@ -81,8 +84,8 @@ export class QueuedEvent<T> extends BaseEvent<T> {
                     // of calling handlers
                     this._queued = false;
                     // cache listeners and data because they might change while calling event handlers
-                    var listeners = this._queuedListeners;
                     var data = this._queuedData;
+                    var listeners = this._queuedListeners;
                     for (var i = 0; i < listeners.length; ++i) {
                         var listener = listeners[i];
                         this._call(listener, data);
@@ -90,7 +93,7 @@ export class QueuedEvent<T> extends BaseEvent<T> {
                 });
             }
         } else { // not condensed
-            var listeners = this._copyListeners();
+            var listeners = this._listeners;
             queue.add((): void => {
                 for (var i = 0; i < listeners.length; ++i) {
                     var listener = listeners[i];
@@ -121,7 +124,7 @@ export class VoidQueuedEvent extends QueuedEvent<void> {
 export class ErrorQueuedEvent extends QueuedEvent<Error> {
 
     public post(data: Error): void {
-        if (this.listenerCount() === 0) {
+        if (!this._listeners || this._listeners.length === 0) {
             throw new Error(util.format("error event posted while no listeners attached. Error: ", data));
         }
         super.post(data);

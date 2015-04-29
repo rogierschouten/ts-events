@@ -34,7 +34,12 @@ export interface Listener<T> {
  */
 export class BaseEvent<T> {
 
-    private _listeners: Listener<T>[];
+    /**
+     * Attached listeners. NOTE: do not modify.
+     * Instead, replace with a new array with possibly the same elements. This ensures
+     * that any references to the array by events that are underway remain the same.
+     */
+    protected _listeners: Listener<T>[];
 
     /**
      * Attach an event handler
@@ -73,6 +78,12 @@ export class BaseEvent<T> {
         }
         if (!this._listeners) {
             this._listeners = [];
+        } else {
+            // make a copy of the array so events that are underway have a stable local copy
+            // of the listeners array at the time of post()
+            this._listeners = this._listeners.map((listener: Listener<T>): Listener<T> => {
+                return listener;
+            });
         }
         this._listeners.push({
             deleted: false,
@@ -106,7 +117,7 @@ export class BaseEvent<T> {
      * Detach implementation. See the overloads for description.
      */
     public detach(...args: any[]): void {
-        if (!this._listeners) {
+        if (!this._listeners || this._listeners.length === 0) {
             return;
         }
         var boundTo: Object;
@@ -154,19 +165,6 @@ export class BaseEvent<T> {
      */
     public listenerCount(): number {
         return (this._listeners ? this._listeners.length : 0);
-    }
-
-    /**
-     * @returns a shallow copy of the currently attached listeners
-     */
-    protected _copyListeners(): Listener<T>[] {
-        if (!this._listeners) {
-            return [];
-        } else {
-            return this._listeners.map((listener: Listener<T>): Listener<T> => {
-                return listener;
-            });
-        }
     }
 
     /**

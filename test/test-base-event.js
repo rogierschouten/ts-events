@@ -21,7 +21,7 @@ var ListenerSub = (function (_super) {
         _super.apply(this, arguments);
     }
     ListenerSub.prototype.content = function () {
-        return this._copyListeners();
+        return this._listeners ? this._listeners : [];
     };
     return ListenerSub;
 })(BaseEvent);
