@@ -403,6 +403,9 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v1.0.0 (2015-04-30):
+- Ready for production use.
+
 v0.0.6 (2015-04-29):
 - Performance improvements
 
