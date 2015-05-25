@@ -15,6 +15,10 @@ declare module 'ts-events' {
     export import ErrorAsyncEvent = asyncEvent.ErrorAsyncEvent;
     export import EventQueue = require("__ts-events/lib/EventQueue");
     /**
+        * The global event queue for QueuedEvents
+        */
+    export function queue(): EventQueue;
+    /**
         * Convenience function, same as EventQueue.global().flushOnce().
         * Flushes the QueuedEvents, calling all events currently in the queue but not
         * any events put into the queue as a result of the flush.
@@ -195,10 +199,22 @@ declare module '__ts-events/lib/async-event' {
 }
 
 declare module '__ts-events/lib/EventQueue' {
+    import syncEvent = require("__ts-events/lib/sync-event");
+    import SyncEvent = syncEvent.SyncEvent;
     /**
         * Simple synchronous event queue that needs to be drained manually.
         */
     class EventQueue {
+            /**
+                * SyncEvent triggered after an event is added outside of a flush operation.
+                * @param queue The event queue itself
+                */
+            evtFilled: SyncEvent<EventQueue>;
+            /**
+                * SyncEvent triggered after the queue is flushed empty
+                * @param queue The event queue itself
+                */
+            evtDrained: SyncEvent<EventQueue>;
             /**
                 * The module-global event queue
                 */
@@ -207,6 +223,10 @@ declare module '__ts-events/lib/EventQueue' {
                 * Testing purposes
                 */
             static resetGlobal(): void;
+            /**
+                * Returns true iff the queue is empty
+                */
+            empty(): boolean;
             /**
                 * Add an element to the queue. The handler is called when one of the flush
                 * methods is called.

@@ -156,4 +156,133 @@ describe("EventQueue", (): void => {
             expect(callCount).to.equal(100);
         });
     });
+
+    describe("empty()", (): void => {
+        it("should be true when empty", (): void => {
+            expect(eq.empty()).to.equal(true);
+        });
+        it("should be false when non-empty", (): void => {
+            eq.add((): void => {});
+            expect(eq.empty()).to.equal(false);
+        });
+        it("should be true when flushed empty", (): void => {
+            eq.add((): void => {});
+            eq.flush();
+            expect(eq.empty()).to.equal(true);
+        });
+    });
+
+    describe("evtFilled", (): void => {
+        var callCount: number;
+
+        beforeEach((): void => {
+            callCount = 0;
+            eq.evtFilled.attach((p: EventQueue): void => {
+                expect(p).to.equal(eq);
+                callCount++;
+            });
+        });
+
+        it("should be triggered for first added event", (): void => {
+            eq.add((): void => {});
+            expect(callCount).to.equal(1);
+        });
+
+        it("should not be triggered for second added event", (): void => {
+            eq.add((): void => {});
+            eq.add((): void => {});
+            expect(callCount).to.equal(1);
+        });
+
+        it("should not be triggered when adding after flush", (): void => {
+            eq.add((): void => {});
+            expect(callCount).to.equal(1);
+            eq.flush();
+            eq.add((): void => {});
+            expect(callCount).to.equal(2);
+        });
+
+        it("should not be triggered when adding after flushOnce", (): void => {
+            eq.add((): void => {});
+            expect(callCount).to.equal(1);
+            eq.flushOnce();
+            eq.add((): void => {});
+            expect(callCount).to.equal(2);
+        });
+
+        it("should not be triggered when temporarily empty during flush", (): void => {
+            eq.add((): void => {
+                eq.add((): void => {});
+            });
+            expect(callCount).to.equal(1);
+            eq.flush();
+            expect(callCount).to.equal(1);
+        });
+
+        it("should not be triggered when adding after flushOnce did not clear the queue", (): void => {
+            eq.add((): void => {
+                eq.add((): void => {});
+            });
+            expect(callCount).to.equal(1);
+            eq.flushOnce();
+            eq.add((): void => {});
+            expect(callCount).to.equal(1);
+        });
+    });
+
+    describe("evtDrained", (): void => {
+        var callCount: number;
+
+        beforeEach((): void => {
+            callCount = 0;
+            eq.evtDrained.attach((p: EventQueue): void => {
+                expect(p).to.equal(eq);
+                callCount++;
+            });
+        });
+
+        it("should be triggered after flush()", (): void => {
+            eq.add((): void => {
+                expect(callCount).to.equal(0);
+            });
+            eq.flush();
+            expect(callCount).to.equal(1);
+        });
+
+        it("should be triggered after flush() if it needs multiple iterations", (): void => {
+            eq.add((): void => {
+                eq.add((): void => {
+                    expect(callCount).to.equal(0);
+                });
+                expect(callCount).to.equal(0);
+            });
+            eq.flush();
+            expect(callCount).to.equal(1);
+        });
+
+        it("should be triggered after flushOnce() if it empties the queue", (): void => {
+            eq.add((): void => {
+                expect(callCount).to.equal(0);
+            });
+            eq.flushOnce();
+            expect(callCount).to.equal(1);
+        });
+
+        it("should not be triggered after flushOnce() if it does not empty the queue", (): void => {
+            eq.add((): void => {
+                eq.add((): void => {});
+            });
+            eq.flushOnce();
+            expect(callCount).to.equal(0);
+        });
+
+        it("should not be triggered when temporarily empty during flush", (): void => {
+            eq.add((): void => {
+                expect(callCount).to.equal(0);
+                eq.add((): void => {});
+            });
+            eq.flush();
+        });
+    });
+
 });

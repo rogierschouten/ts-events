@@ -10,6 +10,11 @@ describe("index", function () {
         tsevents.EventQueue.resetGlobal();
         eq = tsevents.EventQueue.global();
     });
+    describe("queue()", function () {
+        it("should return the global event queue", function () {
+            expect(tsevents.queue()).to.equal(tsevents.EventQueue.global());
+        });
+    });
     describe("flushOnce()", function () {
         it("should call a handler", function () {
             var callCount = 0;

@@ -17,6 +17,11 @@ describe("index", (): void => {
         eq = tsevents.EventQueue.global();
     });
 
+    describe("queue()", (): void => {
+        it("should return the global event queue", (): void => {
+            expect(tsevents.queue()).to.equal(tsevents.EventQueue.global());
+        });
+    });
 
     describe("flushOnce()", (): void => {
         it("should call a handler", (): void => {

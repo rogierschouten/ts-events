@@ -20,6 +20,13 @@ exports.ErrorAsyncEvent = asyncEvent.ErrorAsyncEvent;
 exports.EventQueue = require("./lib/EventQueue");
 exports.EventQueue;
 /**
+ * The global event queue for QueuedEvents
+ */
+function queue() {
+    return exports.EventQueue.global();
+}
+exports.queue = queue;
+/**
  * Convenience function, same as EventQueue.global().flushOnce().
  * Flushes the QueuedEvents, calling all events currently in the queue but not
  * any events put into the queue as a result of the flush.

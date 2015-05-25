@@ -89,10 +89,13 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_lib_eventqueue_.eventqueue.html#_flushing" class="tsd-kind-icon">_flushing</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_lib_eventqueue_.eventqueue.html#_queue" class="tsd-kind-icon">_queue</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_lib_eventqueue_.eventqueue.html#evtdrained" class="tsd-kind-icon">evt<wbr>Drained</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_lib_eventqueue_.eventqueue.html#evtfilled" class="tsd-kind-icon">evt<wbr>Filled</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_lib_eventqueue_.eventqueue.html#_instance" class="tsd-kind-icon">_instance</a></li>
 							</ul>
 						</section>
@@ -100,6 +103,7 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_eventqueue_.eventqueue.html#add" class="tsd-kind-icon">add</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_eventqueue_.eventqueue.html#empty" class="tsd-kind-icon">empty</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_eventqueue_.eventqueue.html#flush" class="tsd-kind-icon">flush</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_eventqueue_.eventqueue.html#flushonce" class="tsd-kind-icon">flush<wbr>Once</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_lib_eventqueue_.eventqueue.html#global" class="tsd-kind-icon">global</a></li>
@@ -109,15 +113,30 @@
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="_flushing" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _flushing</h3>
+					<div class="tsd-signature tsd-kind-icon">_flushing<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in lib/EventQueue.ts:56</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>True while flush() or flushOnce() is running</p>
+						</div>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_queue" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _queue</h3>
 					<div class="tsd-signature tsd-kind-icon">_queue<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in lib/EventQueue.ts:37</li>
+							<li>Defined in lib/EventQueue.ts:51</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -141,13 +160,53 @@
 						</ul>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="evtdrained" class="tsd-anchor"></a>
+					<h3>evt<wbr>Drained</h3>
+					<div class="tsd-signature tsd-kind-icon">evt<wbr>Drained<span class="tsd-signature-symbol">:</span> <a href="_lib_sync_event_.syncevent.html" class="tsd-signature-type">SyncEvent</a><span class="tsd-signature-symbol">&lt;</span><a href="_lib_eventqueue_.eventqueue.html" class="tsd-signature-type">EventQueue</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in lib/EventQueue.ts:24</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>SyncEvent triggered after the queue is flushed empty</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>The event queue itself</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="evtfilled" class="tsd-anchor"></a>
+					<h3>evt<wbr>Filled</h3>
+					<div class="tsd-signature tsd-kind-icon">evt<wbr>Filled<span class="tsd-signature-symbol">:</span> <a href="_lib_sync_event_.syncevent.html" class="tsd-signature-type">SyncEvent</a><span class="tsd-signature-symbol">&lt;</span><a href="_lib_eventqueue_.eventqueue.html" class="tsd-signature-type">EventQueue</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in lib/EventQueue.ts:19</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>SyncEvent triggered after an event is added outside of a flush operation.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>The event queue itself</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 					<a name="_instance" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> _instance</h3>
 					<div class="tsd-signature tsd-kind-icon">_instance<span class="tsd-signature-symbol">:</span> <a href="_lib_eventqueue_.eventqueue.html" class="tsd-signature-type">EventQueue</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in lib/EventQueue.ts:15</li>
+							<li>Defined in lib/EventQueue.ts:29</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -169,7 +228,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/EventQueue.ts:43</li>
+									<li>Defined in lib/EventQueue.ts:69</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -201,6 +260,28 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="empty" class="tsd-anchor"></a>
+					<h3>empty</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">empty<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in lib/EventQueue.ts:61</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns true iff the queue is empty</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="flush" class="tsd-anchor"></a>
 					<h3>flush</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -210,7 +291,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/EventQueue.ts:65</li>
+									<li>Defined in lib/EventQueue.ts:104</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -243,7 +324,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/EventQueue.ts:51</li>
+									<li>Defined in lib/EventQueue.ts:80</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -266,7 +347,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/EventQueue.ts:20</li>
+									<li>Defined in lib/EventQueue.ts:34</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -288,7 +369,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/EventQueue.ts:30</li>
+									<li>Defined in lib/EventQueue.ts:44</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -336,13 +417,25 @@
 						<a href="_lib_eventqueue_.eventqueue.html" class="tsd-kind-icon">Event<wbr>Queue</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_lib_eventqueue_.eventqueue.html#_flushing" class="tsd-kind-icon">_flushing</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_lib_eventqueue_.eventqueue.html#_queue" class="tsd-kind-icon">_queue</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_lib_eventqueue_.eventqueue.html#evtdrained" class="tsd-kind-icon">evt<wbr>Drained</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_lib_eventqueue_.eventqueue.html#evtfilled" class="tsd-kind-icon">evt<wbr>Filled</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 								<a href="_lib_eventqueue_.eventqueue.html#_instance" class="tsd-kind-icon">_instance</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_lib_eventqueue_.eventqueue.html#add" class="tsd-kind-icon">add</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_lib_eventqueue_.eventqueue.html#empty" class="tsd-kind-icon">empty</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_lib_eventqueue_.eventqueue.html#flush" class="tsd-kind-icon">flush</a>

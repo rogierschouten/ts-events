@@ -145,5 +145,117 @@ describe("EventQueue", function () {
             expect(callCount).to.equal(100);
         });
     });
+    describe("empty()", function () {
+        it("should be true when empty", function () {
+            expect(eq.empty()).to.equal(true);
+        });
+        it("should be false when non-empty", function () {
+            eq.add(function () { });
+            expect(eq.empty()).to.equal(false);
+        });
+        it("should be true when flushed empty", function () {
+            eq.add(function () { });
+            eq.flush();
+            expect(eq.empty()).to.equal(true);
+        });
+    });
+    describe("evtFilled", function () {
+        var callCount;
+        beforeEach(function () {
+            callCount = 0;
+            eq.evtFilled.attach(function (p) {
+                expect(p).to.equal(eq);
+                callCount++;
+            });
+        });
+        it("should be triggered for first added event", function () {
+            eq.add(function () { });
+            expect(callCount).to.equal(1);
+        });
+        it("should not be triggered for second added event", function () {
+            eq.add(function () { });
+            eq.add(function () { });
+            expect(callCount).to.equal(1);
+        });
+        it("should not be triggered when adding after flush", function () {
+            eq.add(function () { });
+            expect(callCount).to.equal(1);
+            eq.flush();
+            eq.add(function () { });
+            expect(callCount).to.equal(2);
+        });
+        it("should not be triggered when adding after flushOnce", function () {
+            eq.add(function () { });
+            expect(callCount).to.equal(1);
+            eq.flushOnce();
+            eq.add(function () { });
+            expect(callCount).to.equal(2);
+        });
+        it("should not be triggered when temporarily empty during flush", function () {
+            eq.add(function () {
+                eq.add(function () { });
+            });
+            expect(callCount).to.equal(1);
+            eq.flush();
+            expect(callCount).to.equal(1);
+        });
+        it("should not be triggered when adding after flushOnce did not clear the queue", function () {
+            eq.add(function () {
+                eq.add(function () { });
+            });
+            expect(callCount).to.equal(1);
+            eq.flushOnce();
+            eq.add(function () { });
+            expect(callCount).to.equal(1);
+        });
+    });
+    describe("evtDrained", function () {
+        var callCount;
+        beforeEach(function () {
+            callCount = 0;
+            eq.evtDrained.attach(function (p) {
+                expect(p).to.equal(eq);
+                callCount++;
+            });
+        });
+        it("should be triggered after flush()", function () {
+            eq.add(function () {
+                expect(callCount).to.equal(0);
+            });
+            eq.flush();
+            expect(callCount).to.equal(1);
+        });
+        it("should be triggered after flush() if it needs multiple iterations", function () {
+            eq.add(function () {
+                eq.add(function () {
+                    expect(callCount).to.equal(0);
+                });
+                expect(callCount).to.equal(0);
+            });
+            eq.flush();
+            expect(callCount).to.equal(1);
+        });
+        it("should be triggered after flushOnce() if it empties the queue", function () {
+            eq.add(function () {
+                expect(callCount).to.equal(0);
+            });
+            eq.flushOnce();
+            expect(callCount).to.equal(1);
+        });
+        it("should not be triggered after flushOnce() if it does not empty the queue", function () {
+            eq.add(function () {
+                eq.add(function () { });
+            });
+            eq.flushOnce();
+            expect(callCount).to.equal(0);
+        });
+        it("should not be triggered when temporarily empty during flush", function () {
+            eq.add(function () {
+                expect(callCount).to.equal(0);
+                eq.add(function () { });
+            });
+            eq.flush();
+        });
+    });
 });
 //# sourceMappingURL=test-event-queue.js.map
