@@ -74,6 +74,26 @@ evtChange.attach(this.evtChange);
 
 ```
 
+Versatile events, let the subscriber choose:
+
+```javascript
+var tsevents = require("../index");
+var AnyEvent = tsevents.AnyEvent;
+
+var evtChange = new AnyEvent();
+evtChange.attach(function(s) {
+    console.log(s + " this is synchronous.");
+});
+evtChange.attachAsync(function(s) {
+    console.log(s + " this is a-synchronous.");
+});
+evtChange.attachQueued(function(s) {
+    console.log(s + " this is queued.");
+});
+evtChange.post("hi!");
+tsevents.flush(); // only needed for queued
+
+```
 
 
 ## Features
@@ -86,6 +106,7 @@ evtChange.attach(this.evtChange);
 * Attaching and detaching event handlers has clear semantics
 * Attach handlers bound to a certain object, i.e. no need for .bind(this)
 * Detach one handler, all handlers, or all handlers bound to a certain object
+* Decide on sync/a-sync/queued either in the publisher or in the subscriber
 
 ## Documentation
 
@@ -104,6 +125,8 @@ ts-event supports three event types: Synchronous, A-synchronous and Queued. Here
 |Queued|when you flush the queue manually| yes |
 
 In the table above, "condensable" means that you can choose to condense multiple sent events into one: e.g. for an a-synchronous event, you can opt that if it is sent more than once in a Node.JS cycle, the event handlers are invoked only once.
+
+There is a fourth event called AnyEvent, which can act as a Sync/Async/Queued event depending on how you attach listeners.
 
 ### Synchronous Events
 
@@ -368,6 +391,32 @@ myEvent.attach(function(e){});
 
 // this simply calls the event handler with the given error
 myEvent.post(new Error("foo"));
+```
+
+### AnyEvent
+
+The AnyEvent class lets you choose between sync/async/queued in the attach() function. For instance:
+
+```javascript
+var tsevents = require("../index");
+var AnyEvent = tsevents.AnyEvent;
+
+var evtChange = new AnyEvent();
+evtChange.attach(function(s) {
+    console.log(s + " this is synchronous.");
+});
+evtChange.attachAsync(function(s) {
+    console.log(s + " this is a-synchronous and condensed.");
+}, { condensed: true });
+evtChange.attachAsync(function(s) {
+    console.log(s + " this is a-synchronous and not condensed.");
+});
+evtChange.attachQueued(function(s) {
+    console.log(s + " this is queued.");
+});
+evtChange.post("hi!");
+tsevents.flush(); // only needed for queued
+
 ```
 
 ### For TypeScript users

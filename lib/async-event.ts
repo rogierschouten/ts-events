@@ -29,8 +29,12 @@ export interface AsyncEventOpts {
  */
 export class AsyncEvent<T> extends BaseEvent<T> {
 
-    private _condensed: boolean;
+    /**
+     * Used internally - the exact options object given to constructor
+     */
+    public options: AsyncEventOpts;
 
+    private _condensed: boolean;
     private _queued: boolean = false;
     private _queuedListeners: Listener<T>[];
     private _queuedData: any[];
@@ -68,6 +72,7 @@ export class AsyncEvent<T> extends BaseEvent<T> {
      */
     constructor(opts?: AsyncEventOpts) {
         super();
+        this.options = opts;
         var options: AsyncEventOpts = opts || {};
         if (typeof options.condensed === "boolean") {
             this._condensed = options.condensed;

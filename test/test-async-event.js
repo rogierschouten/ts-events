@@ -155,7 +155,7 @@ describe("AsyncEvent", function () {
             done();
         }, 0);
     });
-    it("should allow attaching another event", function () {
+    it("should allow attaching another event", function (done) {
         var e = new AsyncEvent();
         var f = new AsyncEvent();
         var calledWith = [];
@@ -170,10 +170,11 @@ describe("AsyncEvent", function () {
         setImmediate(function () {
             setImmediate(function () {
                 expect(calledWith).to.deep.equal(["A", "B"]);
+                done();
             });
         });
     });
-    it("should condense attached async events into the same cycle", function () {
+    it("should condense attached async events into the same cycle", function (done) {
         var e = new AsyncEvent();
         var f = new AsyncEvent();
         var calledWith = [];
@@ -186,6 +187,7 @@ describe("AsyncEvent", function () {
         e.post("B");
         setImmediate(function () {
             expect(calledWith).to.deep.equal(["A", "B"]);
+            done();
         });
     });
 });

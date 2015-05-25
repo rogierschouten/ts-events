@@ -121,7 +121,7 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_lib_async_event_.asyncevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-private-protected">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_lib_async_event_.asyncevent.html#_condensed" class="tsd-kind-icon">_condensed</a></li>
@@ -129,6 +129,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_lib_async_event_.asyncevent.html#_queued" class="tsd-kind-icon">_queued</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_lib_async_event_.asyncevent.html#_queueddata" class="tsd-kind-icon">_queued<wbr>Data</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_lib_async_event_.asyncevent.html#_queuedlisteners" class="tsd-kind-icon">_queued<wbr>Listeners</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_lib_async_event_.asyncevent.html#options" class="tsd-kind-icon">options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_lib_async_event_.asyncevent.html#_scheduler" class="tsd-kind-icon">_scheduler</a></li>
 							</ul>
 						</section>
@@ -160,7 +161,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/async-event.ts:62</li>
+									<li>Defined in lib/async-event.ts:66</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -186,7 +187,7 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_condensed" class="tsd-anchor"></a>
@@ -194,7 +195,7 @@
 					<div class="tsd-signature tsd-kind-icon">_condensed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in lib/async-event.ts:32</li>
+							<li>Defined in lib/async-event.ts:37</li>
 						</ul>
 					</aside>
 				</section>
@@ -222,7 +223,7 @@
 					<div class="tsd-signature tsd-kind-icon">_queued<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in lib/async-event.ts:34</li>
+							<li>Defined in lib/async-event.ts:38</li>
 						</ul>
 					</aside>
 				</section>
@@ -232,7 +233,7 @@
 					<div class="tsd-signature tsd-kind-icon">_queued<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in lib/async-event.ts:36</li>
+							<li>Defined in lib/async-event.ts:40</li>
 						</ul>
 					</aside>
 				</section>
@@ -242,9 +243,24 @@
 					<div class="tsd-signature tsd-kind-icon">_queued<wbr>Listeners<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_lib_base_event_.listener.html" class="tsd-signature-type">Listener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
+							<li>Defined in lib/async-event.ts:39</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="options" class="tsd-anchor"></a>
+					<h3>options</h3>
+					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_lib_async_event_.asynceventopts.html" class="tsd-signature-type">AsyncEventOpts</a></div>
+					<aside class="tsd-sources">
+						<ul>
 							<li>Defined in lib/async-event.ts:35</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Used internally - the exact options object given to constructor</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 					<a name="_scheduler" class="tsd-anchor"></a>
@@ -252,7 +268,7 @@
 					<div class="tsd-signature tsd-kind-icon">_scheduler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in lib/async-event.ts:53</li>
+							<li>Defined in lib/async-event.ts:57</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -308,7 +324,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#_call">_call</a></p>
 								<ul>
-									<li>Defined in lib/async-event.ts:119</li>
+									<li>Defined in lib/async-event.ts:124</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -334,7 +350,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/async-event.ts:134</li>
+									<li>Defined in lib/async-event.ts:139</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -662,7 +678,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_lib_base_event_.baseevent.html">BaseEvent</a>.<a href="_lib_base_event_.baseevent.html#post">post</a></p>
 								<ul>
-									<li>Defined in lib/async-event.ts:82</li>
+									<li>Defined in lib/async-event.ts:87</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -690,7 +706,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/async-event.ts:41</li>
+									<li>Defined in lib/async-event.ts:45</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -730,7 +746,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/async-event.ts:60</li>
+									<li>Defined in lib/async-event.ts:64</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -796,11 +812,17 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_lib_eventqueue_.html">"lib/<wbr>Event<wbr>Queue"</a>
 					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_lib_any_event_.html">"lib/any-<wbr>event"</a>
+					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/_lib_async_event_.html">"lib/async-<wbr>event"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_lib_base_event_.html">"lib/base-<wbr>event"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_lib_objects_.html">"lib/objects"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_lib_queued_event_.html">"lib/queued-<wbr>event"</a>
@@ -834,6 +856,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_lib_async_event_.asyncevent.html#_queuedlisteners" class="tsd-kind-icon">_queued<wbr>Listeners</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_lib_async_event_.asyncevent.html#options" class="tsd-kind-icon">options</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 								<a href="_lib_async_event_.asyncevent.html#_scheduler" class="tsd-kind-icon">_scheduler</a>

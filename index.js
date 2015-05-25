@@ -19,6 +19,11 @@ exports.VoidAsyncEvent = asyncEvent.VoidAsyncEvent;
 exports.ErrorAsyncEvent = asyncEvent.ErrorAsyncEvent;
 exports.EventQueue = require("./lib/EventQueue");
 exports.EventQueue;
+var anyEvent = require("./lib/any-event");
+anyEvent;
+exports.AnyEvent = anyEvent.AnyEvent;
+exports.VoidAnyEvent = anyEvent.VoidAnyEvent;
+exports.ErrorAnyEvent = anyEvent.ErrorAnyEvent;
 /**
  * The global event queue for QueuedEvents
  */

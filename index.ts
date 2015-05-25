@@ -23,6 +23,11 @@ export import ErrorAsyncEvent = asyncEvent.ErrorAsyncEvent;
 
 export import EventQueue = require("./lib/EventQueue"); EventQueue;
 
+import anyEvent = require("./lib/any-event"); anyEvent;
+export import AnyEvent = anyEvent.AnyEvent;
+export import VoidAnyEvent = anyEvent.VoidAnyEvent;
+export import ErrorAnyEvent = anyEvent.ErrorAnyEvent;
+
 /**
  * The global event queue for QueuedEvents
  */

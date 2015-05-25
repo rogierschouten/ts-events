@@ -100,10 +100,11 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="_lib_queued_event_.voidqueuedevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-inherited tsd-is-private-protected">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_lib_queued_event_.voidqueuedevent.html#_listeners" class="tsd-kind-icon">_listeners</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_lib_queued_event_.voidqueuedevent.html#options" class="tsd-kind-icon">options</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -132,7 +133,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_queued_event_.queuedevent.html">QueuedEvent</a>.<a href="_lib_queued_event_.queuedevent.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in lib/queued-event.ts:42</li>
+									<li>Defined in lib/queued-event.ts:47</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -159,7 +160,7 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-private-protected">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_listeners" class="tsd-anchor"></a>
@@ -176,6 +177,22 @@
 							<p>Attached listeners. NOTE: do not modify.
 								Instead, replace with a new array with possibly the same elements. This ensures
 							that any references to the array by events that are underway remain the same.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="options" class="tsd-anchor"></a>
+					<h3>options</h3>
+					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_lib_queued_event_.queuedeventopts.html" class="tsd-signature-type">QueuedEventOpts</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_lib_queued_event_.queuedevent.html">QueuedEvent</a>.<a href="_lib_queued_event_.queuedevent.html#options">options</a></p>
+						<ul>
+							<li>Defined in lib/queued-event.ts:41</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Used internally - the exact options object given to constructor</p>
 						</div>
 					</div>
 				</section>
@@ -528,7 +545,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_lib_queued_event_.queuedevent.html">QueuedEvent</a>.<a href="_lib_queued_event_.queuedevent.html#post">post</a></p>
 								<ul>
-									<li>Defined in lib/queued-event.ts:115</li>
+									<li>Defined in lib/queued-event.ts:121</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -555,10 +572,16 @@
 						<a href="../modules/_lib_eventqueue_.html">"lib/<wbr>Event<wbr>Queue"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_lib_any_event_.html">"lib/any-<wbr>event"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_lib_async_event_.html">"lib/async-<wbr>event"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_lib_base_event_.html">"lib/base-<wbr>event"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_lib_objects_.html">"lib/objects"</a>
 					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/_lib_queued_event_.html">"lib/queued-<wbr>event"</a>
@@ -586,6 +609,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="_lib_queued_event_.voidqueuedevent.html#_listeners" class="tsd-kind-icon">_listeners</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="_lib_queued_event_.voidqueuedevent.html#options" class="tsd-kind-icon">options</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="_lib_queued_event_.voidqueuedevent.html#_call" class="tsd-kind-icon">_call</a>

@@ -122,6 +122,23 @@ evtChange.attach(<span class="hljs-keyword">this</span>, <span class="hljs-keywo
 <span class="hljs-comment">// directly attach another event</span>
 evtChange.attach(<span class="hljs-keyword">this</span>.evtChange);
 </code></pre>
+				<p>Versatile events, let the subscriber choose:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> AnyEvent = tsevents.AnyEvent;
+
+<span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> AnyEvent();
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is synchronous."</span>);
+});
+evtChange.attachAsync(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is a-synchronous."</span>);
+});
+evtChange.attachQueued(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is queued."</span>);
+});
+evtChange.post(<span class="hljs-string">"hi!"</span>);
+tsevents.flush(); <span class="hljs-comment">// only needed for queued</span>
+</code></pre>
 				<h2 id="features">Features</h2>
 				<ul>
 					<li>Each event is a member, and its own little event emitter. Because of this, you have a place for comments to document them. And adding handlers is no longer on string basis.</li>
@@ -132,6 +149,7 @@ evtChange.attach(<span class="hljs-keyword">this</span>.evtChange);
 					<li>Attaching and detaching event handlers has clear semantics</li>
 					<li>Attach handlers bound to a certain object, i.e. no need for .bind(this)</li>
 					<li>Detach one handler, all handlers, or all handlers bound to a certain object</li>
+					<li>Decide on sync/a-sync/queued either in the publisher or in the subscriber</li>
 				</ul>
 				<h2 id="documentation">Documentation</h2>
 				<p>For class documentation, see ./doc/index.html</p>
@@ -165,6 +183,7 @@ evtChange.attach(<span class="hljs-keyword">this</span>.evtChange);
 					</tbody>
 				</table>
 				<p>In the table above, &quot;condensable&quot; means that you can choose to condense multiple sent events into one: e.g. for an a-synchronous event, you can opt that if it is sent more than once in a Node.JS cycle, the event handlers are invoked only once.</p>
+				<p>There is a fourth event called AnyEvent, which can act as a Sync/Async/Queued event depending on how you attach listeners.</p>
 				<h3 id="synchronous-events">Synchronous Events</h3>
 				<p>If you want EventEmitter-style events, then use SyncEvent. The handlers of SyncEvents are called directly when you emit the event.</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
@@ -378,6 +397,27 @@ myEvent.attach(<span class="hljs-function"><span class="hljs-keyword">function</
 <span class="hljs-comment">// this simply calls the event handler with the given error</span>
 myEvent.post(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"foo"</span>));
 </code></pre>
+				<h3 id="anyevent">AnyEvent</h3>
+				<p>The AnyEvent class lets you choose between sync/async/queued in the attach() function. For instance:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> AnyEvent = tsevents.AnyEvent;
+
+<span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> AnyEvent();
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is synchronous."</span>);
+});
+evtChange.attachAsync(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is a-synchronous and condensed."</span>);
+}, { condensed: <span class="hljs-literal">true</span> });
+evtChange.attachAsync(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is a-synchronous and not condensed."</span>);
+});
+evtChange.attachQueued(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is queued."</span>);
+});
+evtChange.post(<span class="hljs-string">"hi!"</span>);
+tsevents.flush(); <span class="hljs-comment">// only needed for queued</span>
+</code></pre>
 				<h3 id="for-typescript-users">For TypeScript users</h3>
 				<p>This section is for using this module with TypeScript.</p>
 				<h4 id="typings">Typings</h4>
@@ -431,7 +471,7 @@ myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 					<li>Initial version</li>
 				</ul>
 				<h2 id="license">License</h2>
-				<p>Copyright (c) 2015 Rogier Schouten <a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#58;&#x67;&#105;&#116;&#x68;&#x75;&#x62;&#x40;&#119;&#111;&#114;&#107;&#105;&#x6e;&#103;&#x63;&#111;&#x64;&#x65;&#46;&#110;&#x69;&#110;&#x6a;&#97;">&#x67;&#105;&#116;&#x68;&#x75;&#x62;&#x40;&#119;&#111;&#114;&#107;&#105;&#x6e;&#103;&#x63;&#111;&#x64;&#x65;&#46;&#110;&#x69;&#110;&#x6a;&#97;</a>
+				<p>Copyright (c) 2015 Rogier Schouten <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#x67;&#x69;&#116;&#104;&#117;&#x62;&#64;&#119;&#111;&#114;&#x6b;&#x69;&#x6e;&#x67;&#99;&#x6f;&#x64;&#101;&#46;&#x6e;&#x69;&#x6e;&#106;&#97;">&#x67;&#x69;&#116;&#104;&#117;&#x62;&#64;&#119;&#111;&#114;&#x6b;&#x69;&#x6e;&#x67;&#99;&#x6f;&#x64;&#101;&#46;&#x6e;&#x69;&#x6e;&#106;&#97;</a>
 				ISC (see LICENSE file in repository root).</p>
 			</div>
 		</div>
@@ -448,10 +488,16 @@ myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 						<a href="modules/_lib_eventqueue_.html">"lib/<wbr>Event<wbr>Queue"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_lib_any_event_.html">"lib/any-<wbr>event"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_lib_async_event_.html">"lib/async-<wbr>event"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_lib_base_event_.html">"lib/base-<wbr>event"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_lib_objects_.html">"lib/objects"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_lib_queued_event_.html">"lib/queued-<wbr>event"</a>

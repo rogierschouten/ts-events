@@ -35,6 +35,11 @@ export interface QueuedEventOpts {
  */
 export class QueuedEvent<T> extends BaseEvent<T> {
 
+    /**
+     * Used internally - the exact options object given to constructor
+     */
+    public options: QueuedEventOpts;
+
     private _condensed: boolean;
     private _queue: EventQueue;
     private _queued: boolean = false;
@@ -49,6 +54,7 @@ export class QueuedEvent<T> extends BaseEvent<T> {
      */
     constructor(opts?: QueuedEventOpts) {
         super();
+        this.options = opts;
         var options: QueuedEventOpts = opts || {};
         if (typeof options.condensed === "boolean") {
             this._condensed = options.condensed;

@@ -62,19 +62,19 @@ export class BaseEvent<T> {
      * @param boundTo (Optional) The this argument of the handler
      * @param handler The function to call.
      */
-    public attach(a1: any, a2?: any): void {
+    public attach(...args: any[]): void {
         var boundTo: Object;
         var handler: (data: T) => void;
         var event: BaseEvent<T>;
-        if (typeof a1 === "function") {
-            handler = a1;
-        } else if (a1 instanceof BaseEvent) {
-            event = a1;
+        if (typeof args[0] === "function") {
+            handler = args[0];
+        } else if (args[0] instanceof BaseEvent && args.length === 1) {
+            event = args[0];
         } else {
-            assert(typeof a1 === "object", "Expect a function or object as first argument");
-            assert(typeof a2 === "function", "Expect a function as second argument");
-            boundTo = a1;
-            handler = a2;
+            assert(typeof args[0] === "object", "Expect a function or object as first argument");
+            assert(typeof args[1] === "function", "Expect a function as second argument");
+            boundTo = args[0];
+            handler = args[1];
         }
         if (!this._listeners) {
             this._listeners = [];

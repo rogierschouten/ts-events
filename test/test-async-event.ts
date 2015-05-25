@@ -162,7 +162,7 @@ describe("AsyncEvent", (): void => {
             done();
         }, 0);
     });
-    it("should allow attaching another event", (): void => {
+    it("should allow attaching another event", (done: MochaDone): void => {
         var e = new AsyncEvent<string>();
         var f = new AsyncEvent<string>();
         var calledWith: string[] = [];
@@ -177,10 +177,11 @@ describe("AsyncEvent", (): void => {
         setImmediate((): void => {
             setImmediate((): void => {
                 expect(calledWith).to.deep.equal(["A", "B"]);
+                done();
             });
         });
     });
-    it("should condense attached async events into the same cycle", (): void => {
+    it("should condense attached async events into the same cycle", (done: MochaDone): void => {
         var e = new AsyncEvent<string>();
         var f = new AsyncEvent<string>();
         var calledWith: string[] = [];
@@ -193,6 +194,7 @@ describe("AsyncEvent", (): void => {
         e.post("B");
         setImmediate((): void => {
             expect(calledWith).to.deep.equal(["A", "B"]);
+            done();
         });
     });
 

@@ -14,6 +14,10 @@ declare module 'ts-events' {
     export import VoidAsyncEvent = asyncEvent.VoidAsyncEvent;
     export import ErrorAsyncEvent = asyncEvent.ErrorAsyncEvent;
     export import EventQueue = require("__ts-events/lib/EventQueue");
+    import anyEvent = require("__ts-events/lib/any-event");
+    export import AnyEvent = anyEvent.AnyEvent;
+    export import VoidAnyEvent = anyEvent.VoidAnyEvent;
+    export import ErrorAnyEvent = anyEvent.ErrorAnyEvent;
     /**
         * The global event queue for QueuedEvents
         */
@@ -101,6 +105,10 @@ declare module '__ts-events/lib/queued-event' {
         */
     export class QueuedEvent<T> extends BaseEvent<T> {
             /**
+                * Used internally - the exact options object given to constructor
+                */
+            options: QueuedEventOpts;
+            /**
                 * Constructor
                 * @param opts Optional, an object with the following members:
                 *             - condensed: a Boolean indicating whether to condense multiple calls to post() into one (default false)
@@ -153,6 +161,10 @@ declare module '__ts-events/lib/async-event' {
         * - Handlers are not called anymore when they are detached, even if a post() is in progress
         */
     export class AsyncEvent<T> extends BaseEvent<T> {
+            /**
+                * Used internally - the exact options object given to constructor
+                */
+            options: AsyncEventOpts;
             /**
                 * The default scheduler uses setImmediate() or setTimeout(..., 0) if setImmediate is not available.
                 */
@@ -246,6 +258,63 @@ declare module '__ts-events/lib/EventQueue' {
             flush(maxRounds?: number): void;
     }
     export = EventQueue;
+}
+
+declare module '__ts-events/lib/any-event' {
+    import baseEvent = require("__ts-events/lib/base-event");
+    import BaseEvent = baseEvent.BaseEvent;
+    import asyncEvent = require("__ts-events/lib/async-event");
+    import AsyncEventOpts = asyncEvent.AsyncEventOpts;
+    import queuedEvent = require("__ts-events/lib/queued-event");
+    import QueuedEventOpts = queuedEvent.QueuedEventOpts;
+    export enum EventType {
+            Sync = 0,
+            Async = 1,
+            Queued = 2,
+    }
+    /**
+        * An event that behaves like a Sync/Async/Queued event depending on how
+        * you subscribe.
+        */
+    export class AnyEvent<T> extends BaseEvent<T> {
+            attach(handler: (data: T) => void): void;
+            attach(boundTo: Object, handler: (data: T) => void): void;
+            attach(event: BaseEvent<T>): void;
+            attachAsync(handler: (data: T) => void, opts?: AsyncEventOpts): void;
+            attachAsync(boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts): void;
+            attachAsync(event: BaseEvent<T>, opts?: AsyncEventOpts): void;
+            attachQueued(handler: (data: T) => void, opts?: QueuedEventOpts): void;
+            attachQueued(boundTo: Object, handler: (data: T) => void, opts?: QueuedEventOpts): void;
+            attachQueued(event: BaseEvent<T>, opts?: QueuedEventOpts): void;
+            detach(handler: (data: T) => void): void;
+            detach(boundTo: Object, handler: (data: T) => void): void;
+            detach(boundTo: Object): void;
+            detach(event: BaseEvent<T>): void;
+            detach(): void;
+            /**
+                * Post an event to all current listeners
+                */
+            post(data: T): void;
+            /**
+                * The number of attached listeners
+                */
+            listenerCount(): number;
+    }
+    /**
+        * Convenience class for AnyEvents without data
+        */
+    export class VoidAnyEvent extends AnyEvent<void> {
+            /**
+                * Send the AsyncEvent.
+                */
+            post(): void;
+    }
+    /**
+        * Similar to "error" event on EventEmitter: throws when a post() occurs while no handlers set.
+        */
+    export class ErrorAnyEvent extends AnyEvent<Error> {
+            post(data: Error): void;
+    }
 }
 
 declare module '__ts-events/lib/base-event' {
