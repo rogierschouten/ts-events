@@ -314,6 +314,11 @@ Event queues have two flush functions:
 
 The flush() function has a safeguard: by default, if it needs more than 10 iterations to clear the queue, it throws an error saying there is an endless recursion going on. You can give it a different limit if you like. Simply call e.g. flush(100) to set the limit to 100.
 
+### evtFilled and evtDrained
+
+Event queues have two synchronous events themselves that fire when the queue becomes empty (evtDrained) or non-empty (evtFilled). The Filled event only occurs when an event is added to an empty queue OUTSIDE of a flush operation. The Drained event occurs at the end of a flush operation if the queue is flushed empty.
+To check whether the queue is empty, use the empty() method.
+
 ### Condensing events
 
 For a-synchronous events and for queued events, you can opt to condense multiple post() calls into one. If multiple post() calls happen before the handlers are called, the handlers are invoked only once, with the argument from the last post() call.
@@ -451,6 +456,10 @@ myEvent.post(); // no need to pass 'undefined'
 ```
 
 ## Changelog
+
+v1.1.0 (2015-05-25):
+- Add events to the EventQueue to detect when it becomes empty/non-empty to facilitate intelligent flushing.
+- Add a new type of event called AnyEvent where the choice of sync/async/queued is left to the subscriber rather than the publisher.
 
 v1.0.0 (2015-04-30):
 - Ready for production use.

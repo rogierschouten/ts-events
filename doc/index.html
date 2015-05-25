@@ -337,6 +337,9 @@ myQueue.flush();
 					<li>flush() keeps clearing the queue until it remains empty, i.e. events added by event handlers are also called.</li>
 				</ul>
 				<p>The flush() function has a safeguard: by default, if it needs more than 10 iterations to clear the queue, it throws an error saying there is an endless recursion going on. You can give it a different limit if you like. Simply call e.g. flush(100) to set the limit to 100.</p>
+				<h3 id="evtfilled-and-evtdrained">evtFilled and evtDrained</h3>
+				<p>Event queues have two synchronous events themselves that fire when the queue becomes empty (evtDrained) or non-empty (evtFilled). The Filled event only occurs when an event is added to an empty queue OUTSIDE of a flush operation. The Drained event occurs at the end of a flush operation if the queue is flushed empty.
+				To check whether the queue is empty, use the empty() method.</p>
 				<h3 id="condensing-events">Condensing events</h3>
 				<p>For a-synchronous events and for queued events, you can opt to condense multiple post() calls into one. If multiple post() calls happen before the handlers are called, the handlers are invoked only once, with the argument from the last post() call.</p>
 				<pre><code class="lang-javascript">
@@ -438,6 +441,11 @@ myEvent.post(<span class="hljs-literal">undefined</span>)
 myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 </code></pre>
 				<h2 id="changelog">Changelog</h2>
+				<p>v1.1.0 (2015-05-25):</p>
+				<ul>
+					<li>Add events to the EventQueue to detect when it becomes empty/non-empty to facilitate intelligent flushing.</li>
+					<li>Add a new type of event called AnyEvent where the choice of sync/async/queued is left to the subscriber rather than the publisher.</li>
+				</ul>
 				<p>v1.0.0 (2015-04-30):</p>
 				<ul>
 					<li>Ready for production use.</li>
@@ -471,7 +479,7 @@ myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 					<li>Initial version</li>
 				</ul>
 				<h2 id="license">License</h2>
-				<p>Copyright (c) 2015 Rogier Schouten <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#x67;&#x69;&#116;&#104;&#117;&#x62;&#64;&#119;&#111;&#114;&#x6b;&#x69;&#x6e;&#x67;&#99;&#x6f;&#x64;&#101;&#46;&#x6e;&#x69;&#x6e;&#106;&#97;">&#x67;&#x69;&#116;&#104;&#117;&#x62;&#64;&#119;&#111;&#114;&#x6b;&#x69;&#x6e;&#x67;&#99;&#x6f;&#x64;&#101;&#46;&#x6e;&#x69;&#x6e;&#106;&#97;</a>
+				<p>Copyright (c) 2015 Rogier Schouten <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#103;&#x69;&#x74;&#104;&#x75;&#x62;&#x40;&#x77;&#x6f;&#114;&#x6b;&#x69;&#x6e;&#x67;&#x63;&#111;&#x64;&#x65;&#46;&#x6e;&#x69;&#x6e;&#x6a;&#97;">&#103;&#x69;&#x74;&#104;&#x75;&#x62;&#x40;&#x77;&#x6f;&#114;&#x6b;&#x69;&#x6e;&#x67;&#x63;&#111;&#x64;&#x65;&#46;&#x6e;&#x69;&#x6e;&#x6a;&#97;</a>
 				ISC (see LICENSE file in repository root).</p>
 			</div>
 		</div>
