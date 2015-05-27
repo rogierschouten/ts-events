@@ -1,4 +1,5 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
+// License: ISC
 
 /// <reference path="../typings/index.d.ts"/>
 

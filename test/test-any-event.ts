@@ -23,7 +23,7 @@ describe("AnyEvent", (): void => {
         it("should send events", (): void => {
             var e = new AnyEvent<string>();
             var calledWith: string[] = [];
-            e.attach((s: string): void => {
+            e.attachSync((s: string): void => {
                 calledWith.push(s);
             });
             e.post("A");
@@ -31,7 +31,7 @@ describe("AnyEvent", (): void => {
         });
         it("should use the Event as this parameter by default", (): void => {
             var e = new AnyEvent<string>();
-            e.attach(function(s: string): void {
+            e.attachSync(function(s: string): void {
                 expect(this).to.equal(e);
             });
             e.post("A");
@@ -39,7 +39,7 @@ describe("AnyEvent", (): void => {
         it("should use a given object as this parameter when given", (): void => {
             var e = new AnyEvent<string>();
             var t = {};
-            e.attach(t, function(s: string): void {
+            e.attachSync(t, function(s: string): void {
                 expect(this).to.equal(t);
             });
             e.post("A");
@@ -48,7 +48,7 @@ describe("AnyEvent", (): void => {
             var e = new AnyEvent<string>();
             var calledWith: string[] = [];
             e.post("A");
-            e.attach((s: string): void => {
+            e.attachSync((s: string): void => {
                 calledWith.push(s);
             });
             e.post("B");
@@ -57,7 +57,7 @@ describe("AnyEvent", (): void => {
         it("should not send events at all to detached event handlers", (): void => {
             var e = new AnyEvent<string>();
             var calledWith: string[] = [];
-            e.attach((s: string): void => {
+            e.attachSync((s: string): void => {
                 calledWith.push(s);
             });
             e.detach();
@@ -67,8 +67,8 @@ describe("AnyEvent", (): void => {
         it("should allow attaching event handlers within handlers", (): void => {
             var e = new AnyEvent<string>();
             var calledWith: string[] = [];
-            e.attach((s: string): void => {
-                e.attach((s: string): void => {
+            e.attachSync((s: string): void => {
+                e.attachSync((s: string): void => {
                     calledWith.push(s);
                 });
             });
@@ -83,7 +83,7 @@ describe("AnyEvent", (): void => {
                 calledWith.push(s);
                 e.detach(f);
             };
-            e.attach(f);
+            e.attachSync(f);
             e.post("A");
             e.post("B");
             expect(calledWith).to.deep.equal(["A"]);
@@ -95,7 +95,7 @@ describe("AnyEvent", (): void => {
                 callCount++;
                 e.post("A");
             };
-            e.attach(f);
+            e.attachSync(f);
             assert.throws((): void => {
                 e.post("A");
             });
@@ -111,7 +111,7 @@ describe("AnyEvent", (): void => {
                     e.post("A");
                 }
             };
-            e.attach(f);
+            e.attachSync(f);
             assert.doesNotThrow((): void => {
                 e.post("A");
             });
@@ -124,8 +124,8 @@ describe("AnyEvent", (): void => {
             var g = (s: string): void => {
                 calledWith.push(s);
             };
-            e.attach(f);
-            f.attach(g);
+            e.attachSync(f);
+            f.attachSync(g);
             e.post("A");
             e.post("B");
             expect(calledWith).to.deep.equal(["A", "B"]);
@@ -479,7 +479,7 @@ describe("VoidAnyEvent", (): void => {
     it("should allow sending event without parameters", (done: MochaDone): void => {
         var e = new tsevents.VoidAnyEvent();
         var callCount = 0;
-        e.attach((): void => {
+        e.attachSync((): void => {
             callCount++;
         });
         e.post();
@@ -497,7 +497,7 @@ describe("ErrorAnyEvent", (): void => {
     });
     it("should not throw on posting with handlers", (): void => {
         var e = new tsevents.ErrorAnyEvent();
-        e.attach((error: Error): void => {
+        e.attachSync((error: Error): void => {
             // nothing
         });
         assert.doesNotThrow((): void => {

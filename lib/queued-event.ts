@@ -1,4 +1,5 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
+// License: ISC
 
 /// <reference path="../typings/index.d.ts"/>
 
@@ -11,6 +12,7 @@ import EventQueue = require("./EventQueue");
 import baseEvent = require("./base-event");
 import BaseEvent = baseEvent.BaseEvent;
 import Listener = baseEvent.Listener;
+import Postable = baseEvent.Postable;
 
 /**
  * Options for the QueuedEvent constructor
@@ -33,7 +35,7 @@ export interface QueuedEventOpts {
  * - Handlers are called only for events posted after they were attached.
  * - Handlers are not called anymore when they are detached, even if a post() is in progress
  */
-export class QueuedEvent<T> extends BaseEvent<T> {
+export class QueuedEvent<T> extends BaseEvent<T> implements Postable<T> {
 
     /**
      * Used internally - the exact options object given to constructor

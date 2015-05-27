@@ -16,7 +16,7 @@ describe("AnyEvent", function () {
         it("should send events", function () {
             var e = new AnyEvent();
             var calledWith = [];
-            e.attach(function (s) {
+            e.attachSync(function (s) {
                 calledWith.push(s);
             });
             e.post("A");
@@ -24,7 +24,7 @@ describe("AnyEvent", function () {
         });
         it("should use the Event as this parameter by default", function () {
             var e = new AnyEvent();
-            e.attach(function (s) {
+            e.attachSync(function (s) {
                 expect(this).to.equal(e);
             });
             e.post("A");
@@ -32,7 +32,7 @@ describe("AnyEvent", function () {
         it("should use a given object as this parameter when given", function () {
             var e = new AnyEvent();
             var t = {};
-            e.attach(t, function (s) {
+            e.attachSync(t, function (s) {
                 expect(this).to.equal(t);
             });
             e.post("A");
@@ -41,7 +41,7 @@ describe("AnyEvent", function () {
             var e = new AnyEvent();
             var calledWith = [];
             e.post("A");
-            e.attach(function (s) {
+            e.attachSync(function (s) {
                 calledWith.push(s);
             });
             e.post("B");
@@ -50,7 +50,7 @@ describe("AnyEvent", function () {
         it("should not send events at all to detached event handlers", function () {
             var e = new AnyEvent();
             var calledWith = [];
-            e.attach(function (s) {
+            e.attachSync(function (s) {
                 calledWith.push(s);
             });
             e.detach();
@@ -60,8 +60,8 @@ describe("AnyEvent", function () {
         it("should allow attaching event handlers within handlers", function () {
             var e = new AnyEvent();
             var calledWith = [];
-            e.attach(function (s) {
-                e.attach(function (s) {
+            e.attachSync(function (s) {
+                e.attachSync(function (s) {
                     calledWith.push(s);
                 });
             });
@@ -76,7 +76,7 @@ describe("AnyEvent", function () {
                 calledWith.push(s);
                 e.detach(f);
             };
-            e.attach(f);
+            e.attachSync(f);
             e.post("A");
             e.post("B");
             expect(calledWith).to.deep.equal(["A"]);
@@ -88,7 +88,7 @@ describe("AnyEvent", function () {
                 callCount++;
                 e.post("A");
             };
-            e.attach(f);
+            e.attachSync(f);
             assert.throws(function () {
                 e.post("A");
             });
@@ -104,7 +104,7 @@ describe("AnyEvent", function () {
                     e.post("A");
                 }
             };
-            e.attach(f);
+            e.attachSync(f);
             assert.doesNotThrow(function () {
                 e.post("A");
             });
@@ -117,8 +117,8 @@ describe("AnyEvent", function () {
             var g = function (s) {
                 calledWith.push(s);
             };
-            e.attach(f);
-            f.attach(g);
+            e.attachSync(f);
+            f.attachSync(g);
             e.post("A");
             e.post("B");
             expect(calledWith).to.deep.equal(["A", "B"]);
@@ -465,7 +465,7 @@ describe("VoidAnyEvent", function () {
     it("should allow sending event without parameters", function (done) {
         var e = new tsevents.VoidAnyEvent();
         var callCount = 0;
-        e.attach(function () {
+        e.attachSync(function () {
             callCount++;
         });
         e.post();
@@ -482,7 +482,7 @@ describe("ErrorAnyEvent", function () {
     });
     it("should not throw on posting with handlers", function () {
         var e = new tsevents.ErrorAnyEvent();
-        e.attach(function (error) {
+        e.attachSync(function (error) {
             // nothing
         });
         assert.doesNotThrow(function () {

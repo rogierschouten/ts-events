@@ -1,4 +1,5 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
+// License: ISC
 
 /// <reference path="../typings/index.d.ts"/>
 
@@ -8,6 +9,7 @@ import util = require("util");
 
 import baseEvent = require("./base-event");
 import BaseEvent = baseEvent.BaseEvent;
+import Postable = baseEvent.Postable;
 
 
 /**
@@ -18,7 +20,7 @@ import BaseEvent = baseEvent.BaseEvent;
  * - Handlers are called only for events posted after they were attached.
  * - Handlers are not called anymore when they are detached, even if a post() is in progress
  */
-export class SyncEvent<T> extends BaseEvent<T> {
+export class SyncEvent<T> extends BaseEvent<T> implements Postable<T> {
 
     /**
      * Maximum number of times that an event handler may cause the same event

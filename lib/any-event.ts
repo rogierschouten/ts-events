@@ -1,4 +1,5 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
+// License: ISC
 
 /// <reference path="../typings/index.d.ts"/>
 
@@ -10,6 +11,7 @@ import objects = require("./objects");
 
 import baseEvent = require("./base-event");
 import BaseEvent = baseEvent.BaseEvent;
+import Postable = baseEvent.Postable;
 
 import syncEvent = require("./sync-event");
 import SyncEvent = syncEvent.SyncEvent;
@@ -32,18 +34,18 @@ export enum EventType {
  * An event that behaves like a Sync/Async/Queued event depending on how
  * you subscribe.
  */
-export class AnyEvent<T> extends BaseEvent<T> {
+export class AnyEvent<T> implements Postable<T> {
 
     private _events: BaseEvent<T>[] = [];
 
-    public attach(handler: (data: T) => void): void;
-    public attach(boundTo: Object, handler: (data: T) => void): void;
-    public attach(event: BaseEvent<T>): void;
+    public attachSync(handler: (data: T) => void): void;
+    public attachSync(boundTo: Object, handler: (data: T) => void): void;
+    public attachSync(event: Postable<T>): void;
     /**
      * Attach event handlers as if it were a sync event. It is simply called "attach"
      * so that this class adheres to the BaseEvent<T> signature.
      */
-    public attach(...args: any[]): void {
+    public attachSync(...args: any[]): void {
         // add ourselves as default 'boundTo' argument
         if (args.length > 0 && typeof args[0] === "function") {
             args.unshift(this);
@@ -63,7 +65,7 @@ export class AnyEvent<T> extends BaseEvent<T> {
 
     public attachAsync(handler: (data: T) => void, opts?: AsyncEventOpts): void;
     public attachAsync(boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts): void;
-    public attachAsync(event: BaseEvent<T>, opts?: AsyncEventOpts): void;
+    public attachAsync(event: Postable<T>, opts?: AsyncEventOpts): void;
     /**
      * Attach event handlers as if it were a a-sync event
      */
@@ -92,7 +94,7 @@ export class AnyEvent<T> extends BaseEvent<T> {
 
     public attachQueued(handler: (data: T) => void, opts?: QueuedEventOpts): void;
     public attachQueued(boundTo: Object, handler: (data: T) => void, opts?: QueuedEventOpts): void;
-    public attachQueued(event: BaseEvent<T>, opts?: QueuedEventOpts): void;
+    public attachQueued(event: Postable<T>, opts?: QueuedEventOpts): void;
     /**
      * Attach event handlers as if it were a queued event
      */
@@ -122,7 +124,7 @@ export class AnyEvent<T> extends BaseEvent<T> {
     public detach(handler: (data: T) => void): void;
     public detach(boundTo: Object, handler: (data: T) => void): void;
     public detach(boundTo: Object): void;
-    public detach(event: BaseEvent<T>): void;
+    public detach(event: Postable<T>): void;
     public detach(): void;
     /**
      * Detach event handlers regardless of type

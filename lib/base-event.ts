@@ -1,10 +1,15 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
+// License: ISC
 
 /// <reference path="../typings/index.d.ts"/>
 
 "use strict";
 
 import assert = require("assert");
+
+export interface Postable<T> {
+    post(data: T): void;
+}
 
 /**
  * Internal interface between BaseEvent and its subclasses
@@ -25,14 +30,14 @@ export interface Listener<T> {
     /**
      * Instead of a handler, an attached event
      */
-    event?: BaseEvent<T>;
+    event?: Postable<T>;
 }
 
 /**
  * Base class for events.
  * Handles attaching and detaching listeners
  */
-export class BaseEvent<T> {
+export class BaseEvent<T> implements Postable<T> {
 
     /**
      * Attached listeners. NOTE: do not modify.
@@ -56,7 +61,7 @@ export class BaseEvent<T> {
      * Attach an event directly
      * @param event The event to be posted
      */
-    public attach(event: BaseEvent<T>): void;
+    public attach(event: Postable<T>): void;
     /**
      * Attach an event handler
      * @param boundTo (Optional) The this argument of the handler
@@ -65,10 +70,10 @@ export class BaseEvent<T> {
     public attach(...args: any[]): void {
         var boundTo: Object;
         var handler: (data: T) => void;
-        var event: BaseEvent<T>;
+        var event: Postable<T>;
         if (typeof args[0] === "function") {
             handler = args[0];
-        } else if (args[0] instanceof BaseEvent && args.length === 1) {
+        } else if (args.length === 1 && typeof args[0].post === "function") {
             event = args[0];
         } else {
             assert(typeof args[0] === "object", "Expect a function or object as first argument");
@@ -108,7 +113,7 @@ export class BaseEvent<T> {
     /**
      * Detach the given event.
      */
-    public detach(event: BaseEvent<T>): void;
+    public detach(event: Postable<T>): void;
     /**
      * Detach all listeners
      */
@@ -122,11 +127,11 @@ export class BaseEvent<T> {
         }
         var boundTo: Object;
         var handler: (data: T) => void;
-        var event: BaseEvent<T>;
+        var event: Postable<T>;
         if (args.length >= 1) {
             if (typeof (args[0]) === "function") {
                 handler = args[0];
-            } else if (args[0] instanceof BaseEvent) {
+            } else if (args.length === 1 && typeof args[0].post === "function") {
                 event = args[0];
             } else {
                 boundTo = args[0];

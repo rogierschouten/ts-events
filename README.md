@@ -112,6 +112,24 @@ tsevents.flush(); // only needed for queued
 
 For class documentation, see ./doc/index.html
 
+## Installation
+
+```sh
+cd your-package
+npm install --save ts-events
+```
+
+Then, include the library using:
+```javascript
+var tsEvents = require("ts-events");
+```
+
+If you're programming in TypeScript, you can include it like this:
+```javascript
+/// <reference path="./node_modules/ts-events/ts-events.d.ts" />
+import tsEvents = require("ts-events");
+```
+
 ## Usage
 
 ### Event types
@@ -457,6 +475,9 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v2.0.0
+- Breaking change: removed AnyEvent#attach() and replaced it with attachSync() to force users of AnyEvents to think about how to attach.
+
 v1.1.0 (2015-05-25):
 - Add events to the EventQueue to detect when it becomes empty/non-empty to facilitate intelligent flushing.
 - Add a new type of event called AnyEvent where the choice of sync/async/queued is left to the subscriber rather than the publisher.
@@ -476,7 +497,7 @@ v0.0.4 (2015-04-29):
 v0.0.3 (2015-04-28):
 - Feature: allow to attach any event to any other event directly
 - Feature: allow to disable recursion protection mechanism for SyncEvents
-- BREAKING CHANGE: renamed flushEmpty() to flush()
+- Breaking change: renamed flushEmpty() to flush()
 - Documentation updates
 - Various build system improvements
 

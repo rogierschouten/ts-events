@@ -41,6 +41,7 @@ declare module 'ts-events' {
 declare module '__ts-events/lib/sync-event' {
     import baseEvent = require("__ts-events/lib/base-event");
     import BaseEvent = baseEvent.BaseEvent;
+    import Postable = baseEvent.Postable;
     /**
         * This is a true EventEmitter replacement: the handlers are called synchronously when
         * you post the event.
@@ -49,7 +50,7 @@ declare module '__ts-events/lib/sync-event' {
         * - Handlers are called only for events posted after they were attached.
         * - Handlers are not called anymore when they are detached, even if a post() is in progress
         */
-    export class SyncEvent<T> extends BaseEvent<T> {
+    export class SyncEvent<T> extends BaseEvent<T> implements Postable<T> {
             /**
                 * Maximum number of times that an event handler may cause the same event
                 * recursively.
@@ -83,6 +84,7 @@ declare module '__ts-events/lib/queued-event' {
     import EventQueue = require("__ts-events/lib/EventQueue");
     import baseEvent = require("__ts-events/lib/base-event");
     import BaseEvent = baseEvent.BaseEvent;
+    import Postable = baseEvent.Postable;
     /**
         * Options for the QueuedEvent constructor
         */
@@ -103,7 +105,7 @@ declare module '__ts-events/lib/queued-event' {
         * - Handlers are called only for events posted after they were attached.
         * - Handlers are not called anymore when they are detached, even if a post() is in progress
         */
-    export class QueuedEvent<T> extends BaseEvent<T> {
+    export class QueuedEvent<T> extends BaseEvent<T> implements Postable<T> {
             /**
                 * Used internally - the exact options object given to constructor
                 */
@@ -144,6 +146,7 @@ declare module '__ts-events/lib/async-event' {
     import baseEvent = require("__ts-events/lib/base-event");
     import BaseEvent = baseEvent.BaseEvent;
     import Listener = baseEvent.Listener;
+    import Postable = baseEvent.Postable;
     /**
         * Options for the AsyncEvent constructor
         */
@@ -160,7 +163,7 @@ declare module '__ts-events/lib/async-event' {
         * - Handlers are called only for events posted after they were attached.
         * - Handlers are not called anymore when they are detached, even if a post() is in progress
         */
-    export class AsyncEvent<T> extends BaseEvent<T> {
+    export class AsyncEvent<T> extends BaseEvent<T> implements Postable<T> {
             /**
                 * Used internally - the exact options object given to constructor
                 */
@@ -262,7 +265,7 @@ declare module '__ts-events/lib/EventQueue' {
 
 declare module '__ts-events/lib/any-event' {
     import baseEvent = require("__ts-events/lib/base-event");
-    import BaseEvent = baseEvent.BaseEvent;
+    import Postable = baseEvent.Postable;
     import asyncEvent = require("__ts-events/lib/async-event");
     import AsyncEventOpts = asyncEvent.AsyncEventOpts;
     import queuedEvent = require("__ts-events/lib/queued-event");
@@ -276,20 +279,20 @@ declare module '__ts-events/lib/any-event' {
         * An event that behaves like a Sync/Async/Queued event depending on how
         * you subscribe.
         */
-    export class AnyEvent<T> extends BaseEvent<T> {
-            attach(handler: (data: T) => void): void;
-            attach(boundTo: Object, handler: (data: T) => void): void;
-            attach(event: BaseEvent<T>): void;
+    export class AnyEvent<T> implements Postable<T> {
+            attachSync(handler: (data: T) => void): void;
+            attachSync(boundTo: Object, handler: (data: T) => void): void;
+            attachSync(event: Postable<T>): void;
             attachAsync(handler: (data: T) => void, opts?: AsyncEventOpts): void;
             attachAsync(boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts): void;
-            attachAsync(event: BaseEvent<T>, opts?: AsyncEventOpts): void;
+            attachAsync(event: Postable<T>, opts?: AsyncEventOpts): void;
             attachQueued(handler: (data: T) => void, opts?: QueuedEventOpts): void;
             attachQueued(boundTo: Object, handler: (data: T) => void, opts?: QueuedEventOpts): void;
-            attachQueued(event: BaseEvent<T>, opts?: QueuedEventOpts): void;
+            attachQueued(event: Postable<T>, opts?: QueuedEventOpts): void;
             detach(handler: (data: T) => void): void;
             detach(boundTo: Object, handler: (data: T) => void): void;
             detach(boundTo: Object): void;
-            detach(event: BaseEvent<T>): void;
+            detach(event: Postable<T>): void;
             detach(): void;
             /**
                 * Post an event to all current listeners
@@ -318,6 +321,9 @@ declare module '__ts-events/lib/any-event' {
 }
 
 declare module '__ts-events/lib/base-event' {
+    export interface Postable<T> {
+            post(data: T): void;
+    }
     /**
         * Internal interface between BaseEvent and its subclasses
         */
@@ -337,13 +343,13 @@ declare module '__ts-events/lib/base-event' {
             /**
                 * Instead of a handler, an attached event
                 */
-            event?: BaseEvent<T>;
+            event?: Postable<T>;
     }
     /**
         * Base class for events.
         * Handles attaching and detaching listeners
         */
-    export class BaseEvent<T> {
+    export class BaseEvent<T> implements Postable<T> {
             /**
                 * Attached listeners. NOTE: do not modify.
                 * Instead, replace with a new array with possibly the same elements. This ensures
@@ -365,7 +371,7 @@ declare module '__ts-events/lib/base-event' {
                 * Attach an event directly
                 * @param event The event to be posted
                 */
-            attach(event: BaseEvent<T>): void;
+            attach(event: Postable<T>): void;
             /**
                 * Detach all listeners with the given handler function
                 */
@@ -381,7 +387,7 @@ declare module '__ts-events/lib/base-event' {
             /**
                 * Detach the given event.
                 */
-            detach(event: BaseEvent<T>): void;
+            detach(event: Postable<T>): void;
             /**
                 * Detach all listeners
                 */
