@@ -108,10 +108,6 @@ tsevents.flush(); // only needed for queued
 * Detach one handler, all handlers, or all handlers bound to a certain object
 * Decide on sync/a-sync/queued either in the publisher or in the subscriber
 
-## Documentation
-
-For class documentation, see ./doc/index.html
-
 ## Installation
 
 ```sh
@@ -121,13 +117,12 @@ npm install --save ts-events
 
 Then, include the library using:
 ```javascript
-var tsEvents = require("ts-events");
+var tsevents = require('ts-events');
 ```
 
 If you're programming in TypeScript, you can include it like this:
 ```javascript
-/// <reference path="./node_modules/ts-events/ts-events.d.ts" />
-import tsEvents = require("ts-events");
+import * as tsevents from 'ts-events';
 ```
 
 ## Usage
