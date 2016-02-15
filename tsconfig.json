@@ -6,8 +6,10 @@
         "declaration": true,
         "noImplicitAny": true,
         "removeComments": false,
+        "emitDecoratorMetadata": true,
         "noLib": false,
-        "sourceMap": true
+        "sourceMap": true,
+        "outDir": "dist"
     },
     "formatCodeOptions": {
         "indentSize": 4,
@@ -23,28 +25,7 @@
         "placeOpenBraceOnNewLineForFunctions": false,
         "placeOpenBraceOnNewLineForControlBlocks": false
     },
-    "filesGlob": [
-        "./**/*.ts",
-        "!./node_modules/**/*.ts",
-        "!./**/*.d.ts"
-    ],
     "files": [
-        "./examples/sync.ts",
-        "./index.ts",
-        "./lib/EventQueue.ts",
-        "./lib/any-event.ts",
-        "./lib/async-event.ts",
-        "./lib/base-event.ts",
-        "./lib/objects.ts",
-        "./lib/queued-event.ts",
-        "./lib/sync-event.ts",
-        "./test/test-any-event.ts",
-        "./test/test-async-event.ts",
-        "./test/test-base-event.ts",
-        "./test/test-event-queue.ts",
-        "./test/test-index.ts",
-        "./test/test-objects.ts",
-        "./test/test-queued-event.ts",
-        "./test/test-sync-event.ts"
+        "src/index.ts"
     ]
 }
