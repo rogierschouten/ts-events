@@ -9,8 +9,8 @@
     "email": "github@workingcode.ninja"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/rogierschouten/ts-events.git"
+    "type": "git",
+    "url": "https://github.com/rogierschouten/ts-events.git"
   },
   "typescript": {
     "definition": "ts-events.d.ts"
@@ -41,6 +41,7 @@
   "devDependencies": {
     "chai": "^2.3.0",
     "dts-bundle": "^0.2.0",
+    "istanbul": "^0.4.2",
     "mocha": "^2.2.4",
     "source-map-support": "^0.2.10",
     "typedoc": "^0.3.3"

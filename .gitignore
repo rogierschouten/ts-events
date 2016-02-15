@@ -49,3 +49,4 @@ index.d.ts
 examples/*.d.ts
 lib/*.d.ts
 test/*.d.ts
+build
