@@ -1,0 +1,613 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>ts-events</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script src="assets/js/modernizr.js"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">ts-events</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> ts-events</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<p><a href="http://badge.fury.io/js/ts-events"><img src="https://badge.fury.io/js/ts-events.svg" alt="NPM version"></a>
+				<img src="http://img.shields.io/npm/l/ts-events.svg" alt="license"></p>
+				<p><a href="https://nodei.co/npm/ts-events/"><img src="https://nodei.co/npm/ts-events.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM"></a>
+				<a href="https://nodei.co/npm/ts-events/"><img src="https://nodei.co/npm-dl/ts-events.png?months=9&amp;height=3" alt="NPM"></a></p>
+				<h1 id="ts-events">ts-events</h1>
+				<p>A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter, and instead makes each event into a member which is its own little emitter.
+				Implemented in TypeScript (typings file included) and usable with JavaScript as well.</p>
+				<h2 id="tl-dr">TL;DR</h2>
+				<p>Synchronous events:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> SyncEvent = tsevents.SyncEvent;
+
+<span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> SyncEvent();
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(s);
+});
+evtChange.post(<span class="hljs-string">"hi!"</span>);
+<span class="hljs-comment">// at this point, "hi!" was already printed on the console</span>
+</code></pre>
+				<p>A-synchronous events:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> AsyncEvent = tsevents.AsyncEvent;
+
+<span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> AsyncEvent();
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(s);
+});
+evtChange.post(<span class="hljs-string">"hi!"</span>);
+<span class="hljs-comment">// "hi!" will be printed to the console in the next Node.JS cycle</span>
+</code></pre>
+				<p>Queued events for fine-grained control:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> QueuedEvent = tsevents.QueuedEvent;
+
+<span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> QueuedEvent();
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(s);
+});
+evtChange.post(<span class="hljs-string">"hi!"</span>);
+<span class="hljs-comment">// the event is still in a global queue</span>
+
+tsevents.flush();
+<span class="hljs-comment">// now, "hi!" has been written to the console</span>
+</code></pre>
+				<p>Different ways of attaching:</p>
+				<pre><code class="lang-javascript">
+<span class="hljs-comment">// attach a function</span>
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(s);
+});
+
+<span class="hljs-comment">// attach a function bound to an object</span>
+evtChange.attach(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">this</span>.onChange);
+
+<span class="hljs-comment">// directly attach another event</span>
+evtChange.attach(<span class="hljs-keyword">this</span>.evtChange);
+</code></pre>
+				<p>Versatile events, let the subscriber choose:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> AnyEvent = tsevents.AnyEvent;
+
+<span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> AnyEvent();
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is synchronous."</span>);
+});
+evtChange.attachAsync(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is a-synchronous."</span>);
+});
+evtChange.attachQueued(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is queued."</span>);
+});
+evtChange.post(<span class="hljs-string">"hi!"</span>);
+tsevents.flush(); <span class="hljs-comment">// only needed for queued</span>
+</code></pre>
+				<h2 id="features">Features</h2>
+				<ul>
+					<li>Each event is a member, and its own little event emitter. Because of this, you have a place for comments to document them. And adding handlers is no longer on string basis.</li>
+					<li>For TypeScript users: made in TypeScript and type-safe. Typings are in ts-events.d.ts</li>
+					<li>Synchronous, a-synchronous and queued events</li>
+					<li>For a-synchronous events, you decide whether to use setImmediate(), setTimeout(, 0) or process.nextTick()</li>
+					<li>Recursion-safe: sending events from event handlers is possible, endless loops are detected</li>
+					<li>Attaching and detaching event handlers has clear semantics</li>
+					<li>Attach handlers bound to a certain object, i.e. no need for .bind(this)</li>
+					<li>Detach one handler, all handlers, or all handlers bound to a certain object</li>
+					<li>Decide on sync/a-sync/queued either in the publisher or in the subscriber</li>
+				</ul>
+				<h2 id="documentation">Documentation</h2>
+				<p>For class documentation, see ./doc/index.html</p>
+				<h2 id="installation">Installation</h2>
+				<pre><code class="lang-sh"><span class="hljs-built_in">cd</span> your-package
+npm install --save ts-events
+</code></pre>
+				<p>Then, include the library using:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsEvents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"ts-events"</span>);
+</code></pre>
+				<p>If you&#39;re programming in TypeScript, you can include it like this:</p>
+				<pre><code class="lang-javascript"><span class="hljs-comment">/// &lt;reference path="./node_modules/ts-events/ts-events.d.ts" /&gt;</span>
+<span class="hljs-keyword">import</span> tsEvents = require(<span class="hljs-string">"ts-events"</span>);
+</code></pre>
+				<h2 id="usage">Usage</h2>
+				<h3 id="event-types">Event types</h3>
+				<p>ts-event supports three event types: Synchronous, A-synchronous and Queued. Here is a comparison:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Event Type</th>
+							<th>Handler Invocation</th>
+							<th>Condensable?</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Synchronous</td>
+							<td>directly, within the call to post()</td>
+							<td>no</td>
+						</tr>
+						<tr>
+							<td>A-synchronous</td>
+							<td>in the next Node.JS cycle</td>
+							<td>yes</td>
+						</tr>
+						<tr>
+							<td>Queued</td>
+							<td>when you flush the queue manually</td>
+							<td>yes</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>In the table above, &quot;condensable&quot; means that you can choose to condense multiple sent events into one: e.g. for an a-synchronous event, you can opt that if it is sent more than once in a Node.JS cycle, the event handlers are invoked only once.</p>
+				<p>There is a fourth event called AnyEvent, which can act as a Sync/Async/Queued event depending on how you attach listeners.</p>
+				<h3 id="synchronous-events">Synchronous Events</h3>
+				<p>If you want EventEmitter-style events, then use SyncEvent. The handlers of SyncEvents are called directly when you emit the event.</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> SyncEvent = tsevents.SyncEvent;
+
+<span class="hljs-keyword">var</span> myEvent = <span class="hljs-keyword">new</span> SyncEvent();
+
+myEvent.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(s);
+});
+
+myEvent.post(<span class="hljs-string">"hi!"</span>);
+<span class="hljs-comment">// at this point, "hi!" was already printed on the console</span>
+</code></pre>
+				<p>Typically you use events as members in a class, instead of extending EventEmitter:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> SyncEvent = tsevents.SyncEvent;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">/**
+     * This event is called whenever the counter changes
+     * @param n The counter value
+     */</span>
+    <span class="hljs-keyword">this</span>.evtChanged = <span class="hljs-keyword">new</span> SyncEvent();
+    <span class="hljs-comment">/**
+     * The counter value
+     */</span>
+    <span class="hljs-keyword">this</span>.n = <span class="hljs-number">0</span>;
+}
+<span class="hljs-comment">/**
+ * Increment counter by 1
+ */</span>
+Counter.prototype.inc = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">this</span>.n++;
+    <span class="hljs-keyword">this</span>.evtChanged.post(<span class="hljs-keyword">this</span>.n);
+};
+
+<span class="hljs-keyword">var</span> ctr = <span class="hljs-keyword">new</span> Counter();
+
+<span class="hljs-comment">// Attach a handler to the event</span>
+<span class="hljs-comment">// Do this instead of ctr.on("changed", ...)</span>
+ctr.evtChanged.attach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The counter changed to: "</span> + n.toString(<span class="hljs-number">10</span>));
+});
+
+ctr.inc();
+<span class="hljs-comment">// Here, the event handler is already called and you see a log line on the console</span>
+</code></pre>
+				<p>As you can see, each event is its own little emitter.</p>
+				<p>For TypeScript users:</p>
+				<pre><code class="lang-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Counter</span> </span>{
+    <span class="hljs-comment">/**
+     * This event is called whenever the counter changes
+     * @param n The counter value
+     */</span>
+    public evtChanged: SyncEvent&lt;number&gt; = <span class="hljs-keyword">new</span> SyncEvent&lt;number&gt;();
+    <span class="hljs-comment">/**
+     * The counter value
+     */</span>
+    public n: number = <span class="hljs-number">0</span>;
+    <span class="hljs-comment">/**
+     * Increment counter by 1
+     */</span>
+    public inc(): <span class="hljs-keyword">void</span> {
+        <span class="hljs-keyword">this</span>.n++;
+        <span class="hljs-keyword">this</span>.evtChanged.post(<span class="hljs-keyword">this</span>.n);
+    }
+}
+
+<span class="hljs-keyword">var</span> ctr = <span class="hljs-keyword">new</span> Counter();
+
+ctr.evtChanged.attach((n: number): <span class="hljs-keyword">void</span> =&gt; {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The counter changed to: "</span> + n.toString(<span class="hljs-number">10</span>));
+});
+
+ctr.inc();
+<span class="hljs-comment">// Here, the event handler is already called and you see a log line on the console</span>
+</code></pre>
+				<h4 id="recursion-protection">Recursion protection</h4>
+				<p>Suppose that the handler for an event - directly or indirectly - causes the same event to be sent. For synchronous events, this would mean an infinite loop. SyncEvents have protection built-in: if a handler causes the same event to get posted 10 times recursively, an error is thrown. You can change or disable this behaviour with the static variable SyncEvent.MAX_RECURSION_DEPTH. Set it to null to disable or to a number greater than 0 to trigger the error sooner or later.</p>
+				<h3 id="a-synchronous-events">A-synchronous events</h3>
+				<p>Synchronous events (like Node.JS EventEmitter events) have the nasty habit of invoking handlers when they don&#39;t expect it.
+				Therefore we also have a-synchronous events: when you post an a-synchronous event, the handlers are called in the next Node.JS cycle. To use, simply use AsyncEvent instead of SyncEvent in the example above.</p>
+				<p>By default, AsyncEvent uses setImmediate() to defer a call to the next Node.JS cycle. You can change that by calling the static function AsyncEvent.setScheduler().</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> AsyncEvent = tsevents.AsyncEvent;
+
+<span class="hljs-comment">// Replace the default setImmediate() call by a setTimeout(, 0) call</span>
+AsyncEvent.setScheduler(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">callback</span>) </span>{
+    setTimeout(callback, <span class="hljs-number">0</span>);
+})
+</code></pre>
+				<h3 id="queued-events">Queued events</h3>
+				<p>For  fine-grained control, use a QueuedEvent instead of an AsyncEvent. All queued events remain in one queue until you flush it.</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> QueuedEvent = tsevents.QueuedEvent;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">/**
+     * This event is called whenever the counter changes
+     * @param n The counter value
+     */</span>
+    <span class="hljs-keyword">this</span>.evtChanged = <span class="hljs-keyword">new</span> QueuedEvent();
+    <span class="hljs-comment">/**
+     * The counter value
+     */</span>
+    <span class="hljs-keyword">this</span>.n = <span class="hljs-number">0</span>;
+}
+<span class="hljs-comment">/**
+ * Increment counter by 1
+ */</span>
+Counter.prototype.inc = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">this</span>.n++;
+    <span class="hljs-keyword">this</span>.evtChanged.post(<span class="hljs-keyword">this</span>.n);
+};
+
+<span class="hljs-keyword">var</span> ctr = <span class="hljs-keyword">new</span> Counter();
+
+<span class="hljs-comment">// Attach a handler to the event</span>
+<span class="hljs-comment">// Do this instead of ctr.on("changed", ...)</span>
+ctr.evtChanged.attach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The counter changed to: "</span> + n.toString(<span class="hljs-number">10</span>));
+});
+
+ctr.inc();
+<span class="hljs-comment">// Here, the event handler is not called yet</span>
+
+<span class="hljs-comment">// Flush the event queue</span>
+tsevent.flush();
+<span class="hljs-comment">// Here, the handler is called</span>
+</code></pre>
+				<h4 id="creating-your-own-event-queues">Creating your own event queues</h4>
+				<p>You can put different events in different queues. By default, all events go into one global queue. To assign a specific queue to an event, do this:</p>
+				<pre><code class="lang-javascript">
+<span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> EventQueue = tsevents.EventQueue;
+<span class="hljs-keyword">var</span> QueuedEvent = tsevents.QueuedEvent;
+
+
+<span class="hljs-keyword">var</span> myQueue = <span class="hljs-keyword">new</span> EventQueue();
+<span class="hljs-keyword">var</span> myEvent = <span class="hljs-keyword">new</span> QueuedEvent({ queue: myQueue });
+myEvent.post(<span class="hljs-string">"hi!"</span>);
+
+<span class="hljs-comment">// flush only my own queue</span>
+myQueue.flush();
+</code></pre>
+				<h4 id="flushonce-vs-flush-">flushOnce() vs flush()</h4>
+				<p>Event queues have two flush functions:</p>
+				<ul>
+					<li>flushOnce() calls all the events that are in the queue at the time of the call.</li>
+					<li>flush() keeps clearing the queue until it remains empty, i.e. events added by event handlers are also called.</li>
+				</ul>
+				<p>The flush() function has a safeguard: by default, if it needs more than 10 iterations to clear the queue, it throws an error saying there is an endless recursion going on. You can give it a different limit if you like. Simply call e.g. flush(100) to set the limit to 100.</p>
+				<h3 id="evtfilled-and-evtdrained">evtFilled and evtDrained</h3>
+				<p>Event queues have two synchronous events themselves that fire when the queue becomes empty (evtDrained) or non-empty (evtFilled). The Filled event only occurs when an event is added to an empty queue OUTSIDE of a flush operation. The Drained event occurs at the end of a flush operation if the queue is flushed empty.
+				To check whether the queue is empty, use the empty() method.</p>
+				<h3 id="condensing-events">Condensing events</h3>
+				<p>For a-synchronous events and for queued events, you can opt to condense multiple post() calls into one. If multiple post() calls happen before the handlers are called, the handlers are invoked only once, with the argument from the last post() call.</p>
+				<pre><code class="lang-javascript">
+<span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> AsyncEvent = tsevents.AsyncEvent;
+
+<span class="hljs-comment">// create a condensed event</span>
+<span class="hljs-keyword">var</span> myEvent = <span class="hljs-keyword">new</span> AsyncEvent({ condensed: <span class="hljs-literal">true</span> });
+myEvent.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(s);
+});
+myEvent.post(<span class="hljs-string">"hi!"</span>);
+myEvent.post(<span class="hljs-string">"bye!"</span>);
+
+<span class="hljs-comment">// after a cycle, only 'bye!' is logged to the console</span>
+</code></pre>
+				<h3 id="binding-to-objects">Binding to objects</h3>
+				<p>There is no need to use .bind(this) when attaching a handler. Simply call myEvent.attach(this, myFunc);</p>
+				<h3 id="attaching-and-detaching">Attaching and Detaching</h3>
+				<p>There are clear semantics for the effect of attach() and detach(). These semantics were chosen to prevent surprises, however there is no reason why we should not support different semantics in the future. Please submit an issue if you need a different implementation.</p>
+				<ul>
+					<li>Attaching a handler to an event guarantees that the handler is called only for events posted after the call to attach(). Events that are already underway will not invoke the handler.</li>
+					<li>Detaching a handler from an event guarantees that it is not called anymore, even if there are events still queued.</li>
+				</ul>
+				<p>Attaching has the following forms:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> obj = {};
+<span class="hljs-keyword">var</span> handler = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+};
+<span class="hljs-keyword">var</span> myOtherEvent = <span class="hljs-keyword">new</span> AsyncEvent();
+
+myEvent.attach(handler); <span class="hljs-comment">// will call handler with this === myEvent</span>
+myEvent.attach(obj, handler); <span class="hljs-comment">// will call handler with this === obj</span>
+myEvent.attach(myOtherEvent); <span class="hljs-comment">// will post myOtherEvent</span>
+</code></pre>
+				<p>Detaching has the following forms:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> obj = {};
+<span class="hljs-keyword">var</span> handler = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+};
+<span class="hljs-keyword">var</span> myOtherEvent = <span class="hljs-keyword">new</span> AsyncEvent();
+
+myEvent.detach(handler); <span class="hljs-comment">// detaches all instances of the given handler</span>
+myEvent.detach(obj); <span class="hljs-comment">// detaches all handlers bound to the given object</span>
+myEvent.detach(obj, handler); <span class="hljs-comment">// detaches only the given handler bound to the given object</span>
+myEvent.detach(myOtherEvent); <span class="hljs-comment">// detaches only myOtherEvent</span>
+myEvent.detach(); <span class="hljs-comment">// detaches all handlers</span>
+</code></pre>
+				<p>Note that when you attach an AsyncEvent to another AsyncEvent, the handlers of both events are called in the very next cycle, i.e. it does not take 2 cycles to call all handlers. This is &#39;decoupled enough&#39; for most purposes and reduces latency.</p>
+				<h3 id="error-events">Error events</h3>
+				<p>EventEmitter treats &quot;error&quot; events differently. If you emit them at a time when there are no listeners attached, then an error is thrown. You can get the same behaviour by using an ErrorSyncEvent, ErrorAsyncEvent or ErrorQueuedEvent.</p>
+				<pre><code class="lang-javascript">
+<span class="hljs-keyword">var</span> myEvent = <span class="hljs-keyword">new</span> ErrorSyncEvent();
+
+<span class="hljs-comment">// this throws: "error event posted while no listeners attached. Error: foo"</span>
+myEvent.post(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"foo"</span>));
+
+myEvent.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)</span>{});
+
+<span class="hljs-comment">// this simply calls the event handler with the given error</span>
+myEvent.post(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"foo"</span>));
+</code></pre>
+				<h3 id="anyevent">AnyEvent</h3>
+				<p>The AnyEvent class lets you choose between sync/async/queued in the attach() function. For instance:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
+<span class="hljs-keyword">var</span> AnyEvent = tsevents.AnyEvent;
+
+<span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> AnyEvent();
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is synchronous."</span>);
+});
+evtChange.attachAsync(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is a-synchronous and condensed."</span>);
+}, { condensed: <span class="hljs-literal">true</span> });
+evtChange.attachAsync(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is a-synchronous and not condensed."</span>);
+});
+evtChange.attachQueued(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is queued."</span>);
+});
+evtChange.post(<span class="hljs-string">"hi!"</span>);
+tsevents.flush(); <span class="hljs-comment">// only needed for queued</span>
+</code></pre>
+				<h3 id="for-typescript-users">For TypeScript users</h3>
+				<p>This section is for using this module with TypeScript.</p>
+				<h4 id="typings">Typings</h4>
+				<p>A typings file is delivered with the module, so no need for DefinitelyTyped. Simply use:</p>
+				<pre><code class="lang-javascript"><span class="hljs-comment">/// &lt;reference path="node_modules/ts-event/ts-event.d.ts"&gt;</span>
+</code></pre>
+				<h4 id="single-argument">Single argument</h4>
+				<p>We chose to make this module type-safe. Due to the limitations of template parameters in TypeScript, this causes you to be limited to one argument in your event handlers. In practice, this is not much of a problem because you can always make the argument an interface with multiple members.</p>
+				<h4 id="no-arguments">No arguments</h4>
+				<p>Another TypeScript annoyance: when you create an event with a void argument, TypeScript forces you to pass &#39;undefined&#39; to post(). To overcome this, we added VoidSyncEvent,  VoidAsyncEvent and VoidQueuedEvent classes.</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> myEvent = <span class="hljs-keyword">new</span> SyncEvent&lt;<span class="hljs-keyword">void</span>&gt;();
+
+<span class="hljs-comment">// annoying: have to pass undefined to post() to make it compile</span>
+myEvent.post(<span class="hljs-literal">undefined</span>)
+
+<span class="hljs-comment">// Solution:</span>
+<span class="hljs-keyword">var</span> myEvent = <span class="hljs-keyword">new</span> VoidSyncEvent();
+myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
+</code></pre>
+				<h2 id="changelog">Changelog</h2>
+				<p>v3.0.0</p>
+				<ul>
+					<li>Make the whole library work again in 2016</li>
+					<li>Added tsd for typings management and set reference paths to tsd.d.ts</li>
+					<li>Updated build.sh for tslint</li>
+					<li>Updated .gitignore</li>
+				</ul>
+				<p>v2.0.0</p>
+				<ul>
+					<li>Breaking change: removed AnyEvent#attach() and replaced it with attachSync() to force users of AnyEvents to think about how to attach.</li>
+				</ul>
+				<p>v1.1.0 (2015-05-25):</p>
+				<ul>
+					<li>Add events to the EventQueue to detect when it becomes empty/non-empty to facilitate intelligent flushing.</li>
+					<li>Add a new type of event called AnyEvent where the choice of sync/async/queued is left to the subscriber rather than the publisher.</li>
+				</ul>
+				<p>v1.0.0 (2015-04-30):</p>
+				<ul>
+					<li>Ready for production use.</li>
+				</ul>
+				<p>v0.0.6 (2015-04-29):</p>
+				<ul>
+					<li>Performance improvements</li>
+				</ul>
+				<p>v0.0.5 (2015-04-29):</p>
+				<ul>
+					<li>Fix NPM warning about package.json repository field</li>
+				</ul>
+				<p>v0.0.4 (2015-04-29):</p>
+				<ul>
+					<li>Fix missing ts-events.d.ts in published module</li>
+				</ul>
+				<p>v0.0.3 (2015-04-28):</p>
+				<ul>
+					<li>Feature: allow to attach any event to any other event directly</li>
+					<li>Feature: allow to disable recursion protection mechanism for SyncEvents</li>
+					<li>Breaking change: renamed flushEmpty() to flush()</li>
+					<li>Documentation updates</li>
+					<li>Various build system improvements</li>
+				</ul>
+				<p>v0.0.2 (2015-04-27):</p>
+				<ul>
+					<li>Documentation update</li>
+				</ul>
+				<p>v0.0.1 (2015-04-27):</p>
+				<ul>
+					<li>Initial version</li>
+				</ul>
+				<h2 id="license">License</h2>
+				<p>Copyright (c) 2015 Rogier Schouten <a href="&#109;&#97;&#x69;&#108;&#116;&#111;&#58;&#103;&#105;&#116;&#x68;&#x75;&#98;&#x40;&#x77;&#111;&#x72;&#107;&#x69;&#x6e;&#103;&#x63;&#x6f;&#x64;&#101;&#x2e;&#110;&#x69;&#x6e;&#106;&#97;">&#103;&#105;&#116;&#x68;&#x75;&#98;&#x40;&#x77;&#111;&#x72;&#107;&#x69;&#x6e;&#103;&#x63;&#x6f;&#x64;&#101;&#x2e;&#110;&#x69;&#x6e;&#106;&#97;</a>
+				ISC (see LICENSE file in repository root).</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_index_.html">"index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_lib_eventqueue_.html">"lib/<wbr>Event<wbr>Queue"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_lib_any_event_.html">"lib/any-<wbr>event"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_lib_async_event_.html">"lib/async-<wbr>event"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_lib_base_event_.html">"lib/base-<wbr>event"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_lib_objects_.html">"lib/objects"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_lib_queued_event_.html">"lib/queued-<wbr>event"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_lib_sync_event_.html">"lib/sync-<wbr>event"</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.io" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
