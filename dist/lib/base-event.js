@@ -123,6 +123,6 @@ var BaseEvent = (function () {
         }
     };
     return BaseEvent;
-})();
+}());
 exports.BaseEvent = BaseEvent;
 //# sourceMappingURL=base-event.js.map
