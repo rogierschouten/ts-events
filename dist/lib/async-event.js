@@ -128,7 +128,7 @@ var AsyncEvent = (function (_super) {
      */
     AsyncEvent._scheduler = AsyncEvent.defaultScheduler;
     return AsyncEvent;
-}(base_event_1.BaseEvent));
+})(base_event_1.BaseEvent);
 exports.AsyncEvent = AsyncEvent;
 /**
  * Convenience class for AsyncEvents without data
@@ -145,7 +145,7 @@ var VoidAsyncEvent = (function (_super) {
         _super.prototype.post.call(this, undefined);
     };
     return VoidAsyncEvent;
-}(AsyncEvent));
+})(AsyncEvent);
 exports.VoidAsyncEvent = VoidAsyncEvent;
 /**
  * Similar to "error" event on EventEmitter: throws when a post() occurs while no handlers set.
@@ -162,6 +162,6 @@ var ErrorAsyncEvent = (function (_super) {
         _super.prototype.post.call(this, data);
     };
     return ErrorAsyncEvent;
-}(AsyncEvent));
+})(AsyncEvent);
 exports.ErrorAsyncEvent = ErrorAsyncEvent;
 //# sourceMappingURL=async-event.js.map

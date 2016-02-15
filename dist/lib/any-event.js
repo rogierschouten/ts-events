@@ -149,7 +149,7 @@ var AnyEvent = (function () {
         return result;
     };
     return AnyEvent;
-}());
+})();
 exports.AnyEvent = AnyEvent;
 /**
  * Convenience class for AnyEvents without data
@@ -166,7 +166,7 @@ var VoidAnyEvent = (function (_super) {
         _super.prototype.post.call(this, undefined);
     };
     return VoidAnyEvent;
-}(AnyEvent));
+})(AnyEvent);
 exports.VoidAnyEvent = VoidAnyEvent;
 /**
  * Similar to "error" event on EventEmitter: throws when a post() occurs while no handlers set.
@@ -183,6 +183,6 @@ var ErrorAnyEvent = (function (_super) {
         _super.prototype.post.call(this, data);
     };
     return ErrorAnyEvent;
-}(AnyEvent));
+})(AnyEvent);
 exports.ErrorAnyEvent = ErrorAnyEvent;
 //# sourceMappingURL=any-event.js.map

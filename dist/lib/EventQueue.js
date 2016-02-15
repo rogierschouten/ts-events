@@ -109,7 +109,7 @@ var EventQueue = (function () {
         }
     };
     return EventQueue;
-}());
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = EventQueue;
 //# sourceMappingURL=EventQueue.js.map
