@@ -16,10 +16,9 @@
         "definition": "index.d.ts"
     },
     "scripts": {
-        "preinstall": "npm install autodts && tsd install",
+        "preinstall": "npm install autodts",
         "postinstall": "autodts link",
-        "prepublish": "tsc && autodts generate",
-        "test": "./node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- -R spec"
+        "prepublish": "tsc && autodts generate"
     },
     "keywords": [
         "Event",
@@ -42,9 +41,10 @@
     },
     "license": "ISC",
     "dependencies": {
-        "autodts": "~0.0.4"
+        "autodts": "0.0.6"
     },
     "devDependencies": {
+        "@lib/autodts-generator": "^0.0.1",
         "assert": "^1.3.0",
         "chai": "^2.3.0",
         "dts-bundle": "^0.2.0",
