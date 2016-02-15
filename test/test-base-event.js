@@ -1,14 +1,12 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-/// <reference path="../typings/test.d.ts"/>
+/// <reference path="../typings/tsd.d.ts"/>
 var assert = require("assert");
-var chai = require("chai");
-var expect = chai.expect;
+var chai_1 = require("chai");
 var baseEvent = require("../lib/base-event");
 var BaseEvent = baseEvent.BaseEvent;
 var tsevent = require("../index");
@@ -36,7 +34,7 @@ describe("BaseEvent", function () {
                 // nothing
             };
             l.attach(f);
-            expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: f, deleted: false, event: undefined }]);
+            chai_1.expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: f, deleted: false, event: undefined }]);
         });
         it("should take a boundTo and a handler", function () {
             var t = {};
@@ -44,22 +42,22 @@ describe("BaseEvent", function () {
                 // nothing
             };
             l.attach(t, f);
-            expect(l.content()).to.deep.equal([{ boundTo: t, handler: f, deleted: false, event: undefined }]);
+            chai_1.expect(l.content()).to.deep.equal([{ boundTo: t, handler: f, deleted: false, event: undefined }]);
         });
         it("should take a SyncEvent", function () {
             var e = new SyncEvent();
             l.attach(e);
-            expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
+            chai_1.expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
         });
         it("should take an AsyncEvent", function () {
             var e = new AsyncEvent();
             l.attach(e);
-            expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
+            chai_1.expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
         });
         it("should take a QueuedEvent", function () {
             var e = new QueuedEvent();
             l.attach(e);
-            expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
+            chai_1.expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
         });
     });
     describe("detach()", function () {
@@ -80,7 +78,7 @@ describe("BaseEvent", function () {
         });
         it("should delete by handler", function () {
             l.detach(f);
-            expect(l.content()).to.deep.equal([
+            chai_1.expect(l.content()).to.deep.equal([
                 { boundTo: undefined, handler: g, deleted: false, event: undefined },
                 { boundTo: t, handler: g, deleted: false, event: undefined },
                 { boundTo: undefined, handler: undefined, deleted: false, event: e }
@@ -88,7 +86,7 @@ describe("BaseEvent", function () {
         });
         it("should delete by boundTo", function () {
             l.detach(t);
-            expect(l.content()).to.deep.equal([
+            chai_1.expect(l.content()).to.deep.equal([
                 { boundTo: undefined, handler: f, deleted: false, event: undefined },
                 { boundTo: undefined, handler: g, deleted: false, event: undefined },
                 { boundTo: undefined, handler: undefined, deleted: false, event: e }
@@ -96,7 +94,7 @@ describe("BaseEvent", function () {
         });
         it("should delete by boundTo and handler", function () {
             l.detach(t, f);
-            expect(l.content()).to.deep.equal([
+            chai_1.expect(l.content()).to.deep.equal([
                 { boundTo: undefined, handler: f, deleted: false, event: undefined },
                 { boundTo: undefined, handler: g, deleted: false, event: undefined },
                 { boundTo: t, handler: g, deleted: false, event: undefined },
@@ -105,7 +103,7 @@ describe("BaseEvent", function () {
         });
         it("should delete by event", function () {
             l.detach(e);
-            expect(l.content()).to.deep.equal([
+            chai_1.expect(l.content()).to.deep.equal([
                 { boundTo: undefined, handler: f, deleted: false, event: undefined },
                 { boundTo: t, handler: f, deleted: false, event: undefined },
                 { boundTo: undefined, handler: g, deleted: false, event: undefined },
@@ -114,7 +112,7 @@ describe("BaseEvent", function () {
         });
         it("should delete all", function () {
             l.detach();
-            expect(l.content()).to.deep.equal([]);
+            chai_1.expect(l.content()).to.deep.equal([]);
         });
         it("should be ok if no handlers", function () {
             l = new ListenerSub();

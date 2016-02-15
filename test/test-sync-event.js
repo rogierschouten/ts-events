@@ -1,9 +1,8 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
-/// <reference path="../typings/test.d.ts"/>
+/// <reference path="../typings/tsd.d.ts"/>
 require("source-map-support").install();
 var assert = require("assert");
-var chai = require("chai");
-var expect = chai.expect;
+var chai_1 = require("chai");
 var tsevents = require("../index");
 var SyncEvent = tsevents.SyncEvent;
 describe("SyncEvent", function () {
@@ -18,12 +17,12 @@ describe("SyncEvent", function () {
             calledWith.push(s);
         });
         e.post("A");
-        expect(calledWith).to.deep.equal(["A"]);
+        chai_1.expect(calledWith).to.deep.equal(["A"]);
     });
     it("should use the Event as this parameter by default", function () {
         var e = new SyncEvent();
         e.attach(function (s) {
-            expect(this).to.equal(e);
+            chai_1.expect(this).to.equal(e);
         });
         e.post("A");
     });
@@ -31,7 +30,7 @@ describe("SyncEvent", function () {
         var e = new SyncEvent();
         var t = {};
         e.attach(t, function (s) {
-            expect(this).to.equal(t);
+            chai_1.expect(this).to.equal(t);
         });
         e.post("A");
     });
@@ -43,7 +42,7 @@ describe("SyncEvent", function () {
             calledWith.push(s);
         });
         e.post("B");
-        expect(calledWith).to.deep.equal(["B"]);
+        chai_1.expect(calledWith).to.deep.equal(["B"]);
     });
     it("should not send events at all to detached event handlers", function () {
         var e = new SyncEvent();
@@ -53,7 +52,7 @@ describe("SyncEvent", function () {
         });
         e.detach();
         e.post("A");
-        expect(calledWith).to.deep.equal([]);
+        chai_1.expect(calledWith).to.deep.equal([]);
     });
     it("should allow attaching event handlers within handlers", function () {
         var e = new SyncEvent();
@@ -65,7 +64,7 @@ describe("SyncEvent", function () {
         });
         e.post("A");
         e.post("B");
-        expect(calledWith).to.deep.equal(["B"]);
+        chai_1.expect(calledWith).to.deep.equal(["B"]);
     });
     it("should allow detaching event handlers within handlers", function () {
         var e = new SyncEvent();
@@ -77,7 +76,7 @@ describe("SyncEvent", function () {
         e.attach(f);
         e.post("A");
         e.post("B");
-        expect(calledWith).to.deep.equal(["A"]);
+        chai_1.expect(calledWith).to.deep.equal(["A"]);
     });
     it("should protect against recursion", function () {
         var e = new SyncEvent();
@@ -90,7 +89,7 @@ describe("SyncEvent", function () {
         assert.throws(function () {
             e.post("A");
         });
-        expect(callCount).to.equal(SyncEvent.MAX_RECURSION_DEPTH);
+        chai_1.expect(callCount).to.equal(SyncEvent.MAX_RECURSION_DEPTH);
     });
     it("should allow disabling recursion protection", function () {
         SyncEvent.MAX_RECURSION_DEPTH = null;
@@ -106,7 +105,7 @@ describe("SyncEvent", function () {
         assert.doesNotThrow(function () {
             e.post("A");
         });
-        expect(callCount).to.equal(100);
+        chai_1.expect(callCount).to.equal(100);
     });
     it("should allow attaching another event", function () {
         var e = new SyncEvent();
@@ -119,7 +118,7 @@ describe("SyncEvent", function () {
         f.attach(g);
         e.post("A");
         e.post("B");
-        expect(calledWith).to.deep.equal(["A", "B"]);
+        chai_1.expect(calledWith).to.deep.equal(["A", "B"]);
     });
 });
 describe("VoidSyncEvent", function () {
@@ -130,7 +129,7 @@ describe("VoidSyncEvent", function () {
             callCount++;
         });
         e.post();
-        expect(callCount).to.equal(1);
+        chai_1.expect(callCount).to.equal(1);
     });
 });
 describe("ErrorSyncEvent", function () {

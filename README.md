@@ -475,6 +475,13 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v3.0.0
+- Make the whole library work again in 2016
+- Added tsd for typings management and set reference paths to tsd.d.ts
+- Updated build.sh for tslint
+- 
+- Updated .gitignore
+
 v2.0.0
 - Breaking change: removed AnyEvent#attach() and replaced it with attachSync() to force users of AnyEvents to think about how to attach.
 

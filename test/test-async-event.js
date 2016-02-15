@@ -1,8 +1,7 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
-/// <reference path="../typings/test.d.ts"/>
+/// <reference path="../typings/tsd.d.ts"/>
 var assert = require("assert");
-var chai = require("chai");
-var expect = chai.expect;
+var chai_1 = require("chai");
 var tsevents = require("../index");
 var AsyncEvent = tsevents.AsyncEvent;
 describe("AsyncEvent", function () {
@@ -19,7 +18,7 @@ describe("AsyncEvent", function () {
             calledWith.push(s);
         });
         e.post("A");
-        expect(calledWith).to.deep.equal([]);
+        chai_1.expect(calledWith).to.deep.equal([]);
     });
     it("should send events in the next cycle", function (done) {
         var e = new AsyncEvent();
@@ -29,7 +28,7 @@ describe("AsyncEvent", function () {
         });
         e.post("A");
         setImmediate(function () {
-            expect(calledWith).to.deep.equal(["A"]);
+            chai_1.expect(calledWith).to.deep.equal(["A"]);
             done();
         });
     });
@@ -42,7 +41,7 @@ describe("AsyncEvent", function () {
         e.post("A");
         e.post("B");
         setImmediate(function () {
-            expect(calledWith).to.deep.equal(["A", "B"]);
+            chai_1.expect(calledWith).to.deep.equal(["A", "B"]);
             done();
         });
     });
@@ -55,14 +54,14 @@ describe("AsyncEvent", function () {
         e.post("A");
         e.post("B");
         setImmediate(function () {
-            expect(calledWith).to.deep.equal(["B"]);
+            chai_1.expect(calledWith).to.deep.equal(["B"]);
             done();
         });
     });
     it("should use the Event as this parameter by default", function (done) {
         var e = new AsyncEvent();
         e.attach(function (s) {
-            expect(this).to.equal(e);
+            chai_1.expect(this).to.equal(e);
             done();
         });
         e.post("A");
@@ -71,7 +70,7 @@ describe("AsyncEvent", function () {
         var e = new AsyncEvent();
         var t = {};
         e.attach(t, function (s) {
-            expect(this).to.equal(t);
+            chai_1.expect(this).to.equal(t);
             done();
         });
         e.post("A");
@@ -85,7 +84,7 @@ describe("AsyncEvent", function () {
         });
         e.post("B");
         setImmediate(function () {
-            expect(calledWith).to.deep.equal(["B"]);
+            chai_1.expect(calledWith).to.deep.equal(["B"]);
             done();
         });
     });
@@ -99,7 +98,7 @@ describe("AsyncEvent", function () {
         e.detach();
         e.post("B");
         setImmediate(function () {
-            expect(calledWith).to.deep.equal([]);
+            chai_1.expect(calledWith).to.deep.equal([]);
             done();
         });
     });
@@ -116,7 +115,7 @@ describe("AsyncEvent", function () {
         setImmediate(function () {
             e.post("C");
             setImmediate(function () {
-                expect(calledWith).to.deep.equal(["C", "C"]);
+                chai_1.expect(calledWith).to.deep.equal(["C", "C"]);
                 done();
             });
         });
@@ -132,7 +131,7 @@ describe("AsyncEvent", function () {
         e.post("A");
         e.post("B");
         setImmediate(function () {
-            expect(calledWith).to.deep.equal(["A"]);
+            chai_1.expect(calledWith).to.deep.equal(["A"]);
             done();
         });
     });
@@ -148,10 +147,10 @@ describe("AsyncEvent", function () {
         e.attach(f);
         e.post("A");
         setImmediate(function () {
-            expect(calledWith).to.deep.equal([]);
+            chai_1.expect(calledWith).to.deep.equal([]);
         });
         setTimeout(function () {
-            expect(calledWith).to.deep.equal(["A"]);
+            chai_1.expect(calledWith).to.deep.equal(["A"]);
             done();
         }, 0);
     });
@@ -166,10 +165,10 @@ describe("AsyncEvent", function () {
         f.attach(g);
         e.post("A");
         e.post("B");
-        expect(calledWith).to.deep.equal([]);
+        chai_1.expect(calledWith).to.deep.equal([]);
         setImmediate(function () {
             setImmediate(function () {
-                expect(calledWith).to.deep.equal(["A", "B"]);
+                chai_1.expect(calledWith).to.deep.equal(["A", "B"]);
                 done();
             });
         });
@@ -186,7 +185,7 @@ describe("AsyncEvent", function () {
         e.post("A");
         e.post("B");
         setImmediate(function () {
-            expect(calledWith).to.deep.equal(["A", "B"]);
+            chai_1.expect(calledWith).to.deep.equal(["A", "B"]);
             done();
         });
     });
@@ -200,7 +199,7 @@ describe("VoidAsyncEvent", function () {
         });
         e.post();
         setImmediate(function () {
-            expect(callCount).to.equal(1);
+            chai_1.expect(callCount).to.equal(1);
             done();
         });
     });

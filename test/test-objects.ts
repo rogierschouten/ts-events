@@ -1,10 +1,9 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 
-/// <reference path="../typings/test.d.ts"/>
+/// <reference path="../typings/tsd.d.ts"/>
 
 import assert = require("assert");
-import chai = require("chai");
-import expect = chai.expect;
+import {expect} from "chai";
 
 import objects = require("../lib/objects");
 

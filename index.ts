@@ -1,30 +1,30 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 // License: ISC
 
-/// <reference path="./typings/index.d.ts"/>
+/// <reference path="./typings/tsd.d.ts" />
 
 "use strict";
 
 /* tslint:disable:no-unused-expression */
 
-import syncEvent = require("./lib/sync-event"); syncEvent;
+import * as syncEvent from "./lib/sync-event"; syncEvent;
 export import SyncEvent = syncEvent.SyncEvent;
 export import VoidSyncEvent = syncEvent.VoidSyncEvent;
 export import ErrorSyncEvent = syncEvent.ErrorSyncEvent;
 
-import queuedEvent = require("./lib/queued-event"); queuedEvent;
+import * as queuedEvent from "./lib/queued-event"; queuedEvent;
 export import QueuedEvent = queuedEvent.QueuedEvent;
 export import VoidQueuedEvent = queuedEvent.VoidQueuedEvent;
 export import ErrorQueuedEvent = queuedEvent.ErrorQueuedEvent;
 
-import asyncEvent = require("./lib/async-event"); asyncEvent;
+import * as asyncEvent from "./lib/async-event"; asyncEvent;
 export import AsyncEvent = asyncEvent.AsyncEvent;
 export import VoidAsyncEvent = asyncEvent.VoidAsyncEvent;
 export import ErrorAsyncEvent = asyncEvent.ErrorAsyncEvent;
 
 export import EventQueue = require("./lib/EventQueue"); EventQueue;
 
-import anyEvent = require("./lib/any-event"); anyEvent;
+import * as anyEvent from "./lib/any-event"; anyEvent;
 export import AnyEvent = anyEvent.AnyEvent;
 export import VoidAnyEvent = anyEvent.VoidAnyEvent;
 export import ErrorAnyEvent = anyEvent.ErrorAnyEvent;

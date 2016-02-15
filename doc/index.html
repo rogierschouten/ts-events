@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html class="default no-js">
 <head>
 	<meta charset="utf-8">
@@ -78,7 +78,7 @@
 <span class="hljs-keyword">var</span> SyncEvent = tsevents.SyncEvent;
 
 <span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> SyncEvent();
-evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
     <span class="hljs-built_in">console</span>.log(s);
 });
 evtChange.post(<span class="hljs-string">"hi!"</span>);
@@ -89,7 +89,7 @@ evtChange.post(<span class="hljs-string">"hi!"</span>);
 <span class="hljs-keyword">var</span> AsyncEvent = tsevents.AsyncEvent;
 
 <span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> AsyncEvent();
-evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
     <span class="hljs-built_in">console</span>.log(s);
 });
 evtChange.post(<span class="hljs-string">"hi!"</span>);
@@ -100,7 +100,7 @@ evtChange.post(<span class="hljs-string">"hi!"</span>);
 <span class="hljs-keyword">var</span> QueuedEvent = tsevents.QueuedEvent;
 
 <span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> QueuedEvent();
-evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
     <span class="hljs-built_in">console</span>.log(s);
 });
 evtChange.post(<span class="hljs-string">"hi!"</span>);
@@ -112,7 +112,7 @@ tsevents.flush();
 				<p>Different ways of attaching:</p>
 				<pre><code class="lang-javascript">
 <span class="hljs-comment">// attach a function</span>
-evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
     <span class="hljs-built_in">console</span>.log(s);
 });
 
@@ -127,13 +127,13 @@ evtChange.attach(<span class="hljs-keyword">this</span>.evtChange);
 <span class="hljs-keyword">var</span> AnyEvent = tsevents.AnyEvent;
 
 <span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> AnyEvent();
-evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
     <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is synchronous."</span>);
 });
-evtChange.attachAsync(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+evtChange.attachAsync(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
     <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is a-synchronous."</span>);
 });
-evtChange.attachQueued(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+evtChange.attachQueued(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
     <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is queued."</span>);
 });
 evtChange.post(<span class="hljs-string">"hi!"</span>);
@@ -202,7 +202,7 @@ npm install --save ts-events
 
 <span class="hljs-keyword">var</span> myEvent = <span class="hljs-keyword">new</span> SyncEvent();
 
-myEvent.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+myEvent.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
     <span class="hljs-built_in">console</span>.log(s);
 });
 
@@ -213,7 +213,7 @@ myEvent.post(<span class="hljs-string">"hi!"</span>);
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
 <span class="hljs-keyword">var</span> SyncEvent = tsevents.SyncEvent;
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span><span class="hljs-params">()</span> </span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-comment">/**
      * This event is called whenever the counter changes
      * @param n The counter value
@@ -227,7 +227,7 @@ myEvent.post(<span class="hljs-string">"hi!"</span>);
 <span class="hljs-comment">/**
  * Increment counter by 1
  */</span>
-Counter.prototype.inc = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+Counter.prototype.inc = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">this</span>.n++;
     <span class="hljs-keyword">this</span>.evtChanged.post(<span class="hljs-keyword">this</span>.n);
 };
@@ -236,7 +236,7 @@ Counter.prototype.inc = <span class="hljs-function"><span class="hljs-keyword">f
 
 <span class="hljs-comment">// Attach a handler to the event</span>
 <span class="hljs-comment">// Do this instead of ctr.on("changed", ...)</span>
-ctr.evtChanged.attach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(n)</span> </span>{
+ctr.evtChanged.attach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">n</span>) </span>{
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The counter changed to: "</span> + n.toString(<span class="hljs-number">10</span>));
 });
 
@@ -283,7 +283,7 @@ ctr.inc();
 <span class="hljs-keyword">var</span> AsyncEvent = tsevents.AsyncEvent;
 
 <span class="hljs-comment">// Replace the default setImmediate() call by a setTimeout(, 0) call</span>
-AsyncEvent.setScheduler(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> </span>{
+AsyncEvent.setScheduler(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">callback</span>) </span>{
     setTimeout(callback, <span class="hljs-number">0</span>);
 })
 </code></pre>
@@ -292,7 +292,7 @@ AsyncEvent.setScheduler(<span class="hljs-function"><span class="hljs-keyword">f
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> tsevents = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index"</span>);
 <span class="hljs-keyword">var</span> QueuedEvent = tsevents.QueuedEvent;
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span><span class="hljs-params">()</span> </span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-comment">/**
      * This event is called whenever the counter changes
      * @param n The counter value
@@ -306,7 +306,7 @@ AsyncEvent.setScheduler(<span class="hljs-function"><span class="hljs-keyword">f
 <span class="hljs-comment">/**
  * Increment counter by 1
  */</span>
-Counter.prototype.inc = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+Counter.prototype.inc = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">this</span>.n++;
     <span class="hljs-keyword">this</span>.evtChanged.post(<span class="hljs-keyword">this</span>.n);
 };
@@ -315,7 +315,7 @@ Counter.prototype.inc = <span class="hljs-function"><span class="hljs-keyword">f
 
 <span class="hljs-comment">// Attach a handler to the event</span>
 <span class="hljs-comment">// Do this instead of ctr.on("changed", ...)</span>
-ctr.evtChanged.attach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(n)</span> </span>{
+ctr.evtChanged.attach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">n</span>) </span>{
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The counter changed to: "</span> + n.toString(<span class="hljs-number">10</span>));
 });
 
@@ -359,7 +359,7 @@ myQueue.flush();
 
 <span class="hljs-comment">// create a condensed event</span>
 <span class="hljs-keyword">var</span> myEvent = <span class="hljs-keyword">new</span> AsyncEvent({ condensed: <span class="hljs-literal">true</span> });
-myEvent.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+myEvent.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
     <span class="hljs-built_in">console</span>.log(s);
 });
 myEvent.post(<span class="hljs-string">"hi!"</span>);
@@ -377,7 +377,7 @@ myEvent.post(<span class="hljs-string">"bye!"</span>);
 				</ul>
 				<p>Attaching has the following forms:</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> obj = {};
-<span class="hljs-keyword">var</span> handler = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+<span class="hljs-keyword">var</span> handler = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
 };
 <span class="hljs-keyword">var</span> myOtherEvent = <span class="hljs-keyword">new</span> AsyncEvent();
 
@@ -387,7 +387,7 @@ myEvent.attach(myOtherEvent); <span class="hljs-comment">// will post myOtherEve
 </code></pre>
 				<p>Detaching has the following forms:</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> obj = {};
-<span class="hljs-keyword">var</span> handler = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+<span class="hljs-keyword">var</span> handler = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
 };
 <span class="hljs-keyword">var</span> myOtherEvent = <span class="hljs-keyword">new</span> AsyncEvent();
 
@@ -406,7 +406,7 @@ myEvent.detach(); <span class="hljs-comment">// detaches all handlers</span>
 <span class="hljs-comment">// this throws: "error event posted while no listeners attached. Error: foo"</span>
 myEvent.post(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"foo"</span>));
 
-myEvent.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span></span>{});
+myEvent.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)</span>{});
 
 <span class="hljs-comment">// this simply calls the event handler with the given error</span>
 myEvent.post(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"foo"</span>));
@@ -417,16 +417,16 @@ myEvent.post(<span class="hljs-keyword">new</span> <span class="hljs-built_in">E
 <span class="hljs-keyword">var</span> AnyEvent = tsevents.AnyEvent;
 
 <span class="hljs-keyword">var</span> evtChange = <span class="hljs-keyword">new</span> AnyEvent();
-evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+evtChange.attach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
     <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is synchronous."</span>);
 });
-evtChange.attachAsync(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+evtChange.attachAsync(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
     <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is a-synchronous and condensed."</span>);
 }, { condensed: <span class="hljs-literal">true</span> });
-evtChange.attachAsync(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+evtChange.attachAsync(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
     <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is a-synchronous and not condensed."</span>);
 });
-evtChange.attachQueued(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+evtChange.attachQueued(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
     <span class="hljs-built_in">console</span>.log(s + <span class="hljs-string">" this is queued."</span>);
 });
 evtChange.post(<span class="hljs-string">"hi!"</span>);
@@ -452,6 +452,14 @@ myEvent.post(<span class="hljs-literal">undefined</span>)
 myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 </code></pre>
 				<h2 id="changelog">Changelog</h2>
+				<p>v3.0.0</p>
+				<ul>
+					<li>Make the whole library work again in 2016</li>
+					<li>Added tsd for typings management and set reference paths to tsd.d.ts</li>
+					<li>Updated build.sh for tslint</li>
+					<li></li>
+					<li>Updated .gitignore</li>
+				</ul>
 				<p>v2.0.0</p>
 				<ul>
 					<li>Breaking change: removed AnyEvent#attach() and replaced it with attachSync() to force users of AnyEvents to think about how to attach.</li>
@@ -494,7 +502,7 @@ myEvent.post(); <span class="hljs-comment">// no need to pass 'undefined'</span>
 					<li>Initial version</li>
 				</ul>
 				<h2 id="license">License</h2>
-				<p>Copyright (c) 2015 Rogier Schouten <a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#103;&#105;&#116;&#104;&#117;&#x62;&#x40;&#119;&#x6f;&#x72;&#107;&#x69;&#x6e;&#x67;&#99;&#111;&#x64;&#x65;&#x2e;&#x6e;&#105;&#x6e;&#x6a;&#x61;">&#103;&#105;&#116;&#104;&#117;&#x62;&#x40;&#119;&#x6f;&#x72;&#107;&#x69;&#x6e;&#x67;&#99;&#111;&#x64;&#x65;&#x2e;&#x6e;&#105;&#x6e;&#x6a;&#x61;</a>
+				<p>Copyright (c) 2015 Rogier Schouten <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x67;&#x69;&#116;&#x68;&#x75;&#98;&#x40;&#119;&#111;&#x72;&#107;&#105;&#110;&#103;&#x63;&#111;&#x64;&#101;&#46;&#110;&#105;&#110;&#106;&#x61;">&#x67;&#x69;&#116;&#x68;&#x75;&#98;&#x40;&#119;&#111;&#x72;&#107;&#105;&#110;&#103;&#x63;&#111;&#x64;&#101;&#46;&#110;&#105;&#110;&#106;&#x61;</a>
 				ISC (see LICENSE file in repository root).</p>
 			</div>
 		</div>

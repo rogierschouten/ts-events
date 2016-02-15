@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+tslint='./node_modules/.bin/tslint'
+
 echo cleaning...
 rm -Rf lib/**/*.d.ts
 rm -Rf lib/**/*.js
@@ -16,11 +18,11 @@ rm -f index.js.map
 rm -Rf doc/
 rm -Rf coverage/
 
-echo linting...
+echo 'linting...'
 for i in ./lib/*.ts ./index.ts; do
 	if [[ $i != *.d.ts ]]; then
 		echo linting $i
-		tslint -t verbose -f $i
+		$tslint -t verbose $i
 	fi
 done
 echo building...

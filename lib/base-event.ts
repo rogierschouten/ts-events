@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 // License: ISC
 
-/// <reference path="../typings/index.d.ts"/>
+/// <reference path="../typings/tsd.d.ts"/>
 
 "use strict";
 

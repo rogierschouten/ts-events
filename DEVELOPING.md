@@ -1,7 +1,7 @@
 
 # Building
 
-* Ensure typescript is installed, at least version 1.4.1
+* Ensure typescript is installed, at least version 1.7.5
 * Run build.sh to build the code
 
 # Releasing
