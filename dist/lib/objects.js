@@ -1,6 +1,5 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 // License: ISC
-/// <reference path="../../typings/tsd.d.ts"/>
 "use strict";
 function shallowEquals(a, b) {
     if (a === b) {

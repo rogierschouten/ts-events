@@ -3,6 +3,8 @@
 
 "use strict";
 
+/// <reference path="./lib/base-event.ts" />
+
 export * from './lib/base-event'; 
 export * from './lib/sync-event';
 export * from './lib/queued-event';

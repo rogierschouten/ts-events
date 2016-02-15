@@ -53,7 +53,7 @@ var SyncEvent = (function (_super) {
      */
     SyncEvent.MAX_RECURSION_DEPTH = 10;
     return SyncEvent;
-}(base_event_1.BaseEvent));
+})(base_event_1.BaseEvent);
 exports.SyncEvent = SyncEvent;
 /**
  * Convenience class for events without data
@@ -70,7 +70,7 @@ var VoidSyncEvent = (function (_super) {
         _super.prototype.post.call(this, undefined);
     };
     return VoidSyncEvent;
-}(SyncEvent));
+})(SyncEvent);
 exports.VoidSyncEvent = VoidSyncEvent;
 /**
  * Similar to "error" event on EventEmitter: throws when a post() occurs while no handlers set.
@@ -87,6 +87,6 @@ var ErrorSyncEvent = (function (_super) {
         _super.prototype.post.call(this, data);
     };
     return ErrorSyncEvent;
-}(SyncEvent));
+})(SyncEvent);
 exports.ErrorSyncEvent = ErrorSyncEvent;
 //# sourceMappingURL=sync-event.js.map

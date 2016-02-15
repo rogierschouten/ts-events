@@ -1,8 +1,6 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 // License: ISC
 
-/// <reference path="../../typings/tsd.d.ts"/>
-
 "use strict";
 
 export function shallowEquals(a: any, b: any): boolean {

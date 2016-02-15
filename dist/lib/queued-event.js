@@ -82,7 +82,7 @@ var QueuedEvent = (function (_super) {
         }
     };
     return QueuedEvent;
-}(base_event_1.BaseEvent));
+})(base_event_1.BaseEvent);
 exports.QueuedEvent = QueuedEvent;
 /**
  * Convenience class for events without data
@@ -99,7 +99,7 @@ var VoidQueuedEvent = (function (_super) {
         _super.prototype.post.call(this, undefined);
     };
     return VoidQueuedEvent;
-}(QueuedEvent));
+})(QueuedEvent);
 exports.VoidQueuedEvent = VoidQueuedEvent;
 /**
  * Similar to "error" event on EventEmitter: throws when a post() occurs while no handlers set.
@@ -116,6 +116,6 @@ var ErrorQueuedEvent = (function (_super) {
         _super.prototype.post.call(this, data);
     };
     return ErrorQueuedEvent;
-}(QueuedEvent));
+})(QueuedEvent);
 exports.ErrorQueuedEvent = ErrorQueuedEvent;
 //# sourceMappingURL=queued-event.js.map

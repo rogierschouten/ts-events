@@ -42,14 +42,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# node modules and temp output
-/coverage
-/node_modules
-index.d.ts
-examples/*.d.ts
-lib/*.d.ts
-test/*.d.ts
-
 # Logs
 logs
 *.log
@@ -72,18 +64,11 @@ coverage
 # node-waf configuration
 .lock-wscript
 
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-#build/Release
+typings
+dist
 
-# Dependency directory
-# https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
-#node_modules
-
-#typings
-#build
-
-node_modules/
-dist/
+node_modules
+dist
 *.d.ts
 *.log
 *.tgz

@@ -5,9 +5,10 @@
         "declaration": true,
         "noImplicitAny": true,
         "removeComments": false,
-        "noLib": false,
         "sourceMap": true,
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "noLib": false,
+        "preserveConstEnums": true
     },
     "formatCodeOptions": {
         "indentSize": 4,
@@ -24,6 +25,13 @@
         "placeOpenBraceOnNewLineForControlBlocks": false
     },
     "files": [
-        "./src/index.ts"
+        "src/index.ts",
+        "src/lib/any-event.ts",
+        "src/lib/async-event.ts",
+        "src/lib/base-event.ts",
+        "src/lib/EventQueue.ts",
+        "src/lib/objects.ts",
+        "src/lib/queued-event.ts",
+        "src/lib/sync-event.ts"
     ]
 }

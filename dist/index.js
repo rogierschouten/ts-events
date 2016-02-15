@@ -4,6 +4,7 @@
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
+/// <reference path="./lib/base-event.ts" />
 __export(require('./lib/base-event'));
 __export(require('./lib/sync-event'));
 __export(require('./lib/queued-event'));
