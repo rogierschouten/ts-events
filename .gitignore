@@ -68,7 +68,8 @@ typings
 dist
 
 node_modules
-dist
+dist/
 *.d.ts
 *.log
 *.tgz
+/.vscode
