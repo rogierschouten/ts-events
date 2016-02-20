@@ -8,6 +8,14 @@ import {expect} from 'chai';
 import {AnyEvent, AsyncEvent, SyncEvent} from '../index';
 import * as tsevents from '../index';
 
+function wait(callback: () => void): void {
+    if (typeof window === 'undefined') {
+        setImmediate(callback);
+    } else {
+        setTimeout(callback, 0);
+    }
+}
+
 describe('AnyEvent', (): void => {
 
     describe('Sync use', (): void => {
@@ -154,10 +162,10 @@ describe('AnyEvent', (): void => {
                 calledWith.push(s);
             });
             e.post('A');
-            setTimeout((): void => {
+            wait((): void => {
                 expect(calledWith).to.deep.equal(['A']);
                 done();
-            }, 0);
+            });
         });
         it('should not condense events by default', (done: MochaDone): void => {
             var e = new AnyEvent<string>();
@@ -167,10 +175,10 @@ describe('AnyEvent', (): void => {
             });
             e.post('A');
             e.post('B');
-            setTimeout((): void => {
+            wait((): void => {
                 expect(calledWith).to.deep.equal(['A', 'B']);
                 done();
-            }, 0);
+            });
         });
         it('should condense events when asked', (done: MochaDone): void => {
             var e = new AnyEvent<string>();
@@ -180,10 +188,10 @@ describe('AnyEvent', (): void => {
             }, { condensed: true });
             e.post('A');
             e.post('B');
-            setTimeout((): void => {
+            wait((): void => {
                 expect(calledWith).to.deep.equal(['B']);
                 done();
-            }, 0);
+            });
         });
         it('should allow both condensed and uncondensed listener', (done: MochaDone): void => {
             var e = new AnyEvent<string>();
@@ -201,12 +209,12 @@ describe('AnyEvent', (): void => {
             });
             e.post('A');
             e.post('B');
-            setTimeout((): void => {
+            wait((): void => {
                 expect(calledWith).to.deep.equal(['B']);
                 expect(calledWith2).to.deep.equal(['A', 'B']);
                 expect(calledWith3).to.deep.equal(['A', 'B']);
                 done();
-            }, 0);
+            });
         });
         it('should use the Event as this parameter by default', (done: MochaDone): void => {
             var e = new AnyEvent<string>();
@@ -233,10 +241,10 @@ describe('AnyEvent', (): void => {
                 calledWith.push(s);
             });
             e.post('B');
-            setTimeout((): void => {
+            wait((): void => {
                 expect(calledWith).to.deep.equal(['B']);
                 done();
-            }, 0);
+            });
         });
         it('should not send events at all to detached event handlers', (done: MochaDone): void => {
             var e = new AnyEvent<string>();
@@ -247,10 +255,10 @@ describe('AnyEvent', (): void => {
             e.post('A');
             e.detach();
             e.post('B');
-            setTimeout((): void => {
+            wait((): void => {
                 expect(calledWith).to.deep.equal([]);
                 done();
-            }, 0);
+            });
         });
         it('should allow attachAsyncing event handlers within handlers', (done: MochaDone): void => {
             var e = new AnyEvent<string>();
@@ -262,13 +270,13 @@ describe('AnyEvent', (): void => {
             });
             e.post('A');
             e.post('B');
-            setTimeout((): void => {
+            wait((): void => {
                 e.post('C');
-                setTimeout((): void => {
+                wait((): void => {
                     expect(calledWith).to.deep.equal(['C', 'C']);
                     done();
-                }, 0);
-            }, 0);
+                });
+            });
         });
         it('should allow detaching event handlers within handlers', (done: MochaDone): void => {
             var e = new AnyEvent<string>();
@@ -280,31 +288,21 @@ describe('AnyEvent', (): void => {
             e.attachAsync(f);
             e.post('A');
             e.post('B');
-            setTimeout((): void => {
+            wait((): void => {
                 expect(calledWith).to.deep.equal(['A']);
                 done();
-            }, 0);
+            });
         });
         it('should allow setting different scheduler', (done: MochaDone): void => {
             AsyncEvent.setScheduler((callback: () => void): void => {
-                setTimeout(callback, 0);
+                done();
             });
             var e = new AnyEvent<string>();
-            var calledWith: string[] = [];
             var f = (s: string): void => {
-                calledWith.push(s);
+                // nothing
             };
             e.attachAsync(f);
             e.post('A');
-            if (typeof window === 'undefined') {
-                setImmediate((): void => {
-                    expect(calledWith).to.deep.equal([]);
-                });
-            }
-            setTimeout((): void => {
-                expect(calledWith).to.deep.equal(['A']);
-                done();
-            }, 0);
         });
         it('should allow attachAsyncing another event', (done: MochaDone): void => {
             var e = new AnyEvent<string>();
@@ -318,12 +316,12 @@ describe('AnyEvent', (): void => {
             e.post('A');
             e.post('B');
             expect(calledWith).to.deep.equal([]);
-            setTimeout((): void => {
-                setTimeout((): void => {
+            wait((): void => {
+                wait((): void => {
                     expect(calledWith).to.deep.equal(['A', 'B']);
                     done();
-                }, 0);
-            }, 0);
+                });
+            });
         });
     });
 
