@@ -486,6 +486,9 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v2.2.0 (2016-02-20)
+- Add generic way of attaching to an AnyEvent
+
 v2.1.1 (2016-02-20)
 - Ensure that ts-events works in browsers as well without setting another a-sync scheduler
 
