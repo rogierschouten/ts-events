@@ -5,6 +5,7 @@
 
 'use strict';
 
+import assert = require('assert');
 import util = require('util');
 
 import {shallowEquals} from './objects';
@@ -27,6 +28,31 @@ export enum EventType {
 export class AnyEvent<T> implements Postable<T> {
 
     private _events: BaseEvent<T>[] = [];
+
+    public attach(handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): void;
+    public attach(boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): void;
+    public attach(event: Postable<T>, opts?: AsyncEventOpts | QueuedEventOpts): void;
+    public attach(mode: EventType, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): void;
+    public attach(mode: EventType, boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): void;
+    public attach(mode: EventType, event: Postable<T>, opts?: AsyncEventOpts | QueuedEventOpts): void;
+    /**
+     * same as attachSync/attachAsync/attachQueued; based on the given enum
+     * @param mode determines whether to attach sync/async/queued
+     */
+    public attach(...args: any[]): void {
+        if (args.length > 0 && typeof args[0] === 'number') {
+            const mode = args.shift() as EventType;
+            switch (mode) {
+                case EventType.Sync: this.attachSync.apply(this, args); break;
+                case EventType.Async: this.attachAsync.apply(this, args); break;
+                case EventType.Queued: this.attachQueued.apply(this, args); break;
+                default:
+                    assert(false, 'unknown EventType');
+            }
+        } else {
+            this.attachSync.apply(this, args);
+        }
+    }
 
     public attachSync(handler: (data: T) => void): void;
     public attachSync(boundTo: Object, handler: (data: T) => void): void;

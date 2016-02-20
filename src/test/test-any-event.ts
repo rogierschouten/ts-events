@@ -5,7 +5,7 @@
 import assert = require('assert');
 import {expect} from 'chai';
 
-import {AnyEvent, AsyncEvent, SyncEvent} from '../index';
+import {EventType, AnyEvent, AsyncEvent, SyncEvent} from '../index';
 import * as tsevents from '../index';
 
 function wait(callback: () => void): void {
@@ -29,6 +29,24 @@ describe('AnyEvent', (): void => {
             var e = new AnyEvent<string>();
             var calledWith: string[] = [];
             e.attachSync((s: string): void => {
+                calledWith.push(s);
+            });
+            e.post('A');
+            expect(calledWith).to.deep.equal(['A']);
+        });
+        it('should allow generic attach', (): void => {
+            var e = new AnyEvent<string>();
+            var calledWith: string[] = [];
+            e.attach(EventType.Sync, (s: string): void => {
+                calledWith.push(s);
+            });
+            e.post('A');
+            expect(calledWith).to.deep.equal(['A']);
+        });
+        it('should allow generic attach without mode', (): void => {
+            var e = new AnyEvent<string>();
+            var calledWith: string[] = [];
+            e.attach((s: string): void => {
                 calledWith.push(s);
             });
             e.post('A');
@@ -150,6 +168,15 @@ describe('AnyEvent', (): void => {
             var e = new AnyEvent<string>();
             var calledWith: string[] = [];
             e.attachAsync((s: string): void => {
+                calledWith.push(s);
+            });
+            e.post('A');
+            expect(calledWith).to.deep.equal([]);
+        });
+        it('should allow generic attach', (): void => {
+            var e = new AnyEvent<string>();
+            var calledWith: string[] = [];
+            e.attach(EventType.Async, (s: string): void => {
                 calledWith.push(s);
             });
             e.post('A');
@@ -331,6 +358,20 @@ describe('AnyEvent', (): void => {
             var callCount = 0;
             var calledWith: string[] = [];
             e.attachQueued((s: string): void => {
+                callCount++;
+                calledWith.push(s);
+            });
+            e.post('A');
+            expect(callCount).to.equal(0);
+            tsevents.flushOnce();
+            expect(callCount).to.equal(1);
+            expect(calledWith).to.deep.equal(['A']);
+        });
+        it('should allow generic attach', (): void => {
+            var e = new AnyEvent<string>();
+            var callCount = 0;
+            var calledWith: string[] = [];
+            e.attach(EventType.Queued, (s: string): void => {
                 callCount++;
                 calledWith.push(s);
             });

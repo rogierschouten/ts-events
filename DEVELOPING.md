@@ -5,9 +5,12 @@ npm run clean
 npm run lint
 npm run build
 npm run test
+npm run browserify
+npm run karma
 npm run cover
 
-clean ... test all at once: npm run prepublish
+browserify + karma:  npm run browma
+clean ... karma all at once: npm run prepublish
 
 
 # Releasing
