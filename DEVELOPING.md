@@ -15,6 +15,7 @@ clean ... karma all at once: npm run prepublish
 
 # Releasing
 
+* npm run prepublish
 * Increment version number in package.json
 * Add changelog entry to README.md
 * Commit

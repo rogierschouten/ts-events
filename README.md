@@ -457,14 +457,6 @@ tsevents.flush(); // only needed for queued
 
 This section is for using this module with TypeScript.
 
-#### Typings
-
-A typings file is delivered with the module, so no need for DefinitelyTyped. Simply use:
-
-```javascript
-/// <reference path="node_modules/ts-event/ts-event.d.ts">
-```
-
 #### Single argument
 
 We chose to make this module type-safe. Due to the limitations of template parameters in TypeScript, this causes you to be limited to one argument in your event handlers. In practice, this is not much of a problem because you can always make the argument an interface with multiple members.
@@ -485,6 +477,9 @@ myEvent.post(); // no need to pass 'undefined'
 ```
 
 ## Changelog
+
+v2.3.0 (2016-02-20)
+- Add evtFirstAttached and evtLastDetached events to AnyEvent
 
 v2.2.0 (2016-02-20)
 - Add generic way of attaching to an AnyEvent
