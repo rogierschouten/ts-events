@@ -1,12 +1,14 @@
 
 # Building
 
-Ensure typescript is installed globally, at least version 1.7.5
+npm run clean
+npm run lint
+npm run build
+npm run test
+npm run cover
 
-* Clean: ./node_modules/.bin/rimraf ./dist
-* Lint: ./node_modules/.bin/tslint -c ./tslint.json src/**/*.ts
-* Build: ./node_modules/.bin/tsc
-* Test: npm test
+clean ... test all at once: npm run prepublish
+
 
 # Releasing
 

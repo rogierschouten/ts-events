@@ -14,7 +14,12 @@
   },
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "test": "mocha ./dist/test/test-*.js"
+    "clean": "./node_modules/.bin/rimraf ./dist",
+    "build": "./node_modules/.bin/tsc",
+    "lint": "./node_modules/.bin/tslint -c ./tslint.json ./src/**/*.ts",
+    "test": "./node_modules/.bin/mocha ./dist/test/test-*.js",
+    "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- ./dist/test/*.js",
+    "prepublish": "npm run clean && npm run lint && npm run build && npm run test"
   },
   "keywords": [
     "Event",

@@ -64,12 +64,10 @@ coverage
 # node-waf configuration
 .lock-wscript
 
-typings
-dist
-
+.vscode/
+.settings/
 node_modules
 dist/
 *.d.ts
 *.log
 *.tgz
-/.vscode
