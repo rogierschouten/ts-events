@@ -108,10 +108,6 @@ tsevents.flush(); // only needed for queued
 * Detach one handler, all handlers, or all handlers bound to a certain object
 * Decide on sync/a-sync/queued either in the publisher or in the subscriber
 
-## Documentation
-
-For class documentation, see ./doc/index.html
-
 ## Installation
 
 ```sh
@@ -121,13 +117,12 @@ npm install --save ts-events
 
 Then, include the library using:
 ```javascript
-var tsEvents = require("ts-events");
+var tsevents = require('ts-events');
 ```
 
 If you're programming in TypeScript, you can include it like this:
 ```javascript
-/// <reference path="./node_modules/ts-events/ts-events.d.ts" />
-import tsEvents = require("ts-events");
+import * as tsevents from 'ts-events';
 ```
 
 ## Usage
@@ -474,6 +469,12 @@ myEvent.post(); // no need to pass 'undefined'
 ```
 
 ## Changelog
+
+v3.0.0
+- Make the whole library work again in 2016
+- Added tsd for typings management and set reference paths to tsd.d.ts
+- Updated build.sh for tslint
+- Updated .gitignore
 
 v2.0.0
 - Breaking change: removed AnyEvent#attach() and replaced it with attachSync() to force users of AnyEvents to think about how to attach.
