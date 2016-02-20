@@ -68,6 +68,8 @@ coverage
 .settings/
 node_modules
 dist/
+temp/
 *.d.ts
 *.log
 *.tgz
+

@@ -41,10 +41,12 @@ export class AsyncEvent<T> extends BaseEvent<T> implements Postable<T> {
      */
     public static defaultScheduler(callback: () => void): void {
         /* istanbul ignore else  */
-        if (setImmediate) {
-            setImmediate(callback);
-        } else {
+        if (typeof window !== 'undefined') {
+            // browsers don't always support setImmediate()
             setTimeout(callback, 0);
+        } else {
+            // node.js
+            setImmediate(callback);
         }
     }
 

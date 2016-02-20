@@ -2,10 +2,13 @@
 .vscode/
 node_modules/
 src/
+temp/
 typings/
 .gitattributes
 .gitignore
 .editorconfig
+browserify.js
 DEVELOPING.md
+karma.conf.js
 tsconfig.json
 tslint.json
