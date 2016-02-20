@@ -32,6 +32,14 @@
         "src/lib/EventQueue.ts",
         "src/lib/objects.ts",
         "src/lib/queued-event.ts",
-        "src/lib/sync-event.ts"
+        "src/lib/sync-event.ts",
+        "src/test/test-any-event.ts",
+        "src/test/test-async-event.ts",
+        "src/test/test-base-event.ts",
+        "src/test/test-event-queue.ts",
+        "src/test/test-index.ts",
+        "src/test/test-objects.ts",
+        "src/test/test-queued-event.ts",
+        "src/test/test-sync-event.ts"
     ]
 }
