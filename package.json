@@ -1,6 +1,6 @@
 {
   "name": "ts-events",
-  "version": "3.0.0",
+  "version": "2.1.0",
   "description": "Various EventEmitter event replacements with synchronous, a-synchronous, and queued events. Made in TypeScript so usable with JavaScript and TypeScript.",
   "main": "./dist/index.js",
   "homepage": "https://github.com/rogierschouten/ts-events",
