@@ -1,9 +1,9 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 // License: ISC
 
-"use strict";
+'use strict';
 
-import util = require("util");
+import util = require('util');
 import {BaseEvent, Postable} from './base-event';
 
 /**
@@ -40,7 +40,7 @@ export class SyncEvent<T> extends BaseEvent<T> implements Postable<T> {
         this._recursion++;
         if (SyncEvent.MAX_RECURSION_DEPTH > 0 &&
             this._recursion > SyncEvent.MAX_RECURSION_DEPTH) {
-            throw new Error("event fired recursively");
+            throw new Error('event fired recursively');
         }
         // copy a reference to the array because this._listeners might be replaced during
         // the handler calls
@@ -67,13 +67,13 @@ export class VoidSyncEvent extends SyncEvent<void> {
 }
 
 /**
- * Similar to "error" event on EventEmitter: throws when a post() occurs while no handlers set.
+ * Similar to 'error' event on EventEmitter: throws when a post() occurs while no handlers set.
  */
 export class ErrorSyncEvent extends SyncEvent<Error> {
 
     public post(data: Error): void {
         if (this.listenerCount() === 0) {
-            throw new Error(util.format("error event posted while no listeners attached. Error: ", data));
+            throw new Error(util.format('error event posted while no listeners attached. Error: ', data));
         }
         super.post(data);
     }

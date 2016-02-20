@@ -1,18 +1,18 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 // License: ISC
 
-"use strict";
+'use strict';
 
-/// <reference path="./lib/base-event.ts" />
+/// <reference path='./lib/base-event.ts' />
 
-export * from './lib/base-event'; 
+export * from './lib/base-event';
 export * from './lib/sync-event';
 export * from './lib/queued-event';
 export * from './lib/async-event';
-export {default as EventQueue} from './lib/EventQueue';
 export * from './lib/any-event';
 
 import {default as EventQueue} from './lib/EventQueue';
+export {default as EventQueue} from './lib/EventQueue';
 
 /**
  * The global event queue for QueuedEvents

@@ -1,11 +1,11 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 // License: ISC
 
-/// <reference path="../../typings/tsd.d.ts"/>
+/// <reference path='../../typings/tsd.d.ts'/>
 
-"use strict";
+'use strict';
 
-import * as assert from "assert";
+import * as assert from 'assert';
 
 export interface Postable<T> {
     post(data: T): void;
@@ -71,13 +71,13 @@ export class BaseEvent<T> implements Postable<T> {
         var boundTo: Object;
         var handler: (data: T) => void;
         var event: Postable<T>;
-        if (typeof args[0] === "function") {
+        if (typeof args[0] === 'function') {
             handler = args[0];
-        } else if (args.length === 1 && typeof args[0].post === "function") {
+        } else if (args.length === 1 && typeof args[0].post === 'function') {
             event = args[0];
         } else {
-            assert(typeof args[0] === "object", "Expect a function or object as first argument");
-            assert(typeof args[1] === "function", "Expect a function as second argument");
+            assert(typeof args[0] === 'object', 'Expect a function or object as first argument');
+            assert(typeof args[1] === 'function', 'Expect a function as second argument');
             boundTo = args[0];
             handler = args[1];
         }
@@ -129,9 +129,9 @@ export class BaseEvent<T> implements Postable<T> {
         var handler: (data: T) => void;
         var event: Postable<T>;
         if (args.length >= 1) {
-            if (typeof (args[0]) === "function") {
+            if (typeof (args[0]) === 'function') {
                 handler = args[0];
-            } else if (args.length === 1 && typeof args[0].post === "function") {
+            } else if (args.length === 1 && typeof args[0].post === 'function') {
                 event = args[0];
             } else {
                 boundTo = args[0];
@@ -143,9 +143,9 @@ export class BaseEvent<T> implements Postable<T> {
 
         // remove listeners AND mark them as deleted so subclasses don't send any more events to them
         this._listeners = this._listeners.filter((listener: Listener<T>): boolean => {
-            if ((typeof handler === "undefined" || listener.handler === handler)
-                && (typeof event === "undefined" || listener.event === event)
-                && (typeof boundTo === "undefined" || listener.boundTo === boundTo)) {
+            if ((typeof handler === 'undefined' || listener.handler === handler)
+                && (typeof event === 'undefined' || listener.event === event)
+                && (typeof boundTo === 'undefined' || listener.boundTo === boundTo)) {
                 listener.deleted = true;
                 return false;
             }
@@ -162,7 +162,7 @@ export class BaseEvent<T> implements Postable<T> {
      * @abstract
      */
     public post(data: T): void {
-        throw new Error("abstract");
+        throw new Error('abstract');
     }
 
     /**
@@ -182,7 +182,7 @@ export class BaseEvent<T> implements Postable<T> {
             if (listener.event) {
                 listener.event.post.apply(listener.event, args);
             } else {
-                listener.handler.apply((typeof listener.boundTo === "object" ? listener.boundTo : this), args);
+                listener.handler.apply((typeof listener.boundTo === 'object' ? listener.boundTo : this), args);
             }
         }
     }

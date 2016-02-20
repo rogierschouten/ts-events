@@ -1,8 +1,8 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 
-"use strict";
+'use strict';
 
-import tsevents = require("../index");
+import tsevents = require('../index');
 import SyncEvent = tsevents.SyncEvent;
 
 class Counter {
@@ -31,7 +31,7 @@ class Counter {
 var ctr = new Counter();
 
 ctr.evtChanged.attach((n: number): void => {
-    console.log("The counter changed to: " + n.toString(10));
+    console.log('The counter changed to: ' + n.toString(10));
 });
 
 ctr.inc();

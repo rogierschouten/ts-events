@@ -1,9 +1,9 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 
-/// <reference path="../../typings/tsd.d.ts"/>
+/// <reference path='../../typings/tsd.d.ts'/>
 
-import assert = require("assert");
-import {expect} from "chai";
+import assert = require('assert');
+import {expect} from 'chai';
 
 import {BaseEvent, Listener, AsyncEvent, QueuedEvent, SyncEvent} from '../index';
 import * as tsevents from '../index';
@@ -15,7 +15,7 @@ class ListenerSub extends BaseEvent<string> {
     }
 }
 
-describe("BaseEvent", (): void => {
+describe('BaseEvent', (): void => {
 
     var l: ListenerSub;
 
@@ -23,15 +23,15 @@ describe("BaseEvent", (): void => {
         l = new ListenerSub();
     });
 
-    describe("attach()", (): void => {
-        it("should take a handler", (): void => {
+    describe('attach()', (): void => {
+        it('should take a handler', (): void => {
             var f = (s: string): void => {
                 // nothing
             };
             l.attach(f);
             expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: f, deleted: false, event: undefined }]);
         });
-        it("should take a boundTo and a handler", (): void => {
+        it('should take a boundTo and a handler', (): void => {
             var t = {};
             var f = (s: string): void => {
                 // nothing
@@ -39,24 +39,24 @@ describe("BaseEvent", (): void => {
             l.attach(t, f);
             expect(l.content()).to.deep.equal([{ boundTo: t, handler: f, deleted: false, event: undefined }]);
         });
-        it("should take a SyncEvent", (): void => {
+        it('should take a SyncEvent', (): void => {
             var e = new SyncEvent<string>();
             l.attach(e);
             expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
         });
-        it("should take an AsyncEvent", (): void => {
+        it('should take an AsyncEvent', (): void => {
             var e = new AsyncEvent<string>();
             l.attach(e);
             expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
         });
-        it("should take a QueuedEvent", (): void => {
+        it('should take a QueuedEvent', (): void => {
             var e = new QueuedEvent<string>();
             l.attach(e);
             expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
         });
     });
 
-    describe("detach()", (): void => {
+    describe('detach()', (): void => {
         var t = {};
         var f = (s: string): void => {
             // nothing
@@ -74,7 +74,7 @@ describe("BaseEvent", (): void => {
             l.attach(e);
         });
 
-        it("should delete by handler", (): void => {
+        it('should delete by handler', (): void => {
             l.detach(f);
             expect(l.content()).to.deep.equal([
                 { boundTo: undefined, handler: g, deleted: false, event: undefined },
@@ -82,7 +82,7 @@ describe("BaseEvent", (): void => {
                 { boundTo: undefined, handler: undefined, deleted: false, event: e }
             ]);
         });
-        it("should delete by boundTo", (): void => {
+        it('should delete by boundTo', (): void => {
             l.detach(t);
             expect(l.content()).to.deep.equal([
                 { boundTo: undefined, handler: f, deleted: false, event: undefined },
@@ -90,7 +90,7 @@ describe("BaseEvent", (): void => {
                 { boundTo: undefined, handler: undefined, deleted: false, event: e }
             ]);
         });
-        it("should delete by boundTo and handler", (): void => {
+        it('should delete by boundTo and handler', (): void => {
             l.detach(t, f);
             expect(l.content()).to.deep.equal([
                 { boundTo: undefined, handler: f, deleted: false, event: undefined },
@@ -99,7 +99,7 @@ describe("BaseEvent", (): void => {
                 { boundTo: undefined, handler: undefined, deleted: false, event: e }
             ]);
         });
-        it("should delete by event", (): void => {
+        it('should delete by event', (): void => {
             l.detach(e);
             expect(l.content()).to.deep.equal([
                 { boundTo: undefined, handler: f, deleted: false, event: undefined },
@@ -108,11 +108,11 @@ describe("BaseEvent", (): void => {
                 { boundTo: t, handler: g, deleted: false, event: undefined }
             ]);
         });
-        it("should delete all", (): void => {
+        it('should delete all', (): void => {
             l.detach();
             expect(l.content()).to.deep.equal([]);
         });
-        it("should be ok if no handlers", (): void => {
+        it('should be ok if no handlers', (): void => {
             l = new ListenerSub();
             assert.doesNotThrow((): void => {
                 l.detach();

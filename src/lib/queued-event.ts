@@ -1,11 +1,11 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 // License: ISC
 
-"use strict";
+'use strict';
 
-import util = require("util");
+import util = require('util');
 import {BaseEvent, Postable, Listener} from './base-event';
-import {default as EventQueue} from "./EventQueue";
+import {default as EventQueue} from './EventQueue';
 
 /**
  * Options for the QueuedEvent constructor
@@ -51,12 +51,12 @@ export class QueuedEvent<T> extends BaseEvent<T> implements Postable<T> {
         super();
         this.options = opts;
         var options: QueuedEventOpts = opts || {};
-        if (typeof options.condensed === "boolean") {
+        if (typeof options.condensed === 'boolean') {
             this._condensed = options.condensed;
         } else {
             this._condensed = false;
         }
-        if (typeof options.queue === "object" && options.queue !== null) {
+        if (typeof options.queue === 'object' && options.queue !== null) {
             this._queue = options.queue;
         }
     }
@@ -120,13 +120,13 @@ export class VoidQueuedEvent extends QueuedEvent<void> {
 
 
 /**
- * Similar to "error" event on EventEmitter: throws when a post() occurs while no handlers set.
+ * Similar to 'error' event on EventEmitter: throws when a post() occurs while no handlers set.
  */
 export class ErrorQueuedEvent extends QueuedEvent<Error> {
 
     public post(data: Error): void {
         if (!this._listeners || this._listeners.length === 0) {
-            throw new Error(util.format("error event posted while no listeners attached. Error: ", data));
+            throw new Error(util.format('error event posted while no listeners attached. Error: ', data));
         }
         super.post(data);
     }

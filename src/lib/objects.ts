@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 // License: ISC
 
-"use strict";
+'use strict';
 
 export function shallowEquals(a: any, b: any): boolean {
     if (a === b) {
@@ -11,15 +11,15 @@ export function shallowEquals(a: any, b: any): boolean {
         return false;
     }
     switch (typeof a) {
-        case "boolean":
-        case "number":
-        case "string":
-        case "function":
-        case "symbol":
-        case "undefined":
+        case 'boolean':
+        case 'number':
+        case 'string':
+        case 'function':
+        case 'symbol':
+        case 'undefined':
             // already did === compare
             return false;
-        case "object":
+        case 'object':
             if (a === null || b === null) {
                 return false; // already compared ===
             }
@@ -52,7 +52,7 @@ export function shallowEquals(a: any, b: any): boolean {
             }
             namesA.sort();
             namesB.sort();
-            if (namesA.join(",") !== namesB.join(",")) {
+            if (namesA.join(',') !== namesB.join(',')) {
                 return false;
             }
             for (i = 0; i < namesA.length; ++i) {

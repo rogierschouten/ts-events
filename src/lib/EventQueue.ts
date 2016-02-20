@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 // License: ISC
 
-"use strict";
+'use strict';
 
 import {SyncEvent} from './sync-event';
 
@@ -106,9 +106,9 @@ class EventQueue {
         try {
             var i = 0;
             while (this._queue.length > 0) {
-                if (typeof maxRounds === "number" && i >= maxRounds) {
+                if (typeof maxRounds === 'number' && i >= maxRounds) {
                     this._queue = [];
-                    throw new Error("unable to flush the queue due to recursively added event. Clearing queue now");
+                    throw new Error('unable to flush the queue due to recursively added event. Clearing queue now');
                 }
                 this.flushOnce();
                 ++i;

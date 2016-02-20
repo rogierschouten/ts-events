@@ -1,11 +1,11 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 // License: ISC
 
-/// <reference path="../../typings/tsd.d.ts"/>
+/// <reference path='../../typings/tsd.d.ts'/>
 
-"use strict";
+'use strict';
 
-import util = require("util");
+import util = require('util');
 import {BaseEvent, Postable, Listener} from './base-event';
 /**
  * Options for the AsyncEvent constructor
@@ -71,7 +71,7 @@ export class AsyncEvent<T> extends BaseEvent<T> implements Postable<T> {
         super();
         this.options = opts;
         var options: AsyncEventOpts = opts || {};
-        if (typeof options.condensed === "boolean") {
+        if (typeof options.condensed === 'boolean') {
             this._condensed = options.condensed;
         } else {
             this._condensed = false;
@@ -161,13 +161,13 @@ export class VoidAsyncEvent extends AsyncEvent<void> {
 }
 
 /**
- * Similar to "error" event on EventEmitter: throws when a post() occurs while no handlers set.
+ * Similar to 'error' event on EventEmitter: throws when a post() occurs while no handlers set.
  */
 export class ErrorAsyncEvent extends AsyncEvent<Error> {
 
     public post(data: Error): void {
         if (this.listenerCount() === 0) {
-            throw new Error(util.format("error event posted while no listeners attached. Error: ", data));
+            throw new Error(util.format('error event posted while no listeners attached. Error: ', data));
         }
         super.post(data);
     }

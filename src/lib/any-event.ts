@@ -1,11 +1,11 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 // License: ISC
 
-/// <reference path="../../typings/tsd.d.ts"/>
+/// <reference path='../../typings/tsd.d.ts'/>
 
-"use strict";
+'use strict';
 
-import util = require("util");
+import util = require('util');
 
 import {shallowEquals} from './objects';
 
@@ -32,12 +32,12 @@ export class AnyEvent<T> implements Postable<T> {
     public attachSync(boundTo: Object, handler: (data: T) => void): void;
     public attachSync(event: Postable<T>): void;
     /**
-     * Attach event handlers as if it were a sync event. It is simply called "attach"
+     * Attach event handlers as if it were a sync event. It is simply called 'attach'
      * so that this class adheres to the BaseEvent<T> signature.
      */
     public attachSync(...args: any[]): void {
         // add ourselves as default 'boundTo' argument
-        if (args.length > 0 && typeof args[0] === "function") {
+        if (args.length > 0 && typeof args[0] === 'function') {
             args.unshift(this);
         }
         var event: BaseEvent<T>;
@@ -61,11 +61,11 @@ export class AnyEvent<T> implements Postable<T> {
      */
     public attachAsync(...args: any[]): void {
         var opts: AsyncEventOpts;
-        if (args.length > 1 && typeof args[args.length - 1] === "object") {
+        if (args.length > 1 && typeof args[args.length - 1] === 'object') {
             opts = args[args.length - 1];
         }
         // add ourselves as default 'boundTo' argument
-        if (args.length > 0 && typeof args[0] === "function") {
+        if (args.length > 0 && typeof args[0] === 'function') {
             args.unshift(this);
         }
         var event: BaseEvent<T>;
@@ -90,11 +90,11 @@ export class AnyEvent<T> implements Postable<T> {
      */
     public attachQueued(...args: any[]): void {
         var opts: QueuedEventOpts;
-        if (args.length > 1 && typeof args[args.length - 1] === "object") {
+        if (args.length > 1 && typeof args[args.length - 1] === 'object') {
             opts = args[args.length - 1];
         }
         // add ourselves as default 'boundTo' argument
-        if (args.length > 0 && typeof args[0] === "function") {
+        if (args.length > 0 && typeof args[0] === 'function') {
             args.unshift(this);
         }
         var event: BaseEvent<T>;
@@ -167,13 +167,13 @@ export class VoidAnyEvent extends AnyEvent<void> {
 }
 
 /**
- * Similar to "error" event on EventEmitter: throws when a post() occurs while no handlers set.
+ * Similar to 'error' event on EventEmitter: throws when a post() occurs while no handlers set.
  */
 export class ErrorAnyEvent extends AnyEvent<Error> {
 
     public post(data: Error): void {
         if (this.listenerCount() === 0) {
-            throw new Error(util.format("error event posted while no listeners attached. Error: ", data));
+            throw new Error(util.format('error event posted while no listeners attached. Error: ', data));
         }
         super.post(data);
     }
