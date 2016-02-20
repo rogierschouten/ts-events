@@ -470,6 +470,9 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v2.1.1 (2016-02-20)
+- Ensure that ts-events works in browsers as well without setting another a-sync scheduler
+
 v2.1.0 (2016-02-20)
 - Update whole module to 2016 standards (thanks to Tomasz Ciborski)
 
