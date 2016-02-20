@@ -1,14 +1,17 @@
 
 # Building
 
-* Ensure typescript is installed, at least version 1.7.5
-* Run build.sh to build the code
+Ensure typescript is installed globally, at least version 1.7.5
+
+* Clean: ./node_modules/.bin/rimraf ./dist
+* Lint: ./node_modules/.bin/tslint -c ./tslint.json src/**/*.ts
+* Build: ./node_modules/.bin/tsc
+* Test: npm test
 
 # Releasing
 
 * Increment version number in package.json
 * Add changelog entry to README.md
-* Run build.sh to update version in documentation
 * Commit
 * Sync with Github
 * Draft a new Github release

@@ -14,8 +14,7 @@
   },
   "typings": "./dist/index.d.ts",
   "scripts": {
-      "build": "./node_modules/.bin/tsc",
-      "test": "mocha ./dist/test/test-*.js"
+    "test": "mocha ./dist/test/test-*.js"
   },
   "keywords": [
     "Event",
@@ -45,9 +44,9 @@
     "chai": "^2.3.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.2.4",
+    "rimraf": "^2.5.2",
     "source-map-support": "^0.2.10",
     "tslint": "^3.3.0",
-    "typedoc": "^0.3.3",
     "typescript": "^1.7.5"
   }
 }
