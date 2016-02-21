@@ -1,0 +1,14 @@
+.settings/
+.vscode/
+node_modules/
+src/
+temp/
+.gitattributes
+.gitignore
+.editorconfig
+browserify.js
+DEVELOPING.md
+karma.conf.js
+tsconfig.json
+tsd.json
+tslint.json

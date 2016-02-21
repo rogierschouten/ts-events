@@ -15,7 +15,7 @@ Implemented in TypeScript (typings file included) and usable with JavaScript as 
 Synchronous events:
 
 ```javascript
-var tsevents = require("../index");
+var tsevents = require("ts-events");
 var SyncEvent = tsevents.SyncEvent;
 
 var evtChange = new SyncEvent();
@@ -29,7 +29,7 @@ evtChange.post("hi!");
 A-synchronous events:
 
 ```javascript
-var tsevents = require("../index");
+var tsevents = require("ts-events");
 var AsyncEvent = tsevents.AsyncEvent;
 
 var evtChange = new AsyncEvent();
@@ -43,7 +43,7 @@ evtChange.post("hi!");
 Queued events for fine-grained control:
 
 ```javascript
-var tsevents = require("../index");
+var tsevents = require("ts-events");
 var QueuedEvent = tsevents.QueuedEvent;
 
 var evtChange = new QueuedEvent();
@@ -77,7 +77,7 @@ evtChange.attach(this.evtChange);
 Versatile events, let the subscriber choose:
 
 ```javascript
-var tsevents = require("../index");
+var tsevents = require("ts-events");
 var AnyEvent = tsevents.AnyEvent;
 
 var evtChange = new AnyEvent();
@@ -108,10 +108,6 @@ tsevents.flush(); // only needed for queued
 * Detach one handler, all handlers, or all handlers bound to a certain object
 * Decide on sync/a-sync/queued either in the publisher or in the subscriber
 
-## Documentation
-
-For class documentation, see ./doc/index.html
-
 ## Installation
 
 ```sh
@@ -121,13 +117,12 @@ npm install --save ts-events
 
 Then, include the library using:
 ```javascript
-var tsEvents = require("ts-events");
+var tsevents = require('ts-events');
 ```
 
 If you're programming in TypeScript, you can include it like this:
 ```javascript
-/// <reference path="./node_modules/ts-events/ts-events.d.ts" />
-import tsEvents = require("ts-events");
+import * as tsevents from 'ts-events';
 ```
 
 ## Usage
@@ -152,7 +147,7 @@ If you want EventEmitter-style events, then use SyncEvent. The handlers of SyncE
 
 
 ```javascript
-var tsevents = require("../index");
+var tsevents = require("ts-events");
 var SyncEvent = tsevents.SyncEvent;
 
 var myEvent = new SyncEvent();
@@ -169,7 +164,7 @@ myEvent.post("hi!");
 Typically you use events as members in a class, instead of extending EventEmitter:
 
 ```javascript
-var tsevents = require("../index");
+var tsevents = require("ts-events");
 var SyncEvent = tsevents.SyncEvent;
 
 function Counter() {
@@ -251,7 +246,7 @@ Therefore we also have a-synchronous events: when you post an a-synchronous even
 By default, AsyncEvent uses setImmediate() to defer a call to the next Node.JS cycle. You can change that by calling the static function AsyncEvent.setScheduler().
 
 ```javascript
-var tsevents = require("../index");
+var tsevents = require("ts-events");
 var AsyncEvent = tsevents.AsyncEvent;
 
 // Replace the default setImmediate() call by a setTimeout(, 0) call
@@ -266,7 +261,7 @@ For  fine-grained control, use a QueuedEvent instead of an AsyncEvent. All queue
 
 
 ```javascript
-var tsevents = require("../index");
+var tsevents = require("ts-events");
 var QueuedEvent = tsevents.QueuedEvent;
 
 function Counter() {
@@ -311,7 +306,7 @@ You can put different events in different queues. By default, all events go into
 
 ```javascript
 
-var tsevents = require("../index");
+var tsevents = require("ts-events");
 var EventQueue = tsevents.EventQueue;
 var QueuedEvent = tsevents.QueuedEvent;
 
@@ -343,7 +338,7 @@ For a-synchronous events and for queued events, you can opt to condense multiple
 
 ```javascript
 
-var tsevents = require("../index");
+var tsevents = require("ts-events");
 var AsyncEvent = tsevents.AsyncEvent;
 
 // create a condensed event
@@ -421,22 +416,38 @@ myEvent.post(new Error("foo"));
 The AnyEvent class lets you choose between sync/async/queued in the attach() function. For instance:
 
 ```javascript
-var tsevents = require("../index");
+var tsevents = require("./dist/index");
 var AnyEvent = tsevents.AnyEvent;
+var EventType = tsevents.EventType;
 
 var evtChange = new AnyEvent();
 evtChange.attach(function(s) {
     console.log(s + " this is synchronous.");
 });
-evtChange.attachAsync(function(s) {
-    console.log(s + " this is a-synchronous and condensed.");
-}, { condensed: true });
-evtChange.attachAsync(function(s) {
-    console.log(s + " this is a-synchronous and not condensed.");
+evtChange.attach(EventType.Sync, function(s) {
+    console.log(s + " this is synchronous.");
 });
-evtChange.attachQueued(function(s) {
+evtChange.attach(EventType.Async, function(s) {
+    console.log(s + " this is a-synchronous.");
+});
+evtChange.attach(EventType.Queued, function(s) {
     console.log(s + " this is queued.");
 });
+
+// convenience functions:
+evtChange.attachSync(function(s) {
+    console.log(s + " this is conveniently synchronous.");
+});
+evtChange.attachAsync(function(s) {
+    console.log(s + " this is conveniently a-synchronous and condensed.");
+}, { condensed: true });
+evtChange.attachAsync(function(s) {
+    console.log(s + " this is conveniently a-synchronous and not condensed.");
+});
+evtChange.attachQueued(function(s) {
+    console.log(s + " this is conveniently queued.");
+});
+
 evtChange.post("hi!");
 tsevents.flush(); // only needed for queued
 
@@ -445,14 +456,6 @@ tsevents.flush(); // only needed for queued
 ### For TypeScript users
 
 This section is for using this module with TypeScript.
-
-#### Typings
-
-A typings file is delivered with the module, so no need for DefinitelyTyped. Simply use:
-
-```javascript
-/// <reference path="node_modules/ts-event/ts-event.d.ts">
-```
 
 #### Single argument
 
@@ -475,8 +478,26 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v3.0.0
+- Update whole module to 2016 standards (thanks to Tomasz Ciborski)
+- Ensure that ts-events works in browsers as well without setting another a-sync scheduler
+- Add generic way of attaching to an AnyEvent
+- Add evtFirstAttached and evtLastDetached events to AnyEvent
+
 v2.4.0
 - Revert releases 2.0.1 - 2.3.0 because they don't work
+
+v2.3.0 (2016-02-20)
+- Add evtFirstAttached and evtLastDetached events to AnyEvent
+
+v2.2.0 (2016-02-20)
+- Add generic way of attaching to an AnyEvent
+
+v2.1.1 (2016-02-20)
+- Ensure that ts-events works in browsers as well without setting another a-sync scheduler
+
+v2.1.0 (2016-02-20)
+- Update whole module to 2016 standards (thanks to Tomasz Ciborski)
 
 v2.0.0
 - Breaking change: removed AnyEvent#attach() and replaced it with attachSync() to force users of AnyEvents to think about how to attach.

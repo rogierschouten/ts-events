@@ -1,13 +1,14 @@
 {
-    "version": "1.5.0-alpha",
     "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
         "declaration": true,
         "noImplicitAny": true,
         "removeComments": false,
+        "sourceMap": true,
+        "outDir": "./dist",
         "noLib": false,
-        "sourceMap": true
+        "preserveConstEnums": true
     },
     "formatCodeOptions": {
         "indentSize": 4,
@@ -23,28 +24,22 @@
         "placeOpenBraceOnNewLineForFunctions": false,
         "placeOpenBraceOnNewLineForControlBlocks": false
     },
-    "filesGlob": [
-        "./**/*.ts",
-        "!./node_modules/**/*.ts",
-        "!./**/*.d.ts"
-    ],
     "files": [
-        "./examples/sync.ts",
-        "./index.ts",
-        "./lib/EventQueue.ts",
-        "./lib/any-event.ts",
-        "./lib/async-event.ts",
-        "./lib/base-event.ts",
-        "./lib/objects.ts",
-        "./lib/queued-event.ts",
-        "./lib/sync-event.ts",
-        "./test/test-any-event.ts",
-        "./test/test-async-event.ts",
-        "./test/test-base-event.ts",
-        "./test/test-event-queue.ts",
-        "./test/test-index.ts",
-        "./test/test-objects.ts",
-        "./test/test-queued-event.ts",
-        "./test/test-sync-event.ts"
+        "src/index.ts",
+        "src/lib/any-event.ts",
+        "src/lib/async-event.ts",
+        "src/lib/base-event.ts",
+        "src/lib/EventQueue.ts",
+        "src/lib/objects.ts",
+        "src/lib/queued-event.ts",
+        "src/lib/sync-event.ts",
+        "src/test/test-any-event.ts",
+        "src/test/test-async-event.ts",
+        "src/test/test-base-event.ts",
+        "src/test/test-event-queue.ts",
+        "src/test/test-index.ts",
+        "src/test/test-objects.ts",
+        "src/test/test-queued-event.ts",
+        "src/test/test-sync-event.ts"
     ]
 }
