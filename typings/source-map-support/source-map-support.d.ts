@@ -1,9 +1,7 @@
-// Type definitions for source-map-support 0.2.10
+// Type definitions for source-map-support 0.2.6
 // Project: https://github.com/evanw/source-map-support
 // Definitions by: Bart van der Schoor <https://github.com/Bartvds>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
-
-/// <reference path="../node/node.d.ts" />
 
 declare module 'source-map-support' {
 	/**
@@ -11,7 +9,7 @@ declare module 'source-map-support' {
 	 */
 	export interface UrlAndMap {
 		url: string;
-		map: string|Buffer;
+		map: any; // string or Buffer
 	}
 
 	/**

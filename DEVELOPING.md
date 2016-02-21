@@ -1,23 +1,14 @@
 
 # Building
 
-npm run clean
-npm run lint
-npm run build
-npm run test
-npm run browserify
-npm run karma
-npm run cover
-
-browserify + karma:  npm run browma
-clean ... karma all at once: npm run prepublish
-
+* Ensure typescript is installed, at least version 1.4.1
+* Run build.sh to build the code
 
 # Releasing
 
-* npm run prepublish
 * Increment version number in package.json
 * Add changelog entry to README.md
+* Run build.sh to update version in documentation
 * Commit
 * Sync with Github
 * Draft a new Github release
