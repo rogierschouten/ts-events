@@ -1,5 +1,6 @@
 .settings/
 .vscode/
+dist/test/
 node_modules/
 src/
 temp/

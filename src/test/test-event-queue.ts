@@ -1,7 +1,5 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 
-/// <reference path='../../typings/tsd.d.ts'/>
-
 /* tslint:disable:no-empty */
 
 import assert = require('assert');

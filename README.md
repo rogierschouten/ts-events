@@ -10,51 +10,56 @@
 A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter, and instead makes each event into a member which is its own little emitter.
 Implemented in TypeScript (typings file included) and usable with JavaScript as well.
 
+## New in version 3
+
+- Uses ES6 imports
+- Uses 'typings' field in package.json, so you can/must drop your reference to ts-events.d.ts
+- Add generic way of attaching to an AnyEvent
+- Add evtFirstAttached and evtLastDetached events to AnyEvent
+
 ## TL;DR
 
 Synchronous events:
 
 ```javascript
-var tsevents = require("ts-events");
-var SyncEvent = tsevents.SyncEvent;
+import {SyncEvent} from 'ts-events';
 
-var evtChange = new SyncEvent();
+const evtChange = new SyncEvent<string>();
 evtChange.attach(function(s) {
     console.log(s);
 });
-evtChange.post("hi!");
-// at this point, "hi!" was already printed on the console
+evtChange.post('hi!');
+// at this point, 'hi!' was already printed on the console
 ```
 
 A-synchronous events:
 
 ```javascript
-var tsevents = require("ts-events");
-var AsyncEvent = tsevents.AsyncEvent;
+import {AsyncEvent} from 'ts-events';
 
-var evtChange = new AsyncEvent();
+const evtChange = new AsyncEvent<string>();
 evtChange.attach(function(s) {
     console.log(s);
 });
-evtChange.post("hi!");
-// "hi!" will be printed to the console in the next Node.JS cycle
+evtChange.post('hi!');
+// 'hi!' will be printed to the console in the next Node.JS cycle
 ```
 
 Queued events for fine-grained control:
 
 ```javascript
-var tsevents = require("ts-events");
-var QueuedEvent = tsevents.QueuedEvent;
+import {QueuedEvent} from 'ts-events';
+import * as tsEvents from 'ts-events';
 
-var evtChange = new QueuedEvent();
+const evtChange = new QueuedEvent<string>();
 evtChange.attach(function(s) {
     console.log(s);
 });
-evtChange.post("hi!");
+evtChange.post('hi!');
 // the event is still in a global queue
 
-tsevents.flush();
-// now, "hi!" has been written to the console
+tsEvents.flush();
+// now, 'hi!' has been written to the console
 ```
 
 Different ways of attaching:
@@ -77,21 +82,21 @@ evtChange.attach(this.evtChange);
 Versatile events, let the subscriber choose:
 
 ```javascript
-var tsevents = require("ts-events");
-var AnyEvent = tsevents.AnyEvent;
+import {AnyEvent} from 'ts-events';
+import * as tsEvents from 'ts-events';
 
-var evtChange = new AnyEvent();
+const evtChange = new AnyEvent<string>();
 evtChange.attach(function(s) {
-    console.log(s + " this is synchronous.");
+    console.log(s + ' this is synchronous.');
 });
 evtChange.attachAsync(function(s) {
-    console.log(s + " this is a-synchronous.");
+    console.log(s + ' this is a-synchronous.');
 });
 evtChange.attachQueued(function(s) {
-    console.log(s + " this is queued.");
+    console.log(s + ' this is queued.');
 });
-evtChange.post("hi!");
-tsevents.flush(); // only needed for queued
+evtChange.post('hi!');
+tsEvents.flush(); // only needed for queued
 
 ```
 
@@ -115,11 +120,6 @@ cd your-package
 npm install --save ts-events
 ```
 
-Then, include the library using:
-```javascript
-var tsevents = require('ts-events');
-```
-
 If you're programming in TypeScript, you can include it like this:
 ```javascript
 import * as tsevents from 'ts-events';
@@ -129,7 +129,7 @@ import * as tsevents from 'ts-events';
 
 ### Event types
 
-ts-event supports three event types: Synchronous, A-synchronous and Queued. Here is a comparison:
+ts-events supports three event types: Synchronous, A-synchronous and Queued. Here is a comparison:
 
 |Event Type|Handler Invocation|Condensable?|
 | ------------- | ------------- | ------------- |
@@ -137,7 +137,7 @@ ts-event supports three event types: Synchronous, A-synchronous and Queued. Here
 |A-synchronous|in the next Node.JS cycle| yes |
 |Queued|when you flush the queue manually| yes |
 
-In the table above, "condensable" means that you can choose to condense multiple sent events into one: e.g. for an a-synchronous event, you can opt that if it is sent more than once in a Node.JS cycle, the event handlers are invoked only once.
+In the table above, 'condensable' means that you can choose to condense multiple sent events into one: e.g. for an a-synchronous event, you can opt that if it is sent more than once in a Node.JS cycle, the event handlers are invoked only once.
 
 There is a fourth event called AnyEvent, which can act as a Sync/Async/Queued event depending on how you attach listeners.
 
@@ -147,51 +147,48 @@ If you want EventEmitter-style events, then use SyncEvent. The handlers of SyncE
 
 
 ```javascript
-var tsevents = require("ts-events");
-var SyncEvent = tsevents.SyncEvent;
+import {SyncEvent} from 'ts-events';
 
-var myEvent = new SyncEvent();
+const myEvent = new SyncEvent();
 
 myEvent.attach(function(s) {
     console.log(s);
 });
 
-myEvent.post("hi!");
-// at this point, "hi!" was already printed on the console
+myEvent.post('hi!');
+// at this point, 'hi!' was already printed on the console
 
 ```
 
 Typically you use events as members in a class, instead of extending EventEmitter:
 
 ```javascript
-var tsevents = require("ts-events");
-var SyncEvent = tsevents.SyncEvent;
+import {SyncEvent} from 'ts-events';
 
-function Counter() {
+export class Counter {
     /**
      * This event is called whenever the counter changes
      * @param n The counter value
      */
-    this.evtChanged = new SyncEvent();
+    public evtChanged: SyncEvent<number> = new SyncEvent<number>();
+
     /**
      * The counter value
      */
-    this.n = 0;
-}
-/**
- * Increment counter by 1
- */
-Counter.prototype.inc = function () {
-    this.n++;
-    this.evtChanged.post(this.n);
+    private _n = 0;
+
+    public inc(): void {
+        this._n++;
+        this.evtChanged.post(this._n);
+    }
 };
 
-var ctr = new Counter();
+const ctr = new Counter();
 
 // Attach a handler to the event
-// Do this instead of ctr.on("changed", ...)
-ctr.evtChanged.attach(function (n) {
-    console.log("The counter changed to: " + n.toString(10));
+// Do this instead of ctr.on('changed', ...)
+ctr.evtChanged.attach((n: number): void => {
+    console.log('The counter changed to: ' + n.toString(10));
 });
 
 ctr.inc();
@@ -199,39 +196,6 @@ ctr.inc();
 ```
 
 As you can see, each event is its own little emitter.
-
-
-For TypeScript users:
-
-```javascript
-class Counter {
-    /**
-     * This event is called whenever the counter changes
-     * @param n The counter value
-     */
-    public evtChanged: SyncEvent<number> = new SyncEvent<number>();
-    /**
-     * The counter value
-     */
-    public n: number = 0;
-    /**
-     * Increment counter by 1
-     */
-    public inc(): void {
-        this.n++;
-        this.evtChanged.post(this.n);
-    }
-}
-
-var ctr = new Counter();
-
-ctr.evtChanged.attach((n: number): void => {
-    console.log("The counter changed to: " + n.toString(10));
-});
-
-ctr.inc();
-// Here, the event handler is already called and you see a log line on the console
-```
 
 #### Recursion protection
 
@@ -246,8 +210,7 @@ Therefore we also have a-synchronous events: when you post an a-synchronous even
 By default, AsyncEvent uses setImmediate() to defer a call to the next Node.JS cycle. You can change that by calling the static function AsyncEvent.setScheduler().
 
 ```javascript
-var tsevents = require("ts-events");
-var AsyncEvent = tsevents.AsyncEvent;
+import {AsyncEvent} from 'ts-events';
 
 // Replace the default setImmediate() call by a setTimeout(, 0) call
 AsyncEvent.setScheduler(function(callback) {
@@ -261,41 +224,40 @@ For  fine-grained control, use a QueuedEvent instead of an AsyncEvent. All queue
 
 
 ```javascript
-var tsevents = require("ts-events");
-var QueuedEvent = tsevents.QueuedEvent;
+import {QueuedEvent} from 'ts-events';
+import * as tsEvents from 'ts-events';
 
-function Counter() {
+export class Counter {
     /**
      * This event is called whenever the counter changes
      * @param n The counter value
      */
-    this.evtChanged = new QueuedEvent();
+    public evtChanged: QueuedEvent<number> = new QueuedEvent<number>();
+
     /**
      * The counter value
      */
-    this.n = 0;
-}
-/**
- * Increment counter by 1
- */
-Counter.prototype.inc = function () {
-    this.n++;
-    this.evtChanged.post(this.n);
+    private _n = 0;
+
+    public inc(): void {
+        this._n++;
+        this.evtChanged.post(this._n);
+    }
 };
 
-var ctr = new Counter();
+const ctr = new Counter();
 
 // Attach a handler to the event
-// Do this instead of ctr.on("changed", ...)
-ctr.evtChanged.attach(function (n) {
-    console.log("The counter changed to: " + n.toString(10));
+// Do this instead of ctr.on('changed', ...)
+ctr.evtChanged.attach((n: number): void => {
+    console.log('The counter changed to: ' + n.toString(10));
 });
 
 ctr.inc();
 // Here, the event handler is not called yet
 
 // Flush the event queue
-tsevent.flush();
+tsEvents.flush();
 // Here, the handler is called
 
 ```
@@ -305,15 +267,11 @@ tsevent.flush();
 You can put different events in different queues. By default, all events go into one global queue. To assign a specific queue to an event, do this:
 
 ```javascript
+import {QueuedEvent, EventQueue} from 'ts-events';
 
-var tsevents = require("ts-events");
-var EventQueue = tsevents.EventQueue;
-var QueuedEvent = tsevents.QueuedEvent;
-
-
-var myQueue = new EventQueue();
-var myEvent = new QueuedEvent({ queue: myQueue });
-myEvent.post("hi!");
+const myQueue = new EventQueue();
+const myEvent = new QueuedEvent({ queue: myQueue });
+myEvent.post('hi!');
 
 // flush only my own queue
 myQueue.flush();
@@ -337,17 +295,15 @@ To check whether the queue is empty, use the empty() method.
 For a-synchronous events and for queued events, you can opt to condense multiple post() calls into one. If multiple post() calls happen before the handlers are called, the handlers are invoked only once, with the argument from the last post() call.
 
 ```javascript
-
-var tsevents = require("ts-events");
-var AsyncEvent = tsevents.AsyncEvent;
+import {AsyncEvent} from 'ts-events';
 
 // create a condensed event
-var myEvent = new AsyncEvent({ condensed: true });
+const myEvent = new AsyncEvent<string>({ condensed: true });
 myEvent.attach(function(s) {
     console.log(s);
 });
-myEvent.post("hi!");
-myEvent.post("bye!");
+myEvent.post('hi!');
+myEvent.post('bye!');
 
 // after a cycle, only 'bye!' is logged to the console
 
@@ -367,10 +323,11 @@ There are clear semantics for the effect of attach() and detach(). These semanti
 Attaching has the following forms:
 
 ```javascript
-var obj = {};
-var handler = function() {
+const obj = {};
+const handler = function() {
 };
-var myOtherEvent = new AsyncEvent();
+const myEvent = new AsyncEvent<string>();
+const myOtherEvent = new AsyncEvent<string>();
 
 myEvent.attach(handler); // will call handler with this === myEvent
 myEvent.attach(obj, handler); // will call handler with this === obj
@@ -380,10 +337,11 @@ myEvent.attach(myOtherEvent); // will post myOtherEvent
 Detaching has the following forms:
 
 ```javascript
-var obj = {};
-var handler = function() {
+const obj = {};
+const handler = function() {
 };
-var myOtherEvent = new AsyncEvent();
+const myEvent = new AsyncEvent<string>();
+const myOtherEvent = new AsyncEvent<string>();
 
 myEvent.detach(handler); // detaches all instances of the given handler
 myEvent.detach(obj); // detaches all handlers bound to the given object
@@ -396,19 +354,19 @@ Note that when you attach an AsyncEvent to another AsyncEvent, the handlers of b
 
 ### Error events
 
-EventEmitter treats "error" events differently. If you emit them at a time when there are no listeners attached, then an error is thrown. You can get the same behaviour by using an ErrorSyncEvent, ErrorAsyncEvent or ErrorQueuedEvent.
+The old EventEmitter treats 'error' events different from events with other names. If you emit them at a time when there are no listeners attached, then an error is thrown. You can get the same behaviour by using an ErrorSyncEvent, ErrorAsyncEvent or ErrorQueuedEvent.
 
 ```javascript
 
-var myEvent = new ErrorSyncEvent();
+const myEvent = new ErrorSyncEvent();
 
-// this throws: "error event posted while no listeners attached. Error: foo"
-myEvent.post(new Error("foo"));
+// this throws: 'error event posted while no listeners attached. Error: foo'
+myEvent.post(new Error('foo'));
 
-myEvent.attach(function(e){});
+myEvent.attach((e: Error): void => {});
 
 // this simply calls the event handler with the given error
-myEvent.post(new Error("foo"));
+myEvent.post(new Error('foo'));
 ```
 
 ### AnyEvent
@@ -416,67 +374,61 @@ myEvent.post(new Error("foo"));
 The AnyEvent class lets you choose between sync/async/queued in the attach() function. For instance:
 
 ```javascript
-var tsevents = require("./dist/index");
-var AnyEvent = tsevents.AnyEvent;
-var EventType = tsevents.EventType;
+import {AnyEvent, EventType} from 'ts-events';
+import * as tsEvents from 'ts-events';
 
-var evtChange = new AnyEvent();
+const evtChange = new AnyEvent();
 evtChange.attach(function(s) {
-    console.log(s + " this is synchronous.");
+    console.log(s + ' this is synchronous.');
 });
 evtChange.attach(EventType.Sync, function(s) {
-    console.log(s + " this is synchronous.");
+    console.log(s + ' this is synchronous.');
 });
 evtChange.attach(EventType.Async, function(s) {
-    console.log(s + " this is a-synchronous.");
+    console.log(s + ' this is a-synchronous.');
 });
 evtChange.attach(EventType.Queued, function(s) {
-    console.log(s + " this is queued.");
+    console.log(s + ' this is queued.');
 });
 
 // convenience functions:
 evtChange.attachSync(function(s) {
-    console.log(s + " this is conveniently synchronous.");
+    console.log(s + ' this is conveniently synchronous.');
 });
 evtChange.attachAsync(function(s) {
-    console.log(s + " this is conveniently a-synchronous and condensed.");
+    console.log(s + ' this is conveniently a-synchronous and condensed.');
 }, { condensed: true });
 evtChange.attachAsync(function(s) {
-    console.log(s + " this is conveniently a-synchronous and not condensed.");
+    console.log(s + ' this is conveniently a-synchronous and not condensed.');
 });
 evtChange.attachQueued(function(s) {
-    console.log(s + " this is conveniently queued.");
+    console.log(s + ' this is conveniently queued.');
 });
 
-evtChange.post("hi!");
-tsevents.flush(); // only needed for queued
+evtChange.post('hi!');
+tsEvents.flush(); // only needed for queued
 
 ```
 
-### For TypeScript users
-
-This section is for using this module with TypeScript.
-
-#### Single argument
-
-We chose to make this module type-safe. Due to the limitations of template parameters in TypeScript, this causes you to be limited to one argument in your event handlers. In practice, this is not much of a problem because you can always make the argument an interface with multiple members.
-
 #### No arguments
 
-Another TypeScript annoyance: when you create an event with a void argument, TypeScript forces you to pass 'undefined' to post(). To overcome this, we added VoidSyncEvent,  VoidAsyncEvent and VoidQueuedEvent classes.
+A TypeScript annoyance: when you create an event with a void argument, TypeScript forces you to pass 'undefined' to post(). To overcome this, we added VoidSyncEvent,  VoidAsyncEvent and VoidQueuedEvent classes.
 
 ```javascript
-var myEvent = new SyncEvent<void>();
+const myEvent = new SyncEvent<void>();
 
 // annoying: have to pass undefined to post() to make it compile
 myEvent.post(undefined)
 
 // Solution:
-var myEvent = new VoidSyncEvent();
+const myEvent = new VoidSyncEvent();
 myEvent.post(); // no need to pass 'undefined'
 ```
 
 ## Changelog
+
+v3.0.1
+- Bugfix in published NPM module
 
 v3.0.0
 - Update whole module to 2016 standards (thanks to Tomasz Ciborski)

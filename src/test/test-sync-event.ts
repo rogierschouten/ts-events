@@ -1,7 +1,5 @@
 // Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
 
-/// <reference path='../../typings/tsd.d.ts'/>
-
 import assert = require('assert');
 import {expect} from 'chai';
 

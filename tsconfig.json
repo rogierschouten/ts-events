@@ -40,6 +40,12 @@
         "src/test/test-index.ts",
         "src/test/test-objects.ts",
         "src/test/test-queued-event.ts",
-        "src/test/test-sync-event.ts"
+        "src/test/test-sync-event.ts",
+        "typings/assert/assert.d.ts",
+        "typings/assertion-error/assertion-error.d.ts",
+        "typings/chai/chai.d.ts",
+        "typings/mocha/mocha.d.ts",
+        "typings/node/node.d.ts",
+        "typings/source-map-support/source-map-support.d.ts"
     ]
 }
