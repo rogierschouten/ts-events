@@ -15,14 +15,15 @@
   "typings": "./dist/index.d.ts",
   "scripts": {
     "clean": "./node_modules/.bin/rimraf ./dist ./temp",
-    "build": "./node_modules/.bin/tsc",
+    "tsc": "./node_modules/.bin/tsc",
     "lint": "./node_modules/.bin/tslint -c ./tslint.json ./src/**/*.ts",
+	"build": "npm run lint && npm run tsc",
     "test": "./node_modules/.bin/mocha ./dist/test/test-*.js",
     "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- ./dist/test/*.js",
     "browserify": "node ./browserify.js",
     "karma": "./node_modules/.bin/karma start --single-run",
     "browma": "npm run browserify && npm run karma",
-    "prepublish": "npm run clean && npm run lint && npm run build && npm run test && npm run browma"
+    "all": "npm run clean && npm run build && npm run test && npm run browma"
   },
   "keywords": [
     "Event",

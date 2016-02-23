@@ -9,13 +9,14 @@ npm run browserify
 npm run karma
 npm run cover
 
-browserify + karma:  npm run browma
-clean ... karma all at once: npm run prepublish
+npm run all
 
+browserify + karma:  npm run browma
+clean ... karma all at once: npm run all
 
 # Releasing
 
-* npm run prepublish
+* npm run all
 * Increment version number in package.json
 * Add changelog entry to README.md
 * Commit
