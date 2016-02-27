@@ -5,8 +5,8 @@
 import assert = require('assert');
 import {expect} from 'chai';
 
-import {EventQueue} from '../index';
-import * as tsevents from '../index';
+import {EventQueue} from '../lib/index';
+import * as tsevents from '../lib/index';
 
 describe('EventQueue', (): void => {
 

@@ -3,8 +3,8 @@
 import assert = require('assert');
 import {expect} from 'chai';
 
-import {AsyncEvent} from '../index';
-import * as tsevents from '../index';
+import {AsyncEvent} from '../lib/index';
+import * as tsevents from '../lib/index';
 
 function wait(callback: () => void): void {
     if (typeof window === 'undefined') {

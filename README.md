@@ -100,7 +100,6 @@ tsEvents.flush(); // only needed for queued
 
 ```
 
-
 ## Features
 
 * Each event is a member, and its own little event emitter. Because of this, you have a place for comments to document them. And adding handlers is no longer on string basis.
@@ -115,15 +114,28 @@ tsEvents.flush(); // only needed for queued
 
 ## Installation
 
-```sh
-cd your-package
-npm install --save ts-events
+### Node.JS
+
+Install using:
+```
+npm install ts-events
 ```
 
-If you're programming in TypeScript, you can include it like this:
+Then require the module in your code:
+
 ```javascript
-import * as tsevents from 'ts-events';
+// JavaScript
+var tc = require("ts-events");
+
+// TypeScript
+import * as tsEvents from "ts-events";
 ```
+
+### Browser
+
+There are two options:
+* Browserify your Node.JS code
+* Use one of the ready-made UMD-wrapped browser bundles: [ts-events.js](dist/ts-events.js) or [ts-events.min.js](dist/ts-events.min.js). You can find an example of ts-events and RequireJS in the [examples](examples/) directory
 
 ## Usage
 
@@ -426,6 +438,9 @@ myEvent.post(); // no need to pass 'undefined'
 ```
 
 ## Changelog
+
+v3.1.0 (2016-02-27)
+- Add UMD browser bundles
 
 v3.0.1
 - Bugfix in published NPM module

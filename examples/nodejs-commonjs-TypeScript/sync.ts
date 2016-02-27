@@ -2,7 +2,7 @@
 
 'use strict';
 
-import tsEvents = require('../index');
+import tsEvents = require('ts-events');
 import SyncEvent = tsEvents.SyncEvent;
 
 class Counter {

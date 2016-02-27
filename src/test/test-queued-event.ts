@@ -3,8 +3,8 @@
 import assert = require('assert');
 import {expect} from 'chai';
 
-import {QueuedEvent} from '../index';
-import * as tsevents from '../index';
+import {QueuedEvent} from '../lib/index';
+import * as tsevents from '../lib/index';
 
 describe('QueuedEvent', (): void => {
     it('should send events through the global event queue', (): void => {

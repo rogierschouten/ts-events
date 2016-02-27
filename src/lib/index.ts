@@ -3,14 +3,14 @@
 
 'use strict';
 
-export * from './lib/base-event';
-export * from './lib/sync-event';
-export * from './lib/queued-event';
-export * from './lib/async-event';
-export * from './lib/any-event';
+export * from './base-event';
+export * from './sync-event';
+export * from './queued-event';
+export * from './async-event';
+export * from './any-event';
 
-import {default as EventQueue} from './lib/EventQueue';
-export {default as EventQueue} from './lib/EventQueue';
+import {default as EventQueue} from './EventQueue';
+export {default as EventQueue} from './EventQueue';
 
 /**
  * The global event queue for QueuedEvents

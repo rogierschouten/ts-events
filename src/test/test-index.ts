@@ -3,7 +3,7 @@
 import assert = require('assert');
 import {expect} from 'chai';
 
-import * as tsevents from '../index';
+import * as tsevents from '../lib/index';
 
 describe('index', (): void => {
 

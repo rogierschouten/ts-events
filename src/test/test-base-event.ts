@@ -3,8 +3,8 @@
 import assert = require('assert');
 import {expect} from 'chai';
 
-import {BaseEvent, Listener, AsyncEvent, QueuedEvent, SyncEvent} from '../index';
-import * as tsevents from '../index';
+import {BaseEvent, Listener, AsyncEvent, QueuedEvent, SyncEvent} from '../lib/index';
+import * as tsevents from '../lib/index';
 
 class ListenerSub extends BaseEvent<string> {
 

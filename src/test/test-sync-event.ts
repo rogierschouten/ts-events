@@ -3,8 +3,8 @@
 import assert = require('assert');
 import {expect} from 'chai';
 
-import {SyncEvent} from '../index';
-import * as tsevents from '../index';
+import {SyncEvent} from '../lib/index';
+import * as tsevents from '../lib/index';
 
 require('source-map-support').install();
 
