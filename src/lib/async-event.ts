@@ -3,8 +3,8 @@
 
 'use strict';
 
-import util = require('util');
 import {BaseEvent, Postable, Listener} from './base-event';
+
 /**
  * Options for the AsyncEvent constructor
  */
@@ -167,7 +167,7 @@ export class ErrorAsyncEvent extends AsyncEvent<Error> {
 
     public post(data: Error): void {
         if (this.listenerCount() === 0) {
-            throw new Error(util.format('error event posted while no listeners attached. Error: ', data));
+            throw new Error(`error event posted while no listeners attached. Error: ${data.message}`);
         }
         super.post(data);
     }

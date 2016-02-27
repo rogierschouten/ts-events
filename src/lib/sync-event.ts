@@ -3,7 +3,6 @@
 
 'use strict';
 
-import util = require('util');
 import {BaseEvent, Postable} from './base-event';
 
 /**
@@ -73,7 +72,7 @@ export class ErrorSyncEvent extends SyncEvent<Error> {
 
     public post(data: Error): void {
         if (this.listenerCount() === 0) {
-            throw new Error(util.format('error event posted while no listeners attached. Error: ', data));
+            throw new Error(`error event posted while no listeners attached. Error: ${data.message}`);
         }
         super.post(data);
     }

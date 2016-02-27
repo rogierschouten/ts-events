@@ -3,8 +3,6 @@
 
 'use strict';
 
-import * as assert from 'assert';
-
 export interface Postable<T> {
     post(data: T): void;
 }
@@ -74,8 +72,12 @@ export class BaseEvent<T> implements Postable<T> {
         } else if (args.length === 1 && typeof args[0].post === 'function') {
             event = args[0];
         } else {
-            assert(typeof args[0] === 'object', 'Expect a function or object as first argument');
-            assert(typeof args[1] === 'function', 'Expect a function as second argument');
+            if (typeof args[0] !== 'object') {
+                throw new Error('Expect a function or object as first argument');
+            };
+            if (typeof args[1] !== 'function') {
+                throw new Error('Expect a function as second argument');
+            }
             boundTo = args[0];
             handler = args[1];
         }

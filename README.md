@@ -439,6 +439,9 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v3.1.1 (2016-02-27)
+- Removed dependency on util and assert
+
 v3.1.0 (2016-02-27)
 - Add UMD browser bundles
 

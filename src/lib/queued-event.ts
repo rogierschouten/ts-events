@@ -3,7 +3,6 @@
 
 'use strict';
 
-import util = require('util');
 import {BaseEvent, Postable, Listener} from './base-event';
 import {default as EventQueue} from './EventQueue';
 
@@ -126,7 +125,7 @@ export class ErrorQueuedEvent extends QueuedEvent<Error> {
 
     public post(data: Error): void {
         if (!this._listeners || this._listeners.length === 0) {
-            throw new Error(util.format('error event posted while no listeners attached. Error: ', data));
+            throw new Error(`error event posted while no listeners attached. Error: ${data.message}`);
         }
         super.post(data);
     }

@@ -3,9 +3,6 @@
 
 'use strict';
 
-import assert = require('assert');
-import util = require('util');
-
 import {shallowEquals} from './objects';
 
 import {BaseEvent, Postable, Listener} from './base-event';
@@ -134,7 +131,7 @@ export class AnyEvent<T> implements Postable<T> {
                 event.attach.apply(event, args);
             } break;
             default:
-                assert(false, 'unknown EventType');
+                throw new Error('unknown EventType');
         }
         if (this.evtFirstAttached && prevCount === 0) {
             this.evtFirstAttached.post();
@@ -240,7 +237,7 @@ export class ErrorAnyEvent extends AnyEvent<Error> {
 
     public post(data: Error): void {
         if (this.listenerCount() === 0) {
-            throw new Error(util.format('error event posted while no listeners attached. Error: ', data));
+            throw new Error(`error event posted while no listeners attached. Error: ${data.message}`);
         }
         super.post(data);
     }
