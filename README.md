@@ -439,67 +439,89 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v3.1.2 (2016-10-27)
+
+* Inlined sourcemaps since the .map files were not published to npm
+
 v3.1.1 (2016-02-27)
-- Removed dependency on util and assert
+
+* Removed dependency on util and assert
 
 v3.1.0 (2016-02-27)
-- Add UMD browser bundles
+
+* Add UMD browser bundles
 
 v3.0.1
-- Bugfix in published NPM module
+
+* Bugfix in published NPM module
 
 v3.0.0
-- Update whole module to 2016 standards (thanks to Tomasz Ciborski)
-- Ensure that ts-events works in browsers as well without setting another a-sync scheduler
-- Add generic way of attaching to an AnyEvent
-- Add evtFirstAttached and evtLastDetached events to AnyEvent
+
+* Update whole module to 2016 standards (thanks to Tomasz Ciborski)
+* Ensure that ts-events works in browsers as well without setting another a-sync scheduler
+* Add generic way of attaching to an AnyEvent
+* Add evtFirstAttached and evtLastDetached events to AnyEvent
 
 v2.4.0
-- Revert releases 2.0.1 - 2.3.0 because they don't work
+
+* Revert releases 2.0.1 * 2.3.0 because they don't work
 
 v2.3.0 (2016-02-20)
-- Add evtFirstAttached and evtLastDetached events to AnyEvent
+
+* Add evtFirstAttached and evtLastDetached events to AnyEvent
 
 v2.2.0 (2016-02-20)
-- Add generic way of attaching to an AnyEvent
+
+* Add generic way of attaching to an AnyEvent
 
 v2.1.1 (2016-02-20)
-- Ensure that ts-events works in browsers as well without setting another a-sync scheduler
+
+* Ensure that ts-events works in browsers as well without setting another a-sync scheduler
 
 v2.1.0 (2016-02-20)
-- Update whole module to 2016 standards (thanks to Tomasz Ciborski)
+
+* Update whole module to 2016 standards (thanks to Tomasz Ciborski)
 
 v2.0.0
-- Breaking change: removed AnyEvent#attach() and replaced it with attachSync() to force users of AnyEvents to think about how to attach.
+
+* Breaking change: removed AnyEvent#attach() and replaced it with attachSync() to force users of AnyEvents to think about how to attach.
 
 v1.1.0 (2015-05-25):
-- Add events to the EventQueue to detect when it becomes empty/non-empty to facilitate intelligent flushing.
-- Add a new type of event called AnyEvent where the choice of sync/async/queued is left to the subscriber rather than the publisher.
+
+* Add events to the EventQueue to detect when it becomes empty/non-empty to facilitate intelligent flushing.
+* Add a new type of event called AnyEvent where the choice of sync/async/queued is left to the subscriber rather than the publisher.
 
 v1.0.0 (2015-04-30):
-- Ready for production use.
+
+* Ready for production use.
 
 v0.0.6 (2015-04-29):
-- Performance improvements
+
+* Performance improvements
 
 v0.0.5 (2015-04-29):
-- Fix NPM warning about package.json repository field
+
+* Fix NPM warning about package.json repository field
 
 v0.0.4 (2015-04-29):
-- Fix missing ts-events.d.ts in published module
+
+* Fix missing ts-events.d.ts in published module
 
 v0.0.3 (2015-04-28):
-- Feature: allow to attach any event to any other event directly
-- Feature: allow to disable recursion protection mechanism for SyncEvents
-- Breaking change: renamed flushEmpty() to flush()
-- Documentation updates
-- Various build system improvements
+
+* Feature: allow to attach any event to any other event directly
+* Feature: allow to disable recursion protection mechanism for SyncEvents
+* Breaking change: renamed flushEmpty() to flush()
+* Documentation updates
+* Various build system improvements
 
 v0.0.2 (2015-04-27):
-- Documentation update
+
+* Documentation update
 
 v0.0.1 (2015-04-27):
-- Initial version
+
+* Initial version
 
 ## License
 
