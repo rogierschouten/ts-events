@@ -439,6 +439,10 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v3.1.3 (2016-10-28)
+
+* Inlined sourcemaps since the .map files were not published to npm
+
 v3.1.2 (2016-10-27)
 
 * Inlined sourcemaps since the .map files were not published to npm
