@@ -64,9 +64,9 @@ export class BaseEvent<T> implements Postable<T> {
      * @param handler The function to call.
      */
     public attach(...args: any[]): void {
-        var boundTo: Object;
-        var handler: (data: T) => void;
-        var event: Postable<T>;
+        let boundTo: Object;
+        let handler: (data: T) => void;
+        let event: Postable<T>;
         if (typeof args[0] === 'function') {
             handler = args[0];
         } else if (args.length === 1 && typeof args[0].post === 'function') {
@@ -125,9 +125,9 @@ export class BaseEvent<T> implements Postable<T> {
         if (!this._listeners || this._listeners.length === 0) {
             return;
         }
-        var boundTo: Object;
-        var handler: (data: T) => void;
-        var event: Postable<T>;
+        let boundTo: Object;
+        let handler: (data: T) => void;
+        let event: Postable<T>;
         if (args.length >= 1) {
             if (typeof (args[0]) === 'function') {
                 handler = args[0];

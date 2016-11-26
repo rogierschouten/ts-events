@@ -15,7 +15,7 @@ class ListenerSub extends BaseEvent<string> {
 
 describe('BaseEvent', (): void => {
 
-    var l: ListenerSub;
+    let l: ListenerSub;
 
     beforeEach((): void => {
         l = new ListenerSub();
@@ -23,46 +23,46 @@ describe('BaseEvent', (): void => {
 
     describe('attach()', (): void => {
         it('should take a handler', (): void => {
-            var f = (s: string): void => {
+            const f = (s: string): void => {
                 // nothing
             };
             l.attach(f);
             expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: f, deleted: false, event: undefined }]);
         });
         it('should take a boundTo and a handler', (): void => {
-            var t = {};
-            var f = (s: string): void => {
+            const t = {};
+            const f = (s: string): void => {
                 // nothing
             };
             l.attach(t, f);
             expect(l.content()).to.deep.equal([{ boundTo: t, handler: f, deleted: false, event: undefined }]);
         });
         it('should take a SyncEvent', (): void => {
-            var e = new SyncEvent<string>();
+            const e = new SyncEvent<string>();
             l.attach(e);
             expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
         });
         it('should take an AsyncEvent', (): void => {
-            var e = new AsyncEvent<string>();
+            const e = new AsyncEvent<string>();
             l.attach(e);
             expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
         });
         it('should take a QueuedEvent', (): void => {
-            var e = new QueuedEvent<string>();
+            const e = new QueuedEvent<string>();
             l.attach(e);
             expect(l.content()).to.deep.equal([{ boundTo: undefined, handler: undefined, deleted: false, event: e }]);
         });
     });
 
     describe('detach()', (): void => {
-        var t = {};
-        var f = (s: string): void => {
+        const t = {};
+        const f = (s: string): void => {
             // nothing
         };
-        var g = (s: string): void => {
+        const g = (s: string): void => {
             // nothing
         };
-        var e = new SyncEvent<string>();
+        const e = new SyncEvent<string>();
 
         beforeEach((): void => {
             l.attach(f);

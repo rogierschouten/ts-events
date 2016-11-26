@@ -28,7 +28,7 @@ class Counter {
 
 
 
-var ctr = new Counter();
+const ctr = new Counter();
 
 ctr.evtChanged.attach((n: number): void => {
     console.log('The counter changed to: ' + n.toString(10));

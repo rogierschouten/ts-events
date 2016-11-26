@@ -30,22 +30,21 @@ export function shallowEquals(a: any, b: any): boolean {
                 if (a.length !== b.length) {
                     return false;
                 }
-                for (var i = 0; i < a.length; ++i) {
+                for (let i = 0; i < a.length; ++i) {
                     if (a[i] !== b[i]) {
                         return false;
                     }
                 }
                 return true;
             }
-            var name: string;
-            var namesA: string[] = [];
-            var namesB: string[] = [];
-            for (name in a) {
+            const namesA: string[] = [];
+            const namesB: string[] = [];
+            for (const name in a) {
                 if (a.hasOwnProperty(name)) {
                     namesA.push(name);
                 }
             }
-            for (name in b) {
+            for (const name in b) {
                 if (b.hasOwnProperty(name)) {
                     namesB.push(name);
                 }
@@ -55,7 +54,7 @@ export function shallowEquals(a: any, b: any): boolean {
             if (namesA.join(',') !== namesB.join(',')) {
                 return false;
             }
-            for (i = 0; i < namesA.length; ++i) {
+            for (let i = 0; i < namesA.length; ++i) {
                 if (a[namesA[i]] !== b[namesA[i]]) {
                     return false;
                 }

@@ -7,7 +7,7 @@ import * as tsevents from '../lib/index';
 
 describe('index', (): void => {
 
-    var eq: tsevents.EventQueue;
+    let eq: tsevents.EventQueue;
 
     beforeEach((): void => {
         tsevents.EventQueue.resetGlobal();
@@ -22,7 +22,7 @@ describe('index', (): void => {
 
     describe('flushOnce()', (): void => {
         it('should call a handler', (): void => {
-            var callCount = 0;
+            let callCount = 0;
             eq.add((): void => {
                 callCount++;
             });
@@ -30,7 +30,7 @@ describe('index', (): void => {
             expect(callCount).to.equal(1);
         });
         it('should not call a handler twice', (): void => {
-            var callCount = 0;
+            let callCount = 0;
             eq.add((): void => {
                 callCount++;
             });
@@ -39,7 +39,7 @@ describe('index', (): void => {
             expect(callCount).to.equal(1);
         });
         it('should not call a recursively inserted handler', (): void => {
-            var callCount = 0;
+            let callCount = 0;
             eq.add((): void => {
                 eq.add((): void => {
                     callCount++;
@@ -54,7 +54,7 @@ describe('index', (): void => {
 
     describe('flush()', (): void => {
         it('should call a handler', (): void => {
-            var callCount = 0;
+            let callCount = 0;
             eq.add((): void => {
                 callCount++;
             });
@@ -62,7 +62,7 @@ describe('index', (): void => {
             expect(callCount).to.equal(1);
         });
         it('should not call a handler twice', (): void => {
-            var callCount = 0;
+            let callCount = 0;
             eq.add((): void => {
                 callCount++;
             });
@@ -71,7 +71,7 @@ describe('index', (): void => {
             expect(callCount).to.equal(1);
         });
         it('should call a recursively inserted handler', (): void => {
-            var callCount = 0;
+            let callCount = 0;
             eq.add((): void => {
                 eq.add((): void => {
                     callCount++;
@@ -81,8 +81,8 @@ describe('index', (): void => {
             expect(callCount).to.equal(1);
         });
         it('should throw for endless loop after 10 times by default', (): void => {
-            var callCount = 0;
-            var f = (): void => {
+            let callCount = 0;
+            const f = (): void => {
                 callCount++;
                 eq.add(f);
             };
@@ -93,8 +93,8 @@ describe('index', (): void => {
             expect(callCount).to.equal(10);
         });
         it('should throw for endless loop after given # times', (): void => {
-            var callCount = 0;
-            var f = (): void => {
+            let callCount = 0;
+            const f = (): void => {
                 callCount++;
                 eq.add(f);
             };
@@ -105,8 +105,8 @@ describe('index', (): void => {
             expect(callCount).to.equal(5);
         });
         it('should function after throwing', (): void => {
-            var callCount = 0;
-            var f = (): void => {
+            let callCount = 0;
+            const f = (): void => {
                 callCount++;
                 eq.add(f);
             };
@@ -123,8 +123,8 @@ describe('index', (): void => {
             expect(callCount).to.equal(1);
         });
         it('should not throw for endless loop when set to null', (): void => {
-            var callCount = 0;
-            var f = (): void => {
+            let callCount = 0;
+            const f = (): void => {
                 callCount++;
                 if (callCount < 100) {
                     eq.add(f);

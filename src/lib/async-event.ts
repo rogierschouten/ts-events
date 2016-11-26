@@ -70,7 +70,7 @@ export class AsyncEvent<T> extends BaseEvent<T> implements Postable<T> {
     constructor(opts?: AsyncEventOpts) {
         super();
         this.options = opts;
-        var options: AsyncEventOpts = opts || {};
+        const options: AsyncEventOpts = opts || {};
         if (typeof options.condensed === 'boolean') {
             this._condensed = options.condensed;
         } else {
@@ -98,19 +98,19 @@ export class AsyncEvent<T> extends BaseEvent<T> implements Postable<T> {
                     // of calling handlers
                     this._queued = false;
                     // cache listeners and data because they might change while calling event handlers
-                    var data = this._queuedData;
-                    var listeners = this._queuedListeners;
-                    for (var i = 0; i < listeners.length; ++i) {
-                        var listener = listeners[i];
+                    const data = this._queuedData;
+                    const listeners = this._queuedListeners;
+                    for (let i = 0; i < listeners.length; ++i) {
+                        const listener = listeners[i];
                         this._call(listener, data);
                     }
                 });
             }
         } else { // not condensed
-            var listeners = this._listeners;
+            const listeners = this._listeners;
             AsyncEvent._scheduler((): void => {
-                for (var i = 0; i < listeners.length; ++i) {
-                    var listener = listeners[i];
+                for (let i = 0; i < listeners.length; ++i) {
+                    const listener = listeners[i];
                     this._call(listener, args);
                 }
             });
@@ -139,9 +139,9 @@ export class AsyncEvent<T> extends BaseEvent<T> implements Postable<T> {
         }
         // copy a reference to the array because this._listeners might be replaced during
         // the handler calls
-        var listeners = this._listeners;
-        for (var i = 0; i < listeners.length; ++i) {
-            var listener = listeners[i];
+        const listeners = this._listeners;
+        for (let i = 0; i < listeners.length; ++i) {
+            const listener = listeners[i];
             this._call(listener, args);
         }
     }

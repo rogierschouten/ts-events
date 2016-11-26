@@ -25,8 +25,8 @@ describe('AsyncEvent', (): void => {
     });
 
     it('should not send events in the same cycle', (): void => {
-        var e = new AsyncEvent<string>();
-        var calledWith: string[] = [];
+        const e = new AsyncEvent<string>();
+        const calledWith: string[] = [];
         e.attach((s: string): void => {
             calledWith.push(s);
         });
@@ -34,8 +34,8 @@ describe('AsyncEvent', (): void => {
         expect(calledWith).to.deep.equal([]);
     });
     it('should send events in the next cycle', (done: MochaDone): void => {
-        var e = new AsyncEvent<string>();
-        var calledWith: string[] = [];
+        const e = new AsyncEvent<string>();
+        const calledWith: string[] = [];
         e.attach((s: string): void => {
             calledWith.push(s);
         });
@@ -46,8 +46,8 @@ describe('AsyncEvent', (): void => {
         });
     });
     it('should not condense events by default', (done: MochaDone): void => {
-        var e = new AsyncEvent<string>();
-        var calledWith: string[] = [];
+        const e = new AsyncEvent<string>();
+        const calledWith: string[] = [];
         e.attach((s: string): void => {
             calledWith.push(s);
         });
@@ -59,8 +59,8 @@ describe('AsyncEvent', (): void => {
         });
     });
     it('should condense events when asked', (done: MochaDone): void => {
-        var e = new AsyncEvent<string>({ condensed: true });
-        var calledWith: string[] = [];
+        const e = new AsyncEvent<string>({ condensed: true });
+        const calledWith: string[] = [];
         e.attach((s: string): void => {
             calledWith.push(s);
         });
@@ -72,7 +72,7 @@ describe('AsyncEvent', (): void => {
         });
     });
     it('should use the Event as this parameter by default', (done: MochaDone): void => {
-        var e = new AsyncEvent<string>();
+        const e = new AsyncEvent<string>();
         e.attach(function(s: string): void {
             expect(this).to.equal(e);
             done();
@@ -80,8 +80,8 @@ describe('AsyncEvent', (): void => {
         e.post('A');
     });
     it('should use a given object as this parameter when given', (done: MochaDone): void => {
-        var e = new AsyncEvent<string>();
-        var t = {};
+        const e = new AsyncEvent<string>();
+        const t = {};
         e.attach(t, function(s: string): void {
             expect(this).to.equal(t);
             done();
@@ -89,8 +89,8 @@ describe('AsyncEvent', (): void => {
         e.post('A');
     });
     it('should send events only to handlers attached at the time of posting', (done: MochaDone): void => {
-        var e = new AsyncEvent<string>();
-        var calledWith: string[] = [];
+        const e = new AsyncEvent<string>();
+        const calledWith: string[] = [];
         e.post('A');
         e.attach((s: string): void => {
             calledWith.push(s);
@@ -102,8 +102,8 @@ describe('AsyncEvent', (): void => {
         });
     });
     it('should not send events at all to detached event handlers', (done: MochaDone): void => {
-        var e = new AsyncEvent<string>();
-        var calledWith: string[] = [];
+        const e = new AsyncEvent<string>();
+        const calledWith: string[] = [];
         e.attach((s: string): void => {
             calledWith.push(s);
         });
@@ -116,8 +116,8 @@ describe('AsyncEvent', (): void => {
         });
     });
     it('should allow attaching event handlers within handlers', (done: MochaDone): void => {
-        var e = new AsyncEvent<string>();
-        var calledWith: string[] = [];
+        const e = new AsyncEvent<string>();
+        const calledWith: string[] = [];
         e.attach((s: string): void => {
             e.attach((s: string): void => {
                 calledWith.push(s);
@@ -134,9 +134,9 @@ describe('AsyncEvent', (): void => {
         });
     });
     it('should allow detaching event handlers within handlers', (done: MochaDone): void => {
-        var e = new AsyncEvent<string>();
-        var calledWith: string[] = [];
-        var f = (s: string): void => {
+        const e = new AsyncEvent<string>();
+        const calledWith: string[] = [];
+        const f = (s: string): void => {
             calledWith.push(s);
             e.detach(f);
         };
@@ -152,18 +152,18 @@ describe('AsyncEvent', (): void => {
         AsyncEvent.setScheduler((callback: () => void): void => {
             done();
         });
-        var e = new AsyncEvent<string>();
-        var f = (s: string): void => {
+        const e = new AsyncEvent<string>();
+        const f = (s: string): void => {
             // nothing
         };
         e.attach(f);
         e.post('A');
     });
     it('should allow attaching another event', (done: MochaDone): void => {
-        var e = new AsyncEvent<string>();
-        var f = new AsyncEvent<string>();
-        var calledWith: string[] = [];
-        var g = (s: string): void => {
+        const e = new AsyncEvent<string>();
+        const f = new AsyncEvent<string>();
+        const calledWith: string[] = [];
+        const g = (s: string): void => {
             calledWith.push(s);
         };
         e.attach(f);
@@ -179,10 +179,10 @@ describe('AsyncEvent', (): void => {
         });
     });
     it('should condense attached async events into the same cycle', (done: MochaDone): void => {
-        var e = new AsyncEvent<string>();
-        var f = new AsyncEvent<string>();
-        var calledWith: string[] = [];
-        var g = (s: string): void => {
+        const e = new AsyncEvent<string>();
+        const f = new AsyncEvent<string>();
+        const calledWith: string[] = [];
+        const g = (s: string): void => {
             calledWith.push(s);
         };
         e.attach(f);
@@ -199,8 +199,8 @@ describe('AsyncEvent', (): void => {
 
 describe('VoidAsyncEvent', (): void => {
     it('should allow sending event without parameters', (done: MochaDone): void => {
-        var e = new tsevents.VoidAsyncEvent();
-        var callCount = 0;
+        const e = new tsevents.VoidAsyncEvent();
+        let callCount = 0;
         e.attach((): void => {
             callCount++;
         });
@@ -214,13 +214,13 @@ describe('VoidAsyncEvent', (): void => {
 
 describe('ErrorAsyncEvent', (): void => {
     it('should throw on posting without handlers', (): void => {
-        var e = new tsevents.ErrorAsyncEvent();
+        const e = new tsevents.ErrorAsyncEvent();
         assert.throws((): void => {
             e.post(new Error('test error'));
         });
     });
     it('should not throw on posting with handlers', (): void => {
-        var e = new tsevents.ErrorAsyncEvent();
+        const e = new tsevents.ErrorAsyncEvent();
         e.attach((error: Error): void => {
             // nothing
         });

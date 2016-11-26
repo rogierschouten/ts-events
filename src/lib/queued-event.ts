@@ -49,7 +49,7 @@ export class QueuedEvent<T> extends BaseEvent<T> implements Postable<T> {
     constructor(opts?: QueuedEventOpts) {
         super();
         this.options = opts;
-        var options: QueuedEventOpts = opts || {};
+        const options: QueuedEventOpts = opts || {};
         if (typeof options.condensed === 'boolean') {
             this._condensed = options.condensed;
         } else {
@@ -71,7 +71,7 @@ export class QueuedEvent<T> extends BaseEvent<T> implements Postable<T> {
         if (!this._listeners || this._listeners.length === 0) {
             return;
         }
-        var queue = (this._queue ? this._queue : EventQueue.global());
+        const queue = (this._queue ? this._queue : EventQueue.global());
         if (this._condensed) {
             this._queuedData = args;
             this._queuedListeners = this._listeners;
@@ -84,19 +84,19 @@ export class QueuedEvent<T> extends BaseEvent<T> implements Postable<T> {
                     // of calling handlers
                     this._queued = false;
                     // cache listeners and data because they might change while calling event handlers
-                    var data = this._queuedData;
-                    var listeners = this._queuedListeners;
-                    for (var i = 0; i < listeners.length; ++i) {
-                        var listener = listeners[i];
+                    const data = this._queuedData;
+                    const listeners = this._queuedListeners;
+                    for (let i = 0; i < listeners.length; ++i) {
+                        const listener = listeners[i];
                         this._call(listener, data);
                     }
                 });
             }
         } else { // not condensed
-            var listeners = this._listeners;
+            const listeners = this._listeners;
             queue.add((): void => {
-                for (var i = 0; i < listeners.length; ++i) {
-                    var listener = listeners[i];
+                for (let i = 0; i < listeners.length; ++i) {
+                    const listener = listeners[i];
                     this._call(listener, args);
                 }
             });

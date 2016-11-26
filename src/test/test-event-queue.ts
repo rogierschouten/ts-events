@@ -10,7 +10,7 @@ import * as tsevents from '../lib/index';
 
 describe('EventQueue', (): void => {
 
-    var eq: EventQueue;
+    let eq: EventQueue;
 
     beforeEach((): void => {
         eq = new EventQueue();
@@ -18,20 +18,20 @@ describe('EventQueue', (): void => {
 
     describe('global()', (): void => {
         it('should create a global instance', (): void => {
-            var g1 = EventQueue.global();
-            var g2 = EventQueue.global();
+            const g1 = EventQueue.global();
+            const g2 = EventQueue.global();
             expect(g1 instanceof EventQueue).to.equal(true);
         });
         it('should return the same instance every time', (): void => {
-            var g1 = EventQueue.global();
-            var g2 = EventQueue.global();
+            const g1 = EventQueue.global();
+            const g2 = EventQueue.global();
             expect(g1).to.equal(g2);
         });
     });
 
     describe('add()', (): void => {
         it('should not call a handler', (): void => {
-            var callCount = 0;
+            let callCount = 0;
             eq.add((): void => {
                 callCount++;
             });
@@ -41,7 +41,7 @@ describe('EventQueue', (): void => {
 
     describe('flushOnce()', (): void => {
         it('should call a handler', (): void => {
-            var callCount = 0;
+            let callCount = 0;
             eq.add((): void => {
                 callCount++;
             });
@@ -49,7 +49,7 @@ describe('EventQueue', (): void => {
             expect(callCount).to.equal(1);
         });
         it('should not call a handler twice', (): void => {
-            var callCount = 0;
+            let callCount = 0;
             eq.add((): void => {
                 callCount++;
             });
@@ -58,7 +58,7 @@ describe('EventQueue', (): void => {
             expect(callCount).to.equal(1);
         });
         it('should not call a recursively inserted handler', (): void => {
-            var callCount = 0;
+            let callCount = 0;
             eq.add((): void => {
                 eq.add((): void => {
                     callCount++;
@@ -73,7 +73,7 @@ describe('EventQueue', (): void => {
 
     describe('flush()', (): void => {
         it('should call a handler', (): void => {
-            var callCount = 0;
+            let callCount = 0;
             eq.add((): void => {
                 callCount++;
             });
@@ -81,7 +81,7 @@ describe('EventQueue', (): void => {
             expect(callCount).to.equal(1);
         });
         it('should not call a handler twice', (): void => {
-            var callCount = 0;
+            let callCount = 0;
             eq.add((): void => {
                 callCount++;
             });
@@ -90,7 +90,7 @@ describe('EventQueue', (): void => {
             expect(callCount).to.equal(1);
         });
         it('should call a recursively inserted handler', (): void => {
-            var callCount = 0;
+            let callCount = 0;
             eq.add((): void => {
                 eq.add((): void => {
                     callCount++;
@@ -100,8 +100,8 @@ describe('EventQueue', (): void => {
             expect(callCount).to.equal(1);
         });
         it('should throw for endless loop after 10 times by default', (): void => {
-            var callCount = 0;
-            var f = (): void => {
+            let callCount = 0;
+            const f = (): void => {
                 callCount++;
                 eq.add(f);
             };
@@ -112,8 +112,8 @@ describe('EventQueue', (): void => {
             expect(callCount).to.equal(10);
         });
         it('should throw for endless loop after given # times', (): void => {
-            var callCount = 0;
-            var f = (): void => {
+            let callCount = 0;
+            const f = (): void => {
                 callCount++;
                 eq.add(f);
             };
@@ -124,8 +124,8 @@ describe('EventQueue', (): void => {
             expect(callCount).to.equal(5);
         });
         it('should function after throwing', (): void => {
-            var callCount = 0;
-            var f = (): void => {
+            let callCount = 0;
+            const f = (): void => {
                 callCount++;
                 eq.add(f);
             };
@@ -142,8 +142,8 @@ describe('EventQueue', (): void => {
             expect(callCount).to.equal(1);
         });
         it('should not throw for endless loop when set to undefined', (): void => {
-            var callCount = 0;
-            var f = (): void => {
+            let callCount = 0;
+            const f = (): void => {
                 callCount++;
                 if (callCount < 100) {
                     eq.add(f);
@@ -173,7 +173,7 @@ describe('EventQueue', (): void => {
     });
 
     describe('evtFilled', (): void => {
-        var callCount: number;
+        let callCount: number;
 
         beforeEach((): void => {
             callCount = 0;
@@ -231,7 +231,7 @@ describe('EventQueue', (): void => {
     });
 
     describe('evtDrained', (): void => {
-        var callCount: number;
+        let callCount: number;
 
         beforeEach((): void => {
             callCount = 0;

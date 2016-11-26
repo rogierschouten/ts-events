@@ -43,9 +43,9 @@ export class SyncEvent<T> extends BaseEvent<T> implements Postable<T> {
         }
         // copy a reference to the array because this._listeners might be replaced during
         // the handler calls
-        var listeners = this._listeners;
-        for (var i = 0; i < listeners.length; ++i) {
-            var listener = listeners[i];
+        const listeners = this._listeners;
+        for (let i = 0; i < listeners.length; ++i) {
+            const listener = listeners[i];
             this._call(listener, args);
         }
         this._recursion--;

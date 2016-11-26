@@ -76,13 +76,13 @@ class EventQueue {
      * as a result of the flush
      */
     public flushOnce(): void {
-        var empty = (this._queue.length === 0);
-        var flushing = this._flushing;
+        const empty = (this._queue.length === 0);
+        const flushing = this._flushing;
         this._flushing = true;
         try {
-            var queue = this._queue;
+            const queue = this._queue;
             this._queue = [];
-            for (var i = 0; i < queue.length; ++i) {
+            for (let i = 0; i < queue.length; ++i) {
                 queue[i]();
             }
         } finally {
@@ -100,11 +100,11 @@ class EventQueue {
      *                  the queue keeps filling up. Set to null to disable this.
      */
     public flush(maxRounds: number = 10): void {
-        var empty = (this._queue.length === 0);
-        var flushing = this._flushing;
+        const empty = (this._queue.length === 0);
+        const flushing = this._flushing;
         this._flushing = true;
         try {
-            var i = 0;
+            let i = 0;
             while (this._queue.length > 0) {
                 if (typeof maxRounds === 'number' && i >= maxRounds) {
                     this._queue = [];

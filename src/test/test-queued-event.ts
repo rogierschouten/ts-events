@@ -8,9 +8,9 @@ import * as tsevents from '../lib/index';
 
 describe('QueuedEvent', (): void => {
     it('should send events through the global event queue', (): void => {
-        var e = new QueuedEvent<string>();
-        var callCount = 0;
-        var calledWith: string[] = [];
+        const e = new QueuedEvent<string>();
+        let callCount = 0;
+        const calledWith: string[] = [];
         e.attach((s: string): void => {
             callCount++;
             calledWith.push(s);
@@ -22,10 +22,10 @@ describe('QueuedEvent', (): void => {
         expect(calledWith).to.deep.equal(['A']);
     });
     it('should send events through a given event queue', (): void => {
-        var q = new tsevents.EventQueue();
-        var e = new QueuedEvent<string>({ queue: q });
-        var callCount = 0;
-        var calledWith: string[] = [];
+        const q = new tsevents.EventQueue();
+        const e = new QueuedEvent<string>({ queue: q });
+        let callCount = 0;
+        const calledWith: string[] = [];
         e.attach((s: string): void => {
             callCount++;
             calledWith.push(s);
@@ -39,9 +39,9 @@ describe('QueuedEvent', (): void => {
         expect(calledWith).to.deep.equal(['A']);
     });
     it('should not condense events by default', (): void => {
-        var e = new QueuedEvent<string>();
-        var callCount = 0;
-        var calledWith: string[] = [];
+        const e = new QueuedEvent<string>();
+        let callCount = 0;
+        const calledWith: string[] = [];
         e.attach((s: string): void => {
             callCount++;
             calledWith.push(s);
@@ -53,9 +53,9 @@ describe('QueuedEvent', (): void => {
         expect(calledWith).to.deep.equal(['A', 'B']);
     });
     it('should condense events when asked', (): void => {
-        var e = new QueuedEvent<string>({ condensed: true });
-        var callCount = 0;
-        var calledWith: string[] = [];
+        const e = new QueuedEvent<string>({ condensed: true });
+        let callCount = 0;
+        const calledWith: string[] = [];
         e.attach((s: string): void => {
             callCount++;
             calledWith.push(s);
@@ -67,7 +67,7 @@ describe('QueuedEvent', (): void => {
         expect(calledWith).to.deep.equal(['B']);
     });
     it('should use the Event as this parameter by default', (): void => {
-        var e = new QueuedEvent<string>();
+        const e = new QueuedEvent<string>();
         e.attach(function(s: string): void {
             expect(this).to.equal(e);
         });
@@ -75,8 +75,8 @@ describe('QueuedEvent', (): void => {
         tsevents.flushOnce();
     });
     it('should use a given object as this parameter when given', (): void => {
-        var e = new QueuedEvent<string>();
-        var t = {};
+        const e = new QueuedEvent<string>();
+        const t = {};
         e.attach(t, function(s: string): void {
             expect(this).to.equal(t);
         });
@@ -84,8 +84,8 @@ describe('QueuedEvent', (): void => {
         tsevents.flushOnce();
     });
     it('should send events only to handlers attached at the time of posting', (): void => {
-        var e = new QueuedEvent<string>();
-        var calledWith: string[] = [];
+        const e = new QueuedEvent<string>();
+        const calledWith: string[] = [];
         e.post('A');
         e.attach((s: string): void => {
             calledWith.push(s);
@@ -95,8 +95,8 @@ describe('QueuedEvent', (): void => {
         expect(calledWith).to.deep.equal(['B']);
     });
     it('should not send events at all to detached event handlers', (): void => {
-        var e = new QueuedEvent<string>();
-        var calledWith: string[] = [];
+        const e = new QueuedEvent<string>();
+        const calledWith: string[] = [];
         e.attach((s: string): void => {
             calledWith.push(s);
         });
@@ -107,8 +107,8 @@ describe('QueuedEvent', (): void => {
         expect(calledWith).to.deep.equal([]);
     });
     it('should allow attaching event handlers within handlers', (): void => {
-        var e = new QueuedEvent<string>();
-        var calledWith: string[] = [];
+        const e = new QueuedEvent<string>();
+        const calledWith: string[] = [];
         e.attach((s: string): void => {
             e.attach((s: string): void => {
                 calledWith.push(s);
@@ -122,9 +122,9 @@ describe('QueuedEvent', (): void => {
         expect(calledWith).to.deep.equal(['C', 'C']);
     });
     it('should allow detaching event handlers within handlers', (): void => {
-        var e = new QueuedEvent<string>();
-        var calledWith: string[] = [];
-        var f = (s: string): void => {
+        const e = new QueuedEvent<string>();
+        const calledWith: string[] = [];
+        const f = (s: string): void => {
             calledWith.push(s);
             e.detach(f);
         };
@@ -135,10 +135,10 @@ describe('QueuedEvent', (): void => {
         expect(calledWith).to.deep.equal(['A']);
     });
     it('should allow attaching another event', (): void => {
-        var e = new QueuedEvent<string>();
-        var f = new QueuedEvent<string>();
-        var calledWith: string[] = [];
-        var g = (s: string): void => {
+        const e = new QueuedEvent<string>();
+        const f = new QueuedEvent<string>();
+        const calledWith: string[] = [];
+        const g = (s: string): void => {
             calledWith.push(s);
         };
         e.attach(f);
@@ -152,8 +152,8 @@ describe('QueuedEvent', (): void => {
 
 describe('VoidQueuedEvent', (): void => {
     it('should allow sending event without parameters', (): void => {
-        var e = new tsevents.VoidQueuedEvent();
-        var callCount = 0;
+        const e = new tsevents.VoidQueuedEvent();
+        let callCount = 0;
         e.attach((): void => {
             callCount++;
         });
@@ -165,13 +165,13 @@ describe('VoidQueuedEvent', (): void => {
 
 describe('ErrorQueuedEvent', (): void => {
     it('should throw on posting without handlers', (): void => {
-        var e = new tsevents.ErrorQueuedEvent();
+        const e = new tsevents.ErrorQueuedEvent();
         assert.throws((): void => {
             e.post(new Error('test error'));
         });
     });
     it('should not throw on posting with handlers', (): void => {
-        var e = new tsevents.ErrorQueuedEvent();
+        const e = new tsevents.ErrorQueuedEvent();
         e.attach((error: Error): void => {
             // nothing
         });
