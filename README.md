@@ -439,6 +439,12 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v3.1.4 (2016-11-26)
+
+* Use new @types typings
+* Upgrade NPM packages
+* Fix new TSLint errors
+
 v3.1.3 (2016-10-28)
 
 * Inlined sourcemaps since the .map files were not published to npm
@@ -529,5 +535,5 @@ v0.0.1 (2015-04-27):
 
 ## License
 
-Copyright (c) 2015 Rogier Schouten <github@workingcode.ninja>
+Copyright � 2015 Rogier Schouten <github@workingcode.ninja>
 ISC (see LICENSE file in repository root).

@@ -1,4 +1,4 @@
-// Copyright (c) 2015 Rogier Schouten<github@workingcode.ninja>
+// Copyright © 2015 Rogier Schouten<github@workingcode.ninja>
 // License: ISC
 
 'use strict';
