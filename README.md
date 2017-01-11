@@ -439,6 +439,10 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v3.1.5 (2017-01-11)
+
+* Moved node typings from dependencies to devDependencies
+
 v3.1.4 (2016-11-26)
 
 * Use new @types typings
