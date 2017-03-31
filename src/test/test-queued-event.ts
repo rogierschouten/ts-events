@@ -148,6 +148,24 @@ describe('QueuedEvent', (): void => {
         tsevents.flush();
         expect(calledWith).to.deep.equal(['A', 'B']);
     });
+    it('should detach once() handlers', (): void => {
+        const e = new QueuedEvent<string>();
+        let callCount = 0;
+        const calledWith: string[] = [];
+        e.once((s: string): void => {
+            callCount++;
+            calledWith.push(s);
+        });
+        e.post('A');
+        e.post('B');
+        expect(callCount).to.equal(0);
+        tsevents.flushOnce();
+        expect(callCount).to.equal(1);
+        expect(calledWith).to.deep.equal(['A']);
+        tsevents.flushOnce();
+        expect(callCount).to.equal(1);
+        expect(calledWith).to.deep.equal(['A']);
+    });
 });
 
 describe('VoidQueuedEvent', (): void => {

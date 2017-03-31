@@ -27,6 +27,10 @@ export interface Listener<T> {
      * Instead of a handler, an attached event
      */
     event?: Postable<T>;
+    /**
+     * Remove after first call?
+     */
+    once: boolean;
 }
 
 /**
@@ -59,42 +63,72 @@ export class BaseEvent<T> implements Postable<T> {
      */
     public attach(event: Postable<T>): void;
     /**
-     * Attach an event handler
-     * @param boundTo (Optional) The this argument of the handler
+     * Attach implementation
+     */
+    public attach(a: ((data: T) => void) | Object | Postable<T>, b?: (data: T) => void): void {
+        this._attach(a, b, false);
+    }
+
+    /**
+     * Attach an event handler which automatically gets removed after the first call
+     * @param handler The function to call. The this argument of the function will be this object.
+     */
+    public once(handler: (data: T) => void): void;
+    /**
+     * Attach an event handler which automatically gets removed after the first call
+     * @param boundTo The this argument of the handler
      * @param handler The function to call.
      */
-    public attach(...args: any[]): void {
+    public once(boundTo: Object, handler: (data: T) => void): void;
+    /**
+     * Attach an event directly and de-attach after the first call
+     * @param event The event to be posted
+     */
+    public once(event: Postable<T>): void;
+    /**
+     * Attach implementation
+     */
+    public once(a: ((data: T) => void) | Object | Postable<T>, b?: (data: T) => void): void {
+        this._attach(a, b, true);
+    }
+
+    /**
+     * Attach / once implementation
+     * @param a
+     * @param b
+     * @param once
+     */
+    private _attach(a: ((data: T) => void) | Object | Postable<T>, b: ((data: T) => void) | undefined, once: boolean): void {
         let boundTo: Object;
         let handler: (data: T) => void;
         let event: Postable<T>;
-        if (typeof args[0] === 'function') {
-            handler = args[0];
-        } else if (args.length === 1 && typeof args[0].post === 'function') {
-            event = args[0];
+        if (typeof a === 'function') {
+            handler = a;
+        } else if (!b && typeof (a as Postable<T>).post === 'function') {
+            event = a as Postable<T>;
         } else {
-            if (typeof args[0] !== 'object') {
+            if (typeof a !== 'object') {
                 throw new Error('Expect a function or object as first argument');
             };
-            if (typeof args[1] !== 'function') {
+            if (typeof b !== 'function') {
                 throw new Error('Expect a function as second argument');
             }
-            boundTo = args[0];
-            handler = args[1];
+            boundTo = a;
+            handler = b;
         }
         if (!this._listeners) {
             this._listeners = [];
         } else {
             // make a copy of the array so events that are underway have a stable local copy
             // of the listeners array at the time of post()
-            this._listeners = this._listeners.map((listener: Listener<T>): Listener<T> => {
-                return listener;
-            });
+            this._listeners = this._listeners.slice();
         }
         this._listeners.push({
             deleted: false,
-            boundTo: boundTo,
-            handler: handler,
-            event: event
+            boundTo,
+            handler,
+            event,
+            once
         });
     }
 
@@ -179,6 +213,14 @@ export class BaseEvent<T> implements Postable<T> {
      */
     protected _call(listener: Listener<T>, args: any[]): void {
         if (!listener.deleted) {
+            if (listener.once) {
+                // remove listeners AND mark as deleted so subclasses don't send any more events to them
+                listener.deleted = true;
+                this._listeners = this._listeners.filter((l: Listener<T>): boolean => l !== listener);
+                if (this._listeners.length === 0) {
+                    delete this._listeners;
+                }
+            }
             if (listener.event) {
                 listener.event.post.apply(listener.event, args);
             } else {

@@ -194,6 +194,22 @@ describe('AsyncEvent', (): void => {
             done();
         });
     });
+    it('should detach once() handlers after calling them', (done: MochaDone): void => {
+        const e = new AsyncEvent<string>();
+        const calledWith: string[] = [];
+        e.once((s: string): void => {
+            calledWith.push(s);
+        });
+        e.post('A');
+        e.post('B');
+        wait((): void => {
+            expect(calledWith).to.deep.equal(['A']);
+            wait((): void => {
+                expect(calledWith).to.deep.equal(['A']);
+                done();
+            });
+        });
+    });
 
 });
 

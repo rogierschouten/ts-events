@@ -249,6 +249,16 @@ describe('AnyEvent', (): void => {
             e.post('B');
             expect(calledWith).to.deep.equal(['A', 'B']);
         });
+        it('should detach once() handlers', (): void => {
+            const e = new AnyEvent<string>();
+            const calledWith: string[] = [];
+            e.onceSync((s: string): void => {
+                calledWith.push(s);
+            });
+            e.post('A');
+            e.post('B');
+            expect(calledWith).to.deep.equal(['A']);
+        });
     });
 
     describe('Async use', (): void => {
@@ -446,6 +456,22 @@ describe('AnyEvent', (): void => {
                 });
             });
         });
+        it('should detach once() handlers', (done: MochaDone): void => {
+            const e = new AnyEvent<string>();
+            const calledWith: string[] = [];
+            e.onceAsync((s: string): void => {
+                calledWith.push(s);
+            });
+            e.post('A');
+            e.post('B');
+            wait((): void => {
+                expect(calledWith).to.deep.equal(['A']);
+                wait((): void => {
+                    expect(calledWith).to.deep.equal(['A']);
+                    done();
+                });
+            });
+        });
     });
 
     describe('Queued use', (): void => {
@@ -603,6 +629,24 @@ describe('AnyEvent', (): void => {
             e.post('B');
             tsevents.flush();
             expect(calledWith).to.deep.equal(['A', 'B']);
+        });
+        it('should detach once() event handlers', (): void => {
+            const e = new AnyEvent<string>();
+            let callCount = 0;
+            const calledWith: string[] = [];
+            e.onceQueued((s: string): void => {
+                callCount++;
+                calledWith.push(s);
+            });
+            e.post('A');
+            e.post('B');
+            expect(callCount).to.equal(0);
+            tsevents.flushOnce();
+            expect(callCount).to.equal(1);
+            expect(calledWith).to.deep.equal(['A']);
+            tsevents.flushOnce();
+            expect(callCount).to.equal(1);
+            expect(calledWith).to.deep.equal(['A']);
         });
     });
 

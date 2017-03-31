@@ -10,13 +10,6 @@
 A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter, and instead makes each event into a member which is its own little emitter.
 Implemented in TypeScript (typings file included) and usable with JavaScript as well.
 
-## New in version 3
-
-- Uses ES6 imports
-- Uses 'typings' field in package.json, so you can/must drop your reference to ts-events.d.ts
-- Add generic way of attaching to an AnyEvent
-- Add evtFirstAttached and evtLastDetached events to AnyEvent
-
 ## TL;DR
 
 Synchronous events:
@@ -77,6 +70,11 @@ evtChange.attach(this, this.onChange);
 // directly attach another event
 evtChange.attach(this.evtChange);
 
+// like EventEmitter.once(), add a handler which is automatically detached after being called
+evtChange.once(function(s) {
+    console.log(s);
+});
+
 ```
 
 Versatile events, let the subscriber choose:
@@ -86,7 +84,7 @@ import {AnyEvent} from 'ts-events';
 import * as tsEvents from 'ts-events';
 
 const evtChange = new AnyEvent<string>();
-evtChange.attach(function(s) {
+evtChange.attachSync(function(s) {
     console.log(s + ' this is synchronous.');
 });
 evtChange.attachAsync(function(s) {
@@ -97,6 +95,12 @@ evtChange.attachQueued(function(s) {
 });
 evtChange.post('hi!');
 tsEvents.flush(); // only needed for queued
+
+evtChange.onceAsync(function(s) {
+    console.log(s + ' after this event, I will be detached and print no more');
+});
+// similar functions onceSync() and onceQueued() exist.
+
 
 ```
 
@@ -116,10 +120,7 @@ tsEvents.flush(); // only needed for queued
 
 ### Node.JS
 
-Install using:
-```
-npm install ts-events
-```
+Install using: `npm install ts-events` or `yarn install ts-events`.
 
 Then require the module in your code:
 
@@ -331,6 +332,7 @@ There are clear semantics for the effect of attach() and detach(). These semanti
 
 * Attaching a handler to an event guarantees that the handler is called only for events posted after the call to attach(). Events that are already underway will not invoke the handler.
 * Detaching a handler from an event guarantees that it is not called anymore, even if there are events still queued.
+* You can use the once() method to attach a handler that is automatically removed when it is called.
 
 Attaching has the following forms:
 
@@ -363,6 +365,7 @@ myEvent.detach(); // detaches all handlers
 ```
 
 Note that when you attach an AsyncEvent to another AsyncEvent, the handlers of both events are called in the very next cycle, i.e. it does not take 2 cycles to call all handlers. This is 'decoupled enough' for most purposes and reduces latency.
+
 
 ### Error events
 
@@ -403,6 +406,19 @@ evtChange.attach(EventType.Queued, function(s) {
     console.log(s + ' this is queued.');
 });
 
+evtChange.once(function(s) {
+    console.log(s + ' this is synchronous and will be called only once.');
+});
+evtChange.once(EventType.Sync, function(s) {
+    console.log(s + ' this is synchronous and will be called only once.');
+});
+evtChange.once(EventType.Async, function(s) {
+    console.log(s + ' this is a-synchronous and will be called only once.');
+});
+evtChange.once(EventType.Queued, function(s) {
+    console.log(s + ' this is queued and will be called only once.');
+});
+
 // convenience functions:
 evtChange.attachSync(function(s) {
     console.log(s + ' this is conveniently synchronous.');
@@ -415,6 +431,20 @@ evtChange.attachAsync(function(s) {
 });
 evtChange.attachQueued(function(s) {
     console.log(s + ' this is conveniently queued.');
+});
+
+// convenience functions:
+evtChange.onceSync(function(s) {
+    console.log(s + ' this is conveniently synchronous and will be called only once.');
+});
+evtChange.onceAsync(function(s) {
+    console.log(s + ' this is conveniently a-synchronous and condensed and will be called only once.');
+}, { condensed: true });
+evtChange.onceAsync(function(s) {
+    console.log(s + ' this is conveniently a-synchronous and not condensed and will be called only once.');
+});
+evtChange.onceQueued(function(s) {
+    console.log(s + ' this is conveniently queued and will be called only once.');
 });
 
 evtChange.post('hi!');
@@ -438,6 +468,10 @@ myEvent.post(); // no need to pass 'undefined'
 ```
 
 ## Changelog
+
+v3.2.0 (2017-03-31)
+
+* Added once(), onceSync(), onceAsync() and onceQueued() methods to attach a handler that is automatically removed when called.
 
 v3.1.5 (2017-01-11)
 

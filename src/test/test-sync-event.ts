@@ -126,6 +126,17 @@ describe('SyncEvent', (): void => {
         e.post('B');
         expect(calledWith).to.deep.equal(['A', 'B']);
     });
+    it('should detach a once() handler', (): void => {
+        const e = new SyncEvent<string>();
+        let callCount: number = 0;
+        const f = (s: string): void => {
+            callCount++;
+            e.post('A');
+        };
+        e.once(f);
+        e.post('A');
+        expect(callCount).to.equal(1);
+    });
 });
 
 describe('VoidSyncEvent', (): void => {
