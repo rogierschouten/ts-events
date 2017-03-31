@@ -109,7 +109,7 @@ export class BaseEvent<T> implements Postable<T> {
         } else {
             if (typeof a !== 'object') {
                 throw new Error('Expect a function or object as first argument');
-            };
+            }
             if (typeof b !== 'function') {
                 throw new Error('Expect a function as second argument');
             }

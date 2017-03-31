@@ -14,7 +14,7 @@ export enum EventType {
     Sync,
     Async,
     Queued
-};
+}
 
 export interface AnyEventOpts {
     /**
@@ -262,7 +262,7 @@ export class AnyEvent<T> implements Postable<T> {
         const events: BaseEvent<T>[] = [];
         for (let i = 0; i < this._events.length; ++i) {
             events.push(this._events[i]);
-        };
+        }
         for (let i = 0; i < events.length; ++i) {
             events[i].post(data);
         }
