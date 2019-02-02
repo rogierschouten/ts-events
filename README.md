@@ -469,6 +469,10 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v3.2.1 (2019-02-01)
+
+* Update dependencies to resolve vulnerabilities reported by npm audit.
+
 v3.2.0 (2017-03-31)
 
 * Added once(), onceSync(), onceAsync() and onceQueued() methods to attach a handler that is automatically removed when called.

@@ -103,7 +103,7 @@ export class BaseEvent<T> implements Postable<T> {
         let handler: (data: T) => void;
         let event: Postable<T>;
         if (typeof a === 'function') {
-            handler = a;
+            handler = a as ((data: T) => void);
         } else if (!b && typeof (a as Postable<T>).post === 'function') {
             event = a as Postable<T>;
         } else {
