@@ -362,6 +362,11 @@ myEvent.detach(obj); // detaches all handlers bound to the given object
 myEvent.detach(obj, handler); // detaches only the given handler bound to the given object
 myEvent.detach(myOtherEvent); // detaches only myOtherEvent
 myEvent.detach(); // detaches all handlers
+
+
+// returned detacher function
+const detacher = myEvent.attach(handler);
+detacher(); // detachers `handler`
 ```
 
 Note that when you attach an AsyncEvent to another AsyncEvent, the handlers of both events are called in the very next cycle, i.e. it does not take 2 cycles to call all handlers. This is 'decoupled enough' for most purposes and reduces latency.

@@ -57,13 +57,13 @@ export class AnyEvent<T> implements Postable<T> {
      * same as attachSync/attachAsync/attachQueued; based on the given enum
      * @param mode determines whether to attach sync/async/queued
      */
-    public attach(handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): void;
-    public attach(boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): void;
-    public attach(event: Postable<T>, opts?: AsyncEventOpts | QueuedEventOpts): void;
-    public attach(mode: EventType, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): void;
-    public attach(mode: EventType, boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): void;
-    public attach(mode: EventType, event: Postable<T>, opts?: AsyncEventOpts | QueuedEventOpts): void;
-    public attach(...args: any[]): void {
+    public attach(handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): () => void;
+    public attach(boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): () => void;
+    public attach(event: Postable<T>, opts?: AsyncEventOpts | QueuedEventOpts): () => void;
+    public attach(mode: EventType, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): () => void;
+    public attach(mode: EventType, boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): () => void;
+    public attach(mode: EventType, event: Postable<T>, opts?: AsyncEventOpts | QueuedEventOpts): () => void;
+    public attach(...args: any[]): () => void {
         let mode = EventType.Sync;
         if (args.length > 0 && typeof args[0] === 'number') {
             mode = args.shift() as EventType;
@@ -84,7 +84,7 @@ export class AnyEvent<T> implements Postable<T> {
             handler = args[1];
             opts = args[2];
         }
-        this._attach(mode, boundTo, handler, postable, opts, false);
+        return this._attach(mode, boundTo, handler, postable, opts, false);
     }
 
     /**
@@ -92,13 +92,13 @@ export class AnyEvent<T> implements Postable<T> {
      * same as onceSync/onceAsync/onceQueued; based on the given enum
      * @param mode determines whether to once sync/async/queued
      */
-    public once(handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): void;
-    public once(boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): void;
-    public once(event: Postable<T>, opts?: AsyncEventOpts | QueuedEventOpts): void;
-    public once(mode: EventType, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): void;
-    public once(mode: EventType, boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): void;
-    public once(mode: EventType, event: Postable<T>, opts?: AsyncEventOpts | QueuedEventOpts): void;
-    public once(...args: any[]): void {
+    public once(handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): () => void;
+    public once(boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): () => void;
+    public once(event: Postable<T>, opts?: AsyncEventOpts | QueuedEventOpts): () => void;
+    public once(mode: EventType, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): () => void;
+    public once(mode: EventType, boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts | QueuedEventOpts): () => void;
+    public once(mode: EventType, event: Postable<T>, opts?: AsyncEventOpts | QueuedEventOpts): () => void;
+    public once(...args: any[]): () => void {
         let mode = EventType.Sync;
         if (args.length > 0 && typeof args[0] === 'number') {
             mode = args.shift() as EventType;
@@ -119,7 +119,7 @@ export class AnyEvent<T> implements Postable<T> {
             handler = args[1];
             opts = args[2];
         }
-        this._attach(mode, boundTo, handler, postable, opts, true);
+        return this._attach(mode, boundTo, handler, postable, opts, true);
     }
 
     private _attach(
@@ -129,7 +129,7 @@ export class AnyEvent<T> implements Postable<T> {
         postable: Postable<T> | undefined,
         opts: AsyncEventOpts | QueuedEventOpts | undefined,
         once: boolean
-    ): void {
+    ): () => void {
         const prevCount = (!!this.evtFirstAttached ? this.listenerCount() : 0);
         let event: BaseEvent<T>;
         switch (mode) {
@@ -169,70 +169,78 @@ export class AnyEvent<T> implements Postable<T> {
             default:
                 throw new Error('unknown EventType');
         }
+        let detacher: () => void;
         if (once) {
             if (postable) {
-                event.once(postable);
+                detacher = event.once(postable);
             } else {
-                event.once(boundTo, handler);
+                detacher = event.once(boundTo, handler);
             }
         } else {
             if (postable) {
-                event.attach(postable);
+                detacher = event.attach(postable);
             } else {
-                event.attach(boundTo, handler);
+                detacher = event.attach(boundTo, handler);
             }
         }
         if (this.evtFirstAttached && prevCount === 0) {
             this.evtFirstAttached.post();
         }
+        return (): void => {
+            const prevCount = (!!this.evtLastDetached ? this.listenerCount() : 0);
+            detacher();
+            if (!!this.evtLastDetached && prevCount > 0 && this.listenerCount() === 0) {
+                this.evtLastDetached.post();
+            }
+        };
     }
 
-    public attachSync(handler: (data: T) => void): void;
-    public attachSync(boundTo: Object, handler: (data: T) => void): void;
-    public attachSync(event: Postable<T>): void;
-    public attachSync(...args: any[]): void {
+    public attachSync(handler: (data: T) => void): () => void;
+    public attachSync(boundTo: Object, handler: (data: T) => void): () => void;
+    public attachSync(event: Postable<T>): () => void;
+    public attachSync(...args: any[]): () => void {
         args.unshift(EventType.Sync);
-        this.attach.apply(this, args);
+        return this.attach.apply(this, args);
     }
 
-    public onceSync(handler: (data: T) => void): void;
-    public onceSync(boundTo: Object, handler: (data: T) => void): void;
-    public onceSync(event: Postable<T>): void;
-    public onceSync(...args: any[]): void {
+    public onceSync(handler: (data: T) => void): () => void;
+    public onceSync(boundTo: Object, handler: (data: T) => void): () => void;
+    public onceSync(event: Postable<T>): () => void;
+    public onceSync(...args: any[]): () => void {
         args.unshift(EventType.Sync);
-        this.once.apply(this, args);
+        return this.once.apply(this, args);
     }
 
-    public attachAsync(handler: (data: T) => void, opts?: AsyncEventOpts): void;
-    public attachAsync(boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts): void;
-    public attachAsync(event: Postable<T>, opts?: AsyncEventOpts): void;
-    public attachAsync(...args: any[]): void {
+    public attachAsync(handler: (data: T) => void, opts?: AsyncEventOpts): () => void;
+    public attachAsync(boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts): () => void;
+    public attachAsync(event: Postable<T>, opts?: AsyncEventOpts): () => void;
+    public attachAsync(...args: any[]): () => void {
         args.unshift(EventType.Async);
-        this.attach.apply(this, args);
+        return this.attach.apply(this, args);
     }
 
-    public onceAsync(handler: (data: T) => void, opts?: AsyncEventOpts): void;
-    public onceAsync(boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts): void;
-    public onceAsync(event: Postable<T>, opts?: AsyncEventOpts): void;
-    public onceAsync(...args: any[]): void {
+    public onceAsync(handler: (data: T) => void, opts?: AsyncEventOpts): () => void;
+    public onceAsync(boundTo: Object, handler: (data: T) => void, opts?: AsyncEventOpts): () => void;
+    public onceAsync(event: Postable<T>, opts?: AsyncEventOpts): () => void;
+    public onceAsync(...args: any[]): () => void {
         args.unshift(EventType.Async);
-        this.once.apply(this, args);
+        return this.once.apply(this, args);
     }
 
-    public attachQueued(handler: (data: T) => void, opts?: QueuedEventOpts): void;
-    public attachQueued(boundTo: Object, handler: (data: T) => void, opts?: QueuedEventOpts): void;
-    public attachQueued(event: Postable<T>, opts?: QueuedEventOpts): void;
-    public attachQueued(...args: any[]): void {
+    public attachQueued(handler: (data: T) => void, opts?: QueuedEventOpts): () => void;
+    public attachQueued(boundTo: Object, handler: (data: T) => void, opts?: QueuedEventOpts): () => void;
+    public attachQueued(event: Postable<T>, opts?: QueuedEventOpts): () => void;
+    public attachQueued(...args: any[]): () => void {
         args.unshift(EventType.Queued);
-        this.attach.apply(this, args);
+        return this.attach.apply(this, args);
     }
 
-    public onceQueued(handler: (data: T) => void, opts?: QueuedEventOpts): void;
-    public onceQueued(boundTo: Object, handler: (data: T) => void, opts?: QueuedEventOpts): void;
-    public onceQueued(event: Postable<T>, opts?: QueuedEventOpts): void;
-    public onceQueued(...args: any[]): void {
+    public onceQueued(handler: (data: T) => void, opts?: QueuedEventOpts): () => void;
+    public onceQueued(boundTo: Object, handler: (data: T) => void, opts?: QueuedEventOpts): () => void;
+    public onceQueued(event: Postable<T>, opts?: QueuedEventOpts): () => void;
+    public onceQueued(...args: any[]): () => void {
         args.unshift(EventType.Queued);
-        this.once.apply(this, args);
+        return this.once.apply(this, args);
     }
 
     public detach(handler: (data: T) => void): void;

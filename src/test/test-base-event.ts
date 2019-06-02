@@ -152,4 +152,54 @@ describe('BaseEvent', (): void => {
         });
     });
 
+    describe('returned detacher', (): void => {
+        const t = {};
+        const f = (s: string): void => {
+            // nothing
+        };
+        const g = (s: string): void => {
+            // nothing
+        };
+        const e = new SyncEvent<string>();
+
+        let fDetacher: () => void;
+        let tfDetacher: () => void;
+        let eDetacher: () => void;
+
+        beforeEach((): void => {
+            fDetacher = l.attach(f);
+            tfDetacher = l.attach(t, f);
+            l.attach(g);
+            l.attach(t, g);
+            eDetacher = l.attach(e);
+        });
+
+        it('should delete by handler', (): void => {
+            fDetacher();
+            expect(l.content()).to.deep.equal([
+                { boundTo: undefined, handler: g, deleted: false, event: undefined, once: false },
+                { boundTo: t, handler: g, deleted: false, event: undefined, once: false },
+                { boundTo: undefined, handler: undefined, deleted: false, event: e, once: false }
+            ]);
+        });
+        it('should delete by boundTo and handler', (): void => {
+            tfDetacher();
+            expect(l.content()).to.deep.equal([
+                { boundTo: undefined, handler: f, deleted: false, event: undefined, once: false },
+                { boundTo: undefined, handler: g, deleted: false, event: undefined, once: false },
+                { boundTo: t, handler: g, deleted: false, event: undefined, once: false },
+                { boundTo: undefined, handler: undefined, deleted: false, event: e, once: false }
+            ]);
+        });
+        it('should delete by event', (): void => {
+            eDetacher();
+            expect(l.content()).to.deep.equal([
+                { boundTo: undefined, handler: f, deleted: false, event: undefined, once: false },
+                { boundTo: t, handler: f, deleted: false, event: undefined, once: false },
+                { boundTo: undefined, handler: g, deleted: false, event: undefined, once: false },
+                { boundTo: t, handler: g, deleted: false, event: undefined, once: false }
+            ]);
+        });
+    });
+
 });

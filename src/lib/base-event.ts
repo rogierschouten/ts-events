@@ -3,6 +3,8 @@
 
 'use strict';
 
+import { timingSafeEqual } from 'crypto';
+
 export interface Postable<T> {
     post(data: T): void;
 }
@@ -49,47 +51,53 @@ export class BaseEvent<T> implements Postable<T> {
     /**
      * Attach an event handler
      * @param handler The function to call. The this argument of the function will be this object.
+     * @returns function you can use for detaching from the event, instead of calling detach()
      */
-    public attach(handler: (data: T) => void): void;
+    public attach(handler: (data: T) => void): () => void;
     /**
      * Attach an event handler
      * @param boundTo The this argument of the handler
      * @param handler The function to call.
+     * @returns function you can use for detaching from the event, instead of calling detach()
      */
-    public attach(boundTo: Object, handler: (data: T) => void): void;
+    public attach(boundTo: Object, handler: (data: T) => void): () => void;
     /**
      * Attach an event directly
      * @param event The event to be posted
+     * @returns function you can use for detaching from the event, instead of calling detach()
      */
-    public attach(event: Postable<T>): void;
+    public attach(event: Postable<T>): () => void;
     /**
      * Attach implementation
      */
-    public attach(a: ((data: T) => void) | Object | Postable<T>, b?: (data: T) => void): void {
-        this._attach(a, b, false);
+    public attach(a: ((data: T) => void) | Object | Postable<T>, b?: (data: T) => void): () => void {
+        return this._attach(a, b, false);
     }
 
     /**
      * Attach an event handler which automatically gets removed after the first call
      * @param handler The function to call. The this argument of the function will be this object.
+     * @returns function you can use for detaching from the event, instead of calling detach()
      */
-    public once(handler: (data: T) => void): void;
+    public once(handler: (data: T) => void): () => void;
     /**
      * Attach an event handler which automatically gets removed after the first call
      * @param boundTo The this argument of the handler
      * @param handler The function to call.
+     * @returns function you can use for detaching from the event, instead of calling detach()
      */
-    public once(boundTo: Object, handler: (data: T) => void): void;
+    public once(boundTo: Object, handler: (data: T) => void): () => void;
     /**
      * Attach an event directly and de-attach after the first call
      * @param event The event to be posted
+     * @returns function you can use for detaching from the event, instead of calling detach()
      */
-    public once(event: Postable<T>): void;
+    public once(event: Postable<T>): () => void;
     /**
-     * Attach implementation
+     * Once implementation
      */
-    public once(a: ((data: T) => void) | Object | Postable<T>, b?: (data: T) => void): void {
-        this._attach(a, b, true);
+    public once(a: ((data: T) => void) | Object | Postable<T>, b?: (data: T) => void): () => void {
+        return this._attach(a, b, true);
     }
 
     /**
@@ -97,15 +105,19 @@ export class BaseEvent<T> implements Postable<T> {
      * @param a
      * @param b
      * @param once
+     * @returns function you can use for detaching from the event, instead of calling detach()
      */
-    private _attach(a: ((data: T) => void) | Object | Postable<T>, b: ((data: T) => void) | undefined, once: boolean): void {
+    private _attach(a: ((data: T) => void) | Object | Postable<T>, b: ((data: T) => void) | undefined, once: boolean): () => void {
         let boundTo: Object;
         let handler: (data: T) => void;
         let event: Postable<T>;
+        let result: () => void;
         if (typeof a === 'function') {
             handler = a as ((data: T) => void);
+            result = () => this.detach(handler);
         } else if (!b && typeof (a as Postable<T>).post === 'function') {
             event = a as Postable<T>;
+            result = () => this.detach(event);
         } else {
             if (typeof a !== 'object') {
                 throw new Error('Expect a function or object as first argument');
@@ -115,6 +127,7 @@ export class BaseEvent<T> implements Postable<T> {
             }
             boundTo = a;
             handler = b;
+            result = () => this.detach(boundTo, handler);
         }
         if (!this._listeners) {
             this._listeners = [];
@@ -130,6 +143,7 @@ export class BaseEvent<T> implements Postable<T> {
             event,
             once
         });
+        return result;
     }
 
     /**

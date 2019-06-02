@@ -80,6 +80,18 @@ describe('AnyEvent', (): void => {
             e.detach();
             expect(callCount).to.equal(1);
         });
+        it('should be called on last returned detach function', (): void => {
+            const e = new VoidAnyEvent({ monitorAttach: true });
+            let callCount = 0;
+            e.evtLastDetached.attach((): void => {
+                callCount++;
+            });
+            const f = e.attach((): void => {
+                // nothing
+            });
+            f();
+            expect(callCount).to.equal(1);
+        });
         it('should NOT be called on second-last detach', (): void => {
             const e = new VoidAnyEvent({ monitorAttach: true });
             let callCount = 0;
@@ -393,6 +405,20 @@ describe('AnyEvent', (): void => {
                 done();
             });
         });
+        it('should not send events at all to detached event handlers (returned function)', (done: MochaDone): void => {
+            const e = new AnyEvent<string>();
+            const calledWith: string[] = [];
+            const detacher = e.attachAsync((s: string): void => {
+                calledWith.push(s);
+            });
+            e.post('A');
+            detacher();
+            e.post('B');
+            wait((): void => {
+                expect(calledWith).to.deep.equal([]);
+                done();
+            });
+        });
         it('should allow attachAsyncing event handlers within handlers', (done: MochaDone): void => {
             const e = new AnyEvent<string>();
             const calledWith: string[] = [];
@@ -419,6 +445,22 @@ describe('AnyEvent', (): void => {
                 e.detach(f);
             };
             e.attachAsync(f);
+            e.post('A');
+            e.post('B');
+            wait((): void => {
+                expect(calledWith).to.deep.equal(['A']);
+                done();
+            });
+        });
+        it('should allow detaching event handlers within handlers (returned function)', (done: MochaDone): void => {
+            const e = new AnyEvent<string>();
+            const calledWith: string[] = [];
+            let detacher: () => void;
+            const f = (s: string): void => {
+                calledWith.push(s);
+                detacher();
+            };
+            detacher = e.attachAsync(f);
             e.post('A');
             e.post('B');
             wait((): void => {
@@ -611,6 +653,20 @@ describe('AnyEvent', (): void => {
                 e.detach(f);
             };
             e.attachQueued(f);
+            e.post('A');
+            e.post('B');
+            tsevents.flushOnce();
+            expect(calledWith).to.deep.equal(['A']);
+        });
+        it('should allow detaching event handlers within handlers (returned function)', (): void => {
+            const e = new AnyEvent<string>();
+            const calledWith: string[] = [];
+            let detacher: () => void;
+            const f = (s: string): void => {
+                calledWith.push(s);
+                detacher();
+            };
+            detacher = e.attachQueued(f);
             e.post('A');
             e.post('B');
             tsevents.flushOnce();
