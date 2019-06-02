@@ -474,6 +474,10 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v3.3.0 (2019-06-02)
+
+* Return a detacher function from `attach()` and `once()` methods.
+
 v3.2.1 (2019-02-01)
 
 * Update dependencies to resolve vulnerabilities reported by npm audit.
