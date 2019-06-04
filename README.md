@@ -474,6 +474,10 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+v3.3.1 (2019-06-04)
+
+* Remove .git directory from published module
+
 v3.3.0 (2019-06-02)
 
 * Return a detacher function from `attach()` and `once()` methods.

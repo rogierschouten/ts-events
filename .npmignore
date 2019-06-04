@@ -1,3 +1,4 @@
+.git/
 .settings/
 .vscode/
 coverage/
@@ -6,11 +7,10 @@ examples/
 node_modules/
 src/
 temp/
-typings/
 
+.editorconfig
 .gitattributes
 .gitignore
-.editorconfig
 browserify-karma.js
 browserify-umd.js
 DEVELOPING.md
