@@ -474,6 +474,9 @@ myEvent.post(); // no need to pass 'undefined'
 
 ## Changelog
 
+
+* Update dependencies
+
 v3.3.1 (2019-06-04)
 
 * Remove .git directory from published module
