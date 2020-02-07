@@ -5,6 +5,7 @@
 
 import {BaseEvent, Postable, Listener} from './base-event';
 import {default as EventQueue} from './EventQueue';
+import {VoidSyncEvent} from './sync-event';
 
 /**
  * Options for the QueuedEvent constructor
@@ -28,6 +29,21 @@ export interface QueuedEventOpts {
  * - Handlers are not called anymore when they are detached, even if a post() is in progress
  */
 export class QueuedEvent<T> extends BaseEvent<T> implements Postable<T> {
+    /**
+     * Sent when someone attaches or detaches
+     */
+    public get evtListenersChanged(): VoidSyncEvent {
+        if (!this._listenersChanged) {
+            // need to delay-load to avoid stack overflow in constructor
+            this._listenersChanged = new VoidSyncEvent();
+        }
+        return this._listenersChanged;
+    }
+
+    /**
+     * Event for listening to listener count
+     */
+    private _listenersChanged?: VoidSyncEvent;
 
     /**
      * Used internally - the exact options object given to constructor
@@ -46,17 +62,16 @@ export class QueuedEvent<T> extends BaseEvent<T> implements Postable<T> {
      *             - condensed: a Boolean indicating whether to condense multiple calls to post() into one (default false)
      *             - queue: a specific event queue to use. The global EventQueue instance is used if not given.
      */
-    constructor(opts?: QueuedEventOpts) {
+    constructor(opts: QueuedEventOpts = {}) {
         super();
         this.options = opts;
-        const options: QueuedEventOpts = opts || {};
-        if (typeof options.condensed === 'boolean') {
-            this._condensed = options.condensed;
+        if (typeof opts.condensed === 'boolean') {
+            this._condensed = opts.condensed;
         } else {
             this._condensed = false;
         }
-        if (typeof options.queue === 'object' && options.queue !== null) {
-            this._queue = options.queue;
+        if (typeof opts.queue === 'object' && opts.queue !== null) {
+            this._queue = opts.queue;
         }
     }
 
@@ -101,6 +116,26 @@ export class QueuedEvent<T> extends BaseEvent<T> implements Postable<T> {
                 }
             });
         }
+    }
+
+    /** @inheritdoc */
+    protected _attach(a: ((data: T) => void) | Object | Postable<T>, b: ((data: T) => void) | undefined, once: boolean): () => void {
+        const count = this._listeners?.length ?? 0;
+        const result = super._attach(a, b, once);
+        if (this.evtListenersChanged && count !== (this._listeners?.length ?? 0)) {
+            this.evtListenersChanged.post();
+        }
+        return result;
+    }
+
+    /** @inheritdoc */
+    protected _detach(...args: any[]): void {
+        const count = this._listeners?.length ?? 0;
+        const result = super._detach(...args);
+        if (this.evtListenersChanged && count !== (this._listeners?.length ?? 0)) {
+            this.evtListenersChanged.post();
+        }
+        return result;
     }
 }
 

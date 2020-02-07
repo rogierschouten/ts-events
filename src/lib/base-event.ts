@@ -46,7 +46,7 @@ export class BaseEvent<T> implements Postable<T> {
      * Instead, replace with a new array with possibly the same elements. This ensures
      * that any references to the array by events that are underway remain the same.
      */
-    protected _listeners: Listener<T>[];
+    protected _listeners?: Listener<T>[];
 
     /**
      * Attach an event handler
@@ -107,19 +107,19 @@ export class BaseEvent<T> implements Postable<T> {
      * @param once
      * @returns function you can use for detaching from the event, instead of calling detach()
      */
-    private _attach(a: ((data: T) => void) | Object | Postable<T>, b: ((data: T) => void) | undefined, once: boolean): () => void {
-        let boundTo: Object;
-        let handler: (data: T) => void;
-        let event: Postable<T>;
+    protected _attach(a: ((data: T) => void) | Object | Postable<T>, b: ((data: T) => void) | undefined, once: boolean): () => void {
+        let boundTo: Object | undefined;
+        let handler: ((data: T) => void) | undefined;
+        let event: Postable<T> | undefined;
         let result: () => void;
         if (typeof a === 'function') {
             handler = a as ((data: T) => void);
-            result = () => this.detach(handler);
+            result = () => this.detach(handler!);
         } else if (!b && typeof (a as Postable<T>).post === 'function') {
             event = a as Postable<T>;
-            result = () => this.detach(event);
+            result = () => this.detach(event!);
         } else {
-            if (typeof a !== 'object') {
+            if (typeof a !== 'object' || a === undefined) {
                 throw new Error('Expect a function or object as first argument');
             }
             if (typeof b !== 'function') {
@@ -127,7 +127,7 @@ export class BaseEvent<T> implements Postable<T> {
             }
             boundTo = a;
             handler = b;
-            result = () => this.detach(boundTo, handler);
+            result = () => this.detach(boundTo!, handler!);
         }
         if (!this._listeners) {
             this._listeners = [];
@@ -170,6 +170,14 @@ export class BaseEvent<T> implements Postable<T> {
      * Detach implementation. See the overloads for description.
      */
     public detach(...args: any[]): void {
+        this._detach(...args);
+    }
+
+    /**
+     * Detach implementation
+     * @param args
+     */
+    protected _detach(...args: any[]): void {
         if (!this._listeners || this._listeners.length === 0) {
             return;
         }
@@ -226,6 +234,9 @@ export class BaseEvent<T> implements Postable<T> {
      * @param args The arguments to the handler
      */
     protected _call(listener: Listener<T>, args: any[]): void {
+        if (!this._listeners) {
+            return;
+        }
         if (!listener.deleted) {
             if (listener.once) {
                 // remove listeners AND mark as deleted so subclasses don't send any more events to them
@@ -237,7 +248,7 @@ export class BaseEvent<T> implements Postable<T> {
             }
             if (listener.event) {
                 listener.event.post.apply(listener.event, args);
-            } else {
+            } else if (listener.handler) {
                 listener.handler.apply((typeof listener.boundTo === 'object' ? listener.boundTo : this), args);
             }
         }

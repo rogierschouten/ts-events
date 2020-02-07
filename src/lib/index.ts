@@ -35,6 +35,6 @@ export function flushOnce(): void {
  * @param maxRounds Optional, default 10. Number of iterations after which to throw an error because
  *                  the queue keeps filling up. Set to undefined or null to disable this.
  */
-export function flush(maxRounds: number = 10): void {
+export function flush(maxRounds: number | null = 10): void {
     EventQueue.global().flush(maxRounds);
 }

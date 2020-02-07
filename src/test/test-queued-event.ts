@@ -166,6 +166,18 @@ describe('QueuedEvent', (): void => {
         expect(callCount).to.equal(1);
         expect(calledWith).to.deep.equal(['A']);
     });
+
+    it('should notify of changed listener count', (): void => {
+        const e = new QueuedEvent<string>();
+        let callCount: number = 0;
+        e.evtListenersChanged.attach(() => callCount++);
+        e.once(() => undefined);
+        expect(callCount).to.equal(1);
+        e.attach(() => undefined);
+        expect(callCount).to.equal(2);
+        e.detach();
+        expect(callCount).to.equal(3);
+    });
 });
 
 describe('VoidQueuedEvent', (): void => {

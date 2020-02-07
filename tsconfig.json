@@ -5,6 +5,7 @@
         "inlineSources": true,
         "module": "commonjs",
         "noImplicitAny": true,
+        "strictNullChecks": true,
         "noLib": false,
         "outDir": "./dist",
         "preserveConstEnums": true,

@@ -5,8 +5,8 @@
 
 import {shallowEquals} from './objects';
 
-import {BaseEvent, Postable, Listener} from './base-event';
-import {SyncEvent} from './sync-event';
+import {BaseEvent, Postable} from './base-event';
+import {SyncEvent, VoidSyncEvent} from './sync-event';
 import {AsyncEvent, AsyncEventOpts} from './async-event';
 import {QueuedEvent, QueuedEventOpts} from './queued-event';
 
@@ -28,6 +28,21 @@ export interface AnyEventOpts {
  * you subscribe.
  */
 export class AnyEvent<T> implements Postable<T> {
+    /**
+     * Sent when someone attaches or detaches
+     */
+    public get evtListenersChanged(): VoidSyncEvent {
+        if (!this._listenersChanged) {
+            // need to delay-load to avoid stack overflow in constructor
+            this._listenersChanged = new VoidSyncEvent();
+        }
+        return this._listenersChanged;
+    }
+
+    /**
+     * Event for listening to listener count
+     */
+    private _listenersChanged?: VoidSyncEvent;
 
     /**
      * Triggered whenever someone attaches and nobody was attached.
@@ -69,9 +84,9 @@ export class AnyEvent<T> implements Postable<T> {
             mode = args.shift() as EventType;
         }
         let boundTo: Object = this; // add ourselves as default 'boundTo' argument
-        let handler: (data: T) => void;
+        let handler: ((data: T) => void) | undefined;
         let opts: AsyncEventOpts | QueuedEventOpts;
-        let postable: Postable<T>;
+        let postable: Postable<T> | undefined;
         if (typeof args[0] === 'function' || (args[0] && typeof args[0] === 'object' && typeof args[0].post === 'function')) {
             if (typeof args[0] === 'function') {
                 handler = args[0];
@@ -103,10 +118,10 @@ export class AnyEvent<T> implements Postable<T> {
         if (args.length > 0 && typeof args[0] === 'number') {
             mode = args.shift() as EventType;
         }
-        let boundTo: Object = this; // add ourselves as default 'boundTo' argument
-        let handler: (data: T) => void;
+        let boundTo: object = this; // add ourselves as default 'boundTo' argument
+        let handler: ((data: T) => void) | undefined;
         let opts: AsyncEventOpts | QueuedEventOpts;
-        let postable: Postable<T>;
+        let postable: Postable<T> | undefined;
         if (typeof args[0] === 'function' || (args[0] && typeof args[0] === 'object' && typeof args[0].post === 'function')) {
             if (typeof args[0] === 'function') {
                 handler = args[0];
@@ -125,13 +140,13 @@ export class AnyEvent<T> implements Postable<T> {
     private _attach(
         mode: EventType,
         boundTo: Object | undefined,
-        handler: (data: T) => void | undefined,
+        handler: ((data: T) => void) | undefined,
         postable: Postable<T> | undefined,
         opts: AsyncEventOpts | QueuedEventOpts | undefined,
         once: boolean
     ): () => void {
         const prevCount = (!!this.evtFirstAttached ? this.listenerCount() : 0);
-        let event: BaseEvent<T>;
+        let event: BaseEvent<T> | undefined;
         switch (mode) {
             case EventType.Sync: {
                 for (const evt of this._events) {
@@ -174,23 +189,29 @@ export class AnyEvent<T> implements Postable<T> {
             if (postable) {
                 detacher = event.once(postable);
             } else {
-                detacher = event.once(boundTo, handler);
+                detacher = event.once(boundTo!, handler!);
             }
         } else {
             if (postable) {
                 detacher = event.attach(postable);
             } else {
-                detacher = event.attach(boundTo, handler);
+                detacher = event.attach(boundTo!, handler!);
             }
         }
         if (this.evtFirstAttached && prevCount === 0) {
             this.evtFirstAttached.post();
+        }
+        if (this.evtListenersChanged && prevCount !== this.listenerCount()) {
+            this.evtListenersChanged.post();
         }
         return (): void => {
             const prevCount = (!!this.evtLastDetached ? this.listenerCount() : 0);
             detacher();
             if (!!this.evtLastDetached && prevCount > 0 && this.listenerCount() === 0) {
                 this.evtLastDetached.post();
+            }
+            if (this.evtListenersChanged && prevCount !== this.listenerCount()) {
+                this.evtListenersChanged.post();
             }
         };
     }
@@ -252,9 +273,12 @@ export class AnyEvent<T> implements Postable<T> {
      * Detach event handlers regardless of type
      */
     public detach(...args: any[]): void {
-        const prevCount = (!!this.evtLastDetached ? this.listenerCount() : 0);
+        const prevCount = this.listenerCount();
         for (let i = 0; i < this._events.length; ++i) {
             this._events[i].detach.apply(this._events[i], args);
+        }
+        if (this.evtListenersChanged && prevCount !== this.listenerCount()) {
+            this.evtListenersChanged.post();
         }
         if (!!this.evtLastDetached && prevCount > 0 && this.listenerCount() === 0) {
             this.evtLastDetached.post();

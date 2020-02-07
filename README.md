@@ -212,7 +212,7 @@ As you can see, each event is its own little emitter.
 
 #### Recursion protection
 
-Suppose that the handler for an event - directly or indirectly - causes the same event to be sent. For synchronous events, this would mean an infinite loop. SyncEvents have protection built-in: if a handler causes the same event to get posted 10 times recursively, an error is thrown. You can change or disable this behaviour with the static variable SyncEvent.MAX_RECURSION_DEPTH. Set it to null to disable or to a number greater than 0 to trigger the error sooner or later.
+Suppose that the handler for an event - directly or indirectly - causes the same event to be sent. For synchronous events, this would mean an infinite loop. SyncEvents have protection built-in: if a handler causes the same event to get posted 10 times recursively, an error is thrown. You can change or disable this behaviour with the static variable SyncEvent.MAX_RECURSION_DEPTH. Set it to undefined or null to disable or to a number greater than 0 to trigger the error sooner or later.
 
 
 ### A-synchronous events
@@ -472,9 +472,15 @@ const myEvent = new VoidSyncEvent();
 myEvent.post(); // no need to pass 'undefined'
 ```
 
+### Listening to the listeners
+
+Each type of event has a member `evtListenersChanged: VoidSyncEvent` to notify you when someone attaches or detaches event handlers.
+
 ## Changelog
 
+v3.4.0 (2020-02-07)
 
+* Add evtListenersChanged event to all types of events
 * Update dependencies
 
 v3.3.1 (2019-06-04)

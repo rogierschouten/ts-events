@@ -99,7 +99,7 @@ class EventQueue {
      * @param maxRounds Optional, default 10. Number of iterations after which to throw an error because
      *                  the queue keeps filling up. Set to null to disable this.
      */
-    public flush(maxRounds: number = 10): void {
+    public flush(maxRounds: number | null = 10): void {
         const empty = (this._queue.length === 0);
         const flushing = this._flushing;
         this._flushing = true;

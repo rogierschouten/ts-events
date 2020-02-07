@@ -14,12 +14,27 @@ import {BaseEvent, Postable} from './base-event';
  * - Handlers are not called anymore when they are detached, even if a post() is in progress
  */
 export class SyncEvent<T> extends BaseEvent<T> implements Postable<T> {
+    /**
+     * Sent when someone attaches or detaches
+     */
+    public get evtListenersChanged(): VoidSyncEvent {
+        if (!this._listenersChanged) {
+            // need to delay-load to avoid stack overflow in constructor
+            this._listenersChanged = new VoidSyncEvent();
+        }
+        return this._listenersChanged;
+    }
+
+    /**
+     * Event for listening to listener count
+     */
+    private _listenersChanged?: VoidSyncEvent;
 
     /**
      * Maximum number of times that an event handler may cause the same event
      * recursively.
      */
-    public static MAX_RECURSION_DEPTH: number = 10;
+    public static MAX_RECURSION_DEPTH?: number | null = 10;
 
     /**
      * Recursive post() invocations
@@ -37,8 +52,12 @@ export class SyncEvent<T> extends BaseEvent<T> implements Postable<T> {
             return;
         }
         this._recursion++;
-        if (SyncEvent.MAX_RECURSION_DEPTH > 0 &&
-            this._recursion > SyncEvent.MAX_RECURSION_DEPTH) {
+        if (
+            typeof SyncEvent.MAX_RECURSION_DEPTH === 'number'
+            && Number.isInteger(SyncEvent.MAX_RECURSION_DEPTH)
+            && SyncEvent.MAX_RECURSION_DEPTH > 0
+            && this._recursion > SyncEvent.MAX_RECURSION_DEPTH
+        ) {
             throw new Error('event fired recursively');
         }
         // copy a reference to the array because this._listeners might be replaced during
@@ -49,6 +68,26 @@ export class SyncEvent<T> extends BaseEvent<T> implements Postable<T> {
             this._call(listener, args);
         }
         this._recursion--;
+    }
+
+    /** @inheritdoc */
+    protected _attach(a: ((data: T) => void) | Object | Postable<T>, b: ((data: T) => void) | undefined, once: boolean): () => void {
+        const count = this._listeners?.length ?? 0;
+        const result = super._attach(a, b, once);
+        if (this.evtListenersChanged && count !== (this._listeners?.length ?? 0)) {
+            this.evtListenersChanged.post();
+        }
+        return result;
+    }
+
+    /** @inheritdoc */
+    protected _detach(...args: any[]): void {
+        const count = this._listeners?.length ?? 0;
+        const result = super._detach(...args);
+        if (this.evtListenersChanged && count !== (this._listeners?.length ?? 0)) {
+            this.evtListenersChanged.post();
+        }
+        return result;
     }
 }
 
