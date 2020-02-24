@@ -10,6 +10,8 @@
 A library for sending spontaneous events similar to Qt signal/slot or C# events. It replaces EventEmitter, and instead makes each event into a member which is its own little emitter.
 Implemented in TypeScript (typings file included) and usable with JavaScript as well.
 
+You may also want to check out https://github.com/garronej/ts-evt which is a library with a similar approach.
+
 ## TL;DR
 
 Synchronous events:
