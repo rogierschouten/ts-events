@@ -6,7 +6,7 @@ var browserify  = require('browserify');
 var mkdirp = require("mkdirp");
 
 mkdirp.sync("./temp");
-var outfile = fs.createWriteStream('./temp/browser-test-bundle.js', { encoding: 'utf-8', flags: 'w'})
+var outfile = fs.createWriteStream('./temp/browser-test-bundle.js', { encoding: 'utf8', flags: 'w'})
 
 browserify({
     entries: glob.sync('./dist/test/**/*.js'),

@@ -1871,7 +1871,7 @@ var requirejs, require, define;
                 document.createElementNS('http://www.w3.org/1999/xhtml', 'html:script') :
                 document.createElement('script');
         node.type = config.scriptType || 'text/javascript';
-        node.charset = 'utf-8';
+        node.charset = 'utf8';
         node.async = true;
         return node;
     };

@@ -1,0 +1,26 @@
+{
+    "statements": 97,
+    "branches": 88,
+    "functions": 98,
+    "lines": 96,
+    "all": true,
+    "include": [
+        "**/dist/lib/**/*"
+    ],
+    "exclude": [
+        "**/dist/lib/index.js"
+    ],
+    "exclude-after-remap": false,
+    "reporter": [
+        "lcov",
+        "text-summary"
+    ],
+    "report-dir": "coverage",
+    "temp-directory": "out/test/.nyc_output",
+    "watermarks": {
+        "branches": [50, 80],
+        "functions": [50, 80],
+        "lines": [50,  80],
+        "statements": [50, 80]
+    }
+}

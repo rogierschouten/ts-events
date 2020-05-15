@@ -10,13 +10,13 @@ var util = require("util");
 mkdirp.sync("./temp");
 
 var exampleOutFile = "./examples/browser-amd-requirejs/ts-events.js";
-var exampleOut = fs.createWriteStream(exampleOutFile, { encoding: "utf-8", flags: "w"})
+var exampleOut = fs.createWriteStream(exampleOutFile, { encoding: "utf8", flags: "w"})
 
 var packageJson = require("./package.json");
 var distOutFileVersioned = util.format("./temp/ts-events.%s.js", packageJson.version);
-var distOutVersioned = fs.createWriteStream(distOutFileVersioned, { encoding: "utf-8", flags: "w"})
+var distOutVersioned = fs.createWriteStream(distOutFileVersioned, { encoding: "utf8", flags: "w"})
 var distOutFileUnversioned = "./dist/ts-events.js";
-var distOutUnversioned = fs.createWriteStream(distOutFileUnversioned, { encoding: "utf-8", flags: "w"})
+var distOutUnversioned = fs.createWriteStream(distOutFileUnversioned, { encoding: "utf8", flags: "w"})
 
 var bundled = browserify({
 		extensions: [".js", ".json"],
