@@ -10,7 +10,8 @@
         "outDir": "./dist",
         "preserveConstEnums": true,
         "removeComments": false,
-        "target": "es5"
+        "target": "es5",
+        "types": ["node", "mocha"]
     },
     "formatCodeOptions": {
         "indentSize": 4,

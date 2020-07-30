@@ -33,7 +33,7 @@ describe('AsyncEvent', (): void => {
         e.post('A');
         expect(calledWith).to.deep.equal([]);
     });
-    it('should send events in the next cycle', (done: MochaDone): void => {
+    it('should send events in the next cycle', (done: (error?: Error) => void): void => {
         const e = new AsyncEvent<string>();
         const calledWith: string[] = [];
         e.attach((s: string): void => {
@@ -45,7 +45,7 @@ describe('AsyncEvent', (): void => {
             done();
         });
     });
-    it('should not condense events by default', (done: MochaDone): void => {
+    it('should not condense events by default', (done: (error?: Error) => void): void => {
         const e = new AsyncEvent<string>();
         const calledWith: string[] = [];
         e.attach((s: string): void => {
@@ -58,7 +58,7 @@ describe('AsyncEvent', (): void => {
             done();
         });
     });
-    it('should condense events when asked', (done: MochaDone): void => {
+    it('should condense events when asked', (done: (error?: Error) => void): void => {
         const e = new AsyncEvent<string>({ condensed: true });
         const calledWith: string[] = [];
         e.attach((s: string): void => {
@@ -71,7 +71,7 @@ describe('AsyncEvent', (): void => {
             done();
         });
     });
-    it('should use the Event as this parameter by default', (done: MochaDone): void => {
+    it('should use the Event as this parameter by default', (done: (error?: Error) => void): void => {
         const e = new AsyncEvent<string>();
         e.attach(function(s: string): void {
             expect(this).to.equal(e);
@@ -79,7 +79,7 @@ describe('AsyncEvent', (): void => {
         });
         e.post('A');
     });
-    it('should use a given object as this parameter when given', (done: MochaDone): void => {
+    it('should use a given object as this parameter when given', (done: (error?: Error) => void): void => {
         const e = new AsyncEvent<string>();
         const t = {};
         e.attach(t, function(s: string): void {
@@ -88,7 +88,7 @@ describe('AsyncEvent', (): void => {
         });
         e.post('A');
     });
-    it('should send events only to handlers attached at the time of posting', (done: MochaDone): void => {
+    it('should send events only to handlers attached at the time of posting', (done: (error?: Error) => void): void => {
         const e = new AsyncEvent<string>();
         const calledWith: string[] = [];
         e.post('A');
@@ -101,7 +101,7 @@ describe('AsyncEvent', (): void => {
             done();
         });
     });
-    it('should not send events at all to detached event handlers', (done: MochaDone): void => {
+    it('should not send events at all to detached event handlers', (done: (error?: Error) => void): void => {
         const e = new AsyncEvent<string>();
         const calledWith: string[] = [];
         e.attach((s: string): void => {
@@ -115,7 +115,7 @@ describe('AsyncEvent', (): void => {
             done();
         });
     });
-    it('should allow attaching event handlers within handlers', (done: MochaDone): void => {
+    it('should allow attaching event handlers within handlers', (done: (error?: Error) => void): void => {
         const e = new AsyncEvent<string>();
         const calledWith: string[] = [];
         e.attach((s: string): void => {
@@ -133,7 +133,7 @@ describe('AsyncEvent', (): void => {
             });
         });
     });
-    it('should allow detaching event handlers within handlers', (done: MochaDone): void => {
+    it('should allow detaching event handlers within handlers', (done: (error?: Error) => void): void => {
         const e = new AsyncEvent<string>();
         const calledWith: string[] = [];
         const f = (s: string): void => {
@@ -148,7 +148,7 @@ describe('AsyncEvent', (): void => {
             done();
         });
     });
-    it('should allow setting different scheduler', (done: MochaDone): void => {
+    it('should allow setting different scheduler', (done: (error?: Error) => void): void => {
         AsyncEvent.setScheduler((callback: () => void): void => {
             done();
         });
@@ -159,7 +159,7 @@ describe('AsyncEvent', (): void => {
         e.attach(f);
         e.post('A');
     });
-    it('should allow attaching another event', (done: MochaDone): void => {
+    it('should allow attaching another event', (done: (error?: Error) => void): void => {
         const e = new AsyncEvent<string>();
         const f = new AsyncEvent<string>();
         const calledWith: string[] = [];
@@ -178,7 +178,7 @@ describe('AsyncEvent', (): void => {
             });
         });
     });
-    it('should condense attached async events into the same cycle', (done: MochaDone): void => {
+    it('should condense attached async events into the same cycle', (done: (error?: Error) => void): void => {
         const e = new AsyncEvent<string>();
         const f = new AsyncEvent<string>();
         const calledWith: string[] = [];
@@ -194,7 +194,7 @@ describe('AsyncEvent', (): void => {
             done();
         });
     });
-    it('should detach once() handlers after calling them', (done: MochaDone): void => {
+    it('should detach once() handlers after calling them', (done: (error?: Error) => void): void => {
         const e = new AsyncEvent<string>();
         const calledWith: string[] = [];
         e.once((s: string): void => {
@@ -225,7 +225,7 @@ describe('AsyncEvent', (): void => {
 });
 
 describe('VoidAsyncEvent', (): void => {
-    it('should allow sending event without parameters', (done: MochaDone): void => {
+    it('should allow sending event without parameters', (done: (error?: Error) => void): void => {
         const e = new tsevents.VoidAsyncEvent();
         let callCount = 0;
         e.attach((): void => {

@@ -69,8 +69,8 @@ coverage
 coverage/
 dist/
 node_modules
+out/test/.nyc_output/
 temp/
 *.d.ts
 *.log
 *.tgz
-
