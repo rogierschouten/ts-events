@@ -48,7 +48,6 @@
     "email": "github@workingcode.ninja"
   },
   "license": "ISC",
-  "dependencies": {},
   "devDependencies": {
     "@types/assert": "^1.5.1",
     "@types/chai": "^4.2.12",
