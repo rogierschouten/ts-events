@@ -480,6 +480,9 @@ Each type of event has a member `evtListenersChanged: VoidSyncEvent` to notify y
 
 ## Changelog
 
+v3.4.1 (2022-02-04)
+* security updates
+
 v3.4.0 (2020-02-07)
 
 * Add evtListenersChanged event to all types of events
